@@ -20,5 +20,9 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*", "src/**/*.json", ".env"]
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    ".env"
+  ]
 }

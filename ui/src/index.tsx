@@ -1,7 +1,7 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import App from './App';
-import theme from './theme';
+import theme from './theme/theme';
 import { store } from './store/store';
 import reportWebVitals from './reportWebVitals';
 import Provider from 'react-redux/es/components/Provider';

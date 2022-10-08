@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.20"
+  },
+  "scripts": {
+    "server": "nodemon --quiet api",
+    "client": "npm start --prefix ui",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  }
+}
