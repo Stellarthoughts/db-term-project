@@ -18,10 +18,11 @@ const selectUserSettings = {
 
 // Create
 router.post('/', (req, res) => {
+	console.log(req.body)
 	prisma.user.create({
 		data: {
-			login: req.body.login as string,
-			password: req.body.password as string,
+			login: req.body.login,
+			password: req.body.password,
 			access: {
 				create: {}
 			},
@@ -29,6 +30,7 @@ router.post('/', (req, res) => {
 				create: {}
 			}
 		},
+		select: selectUserSettings,
 	})
 		.catch((err) => respondFailure(err, res))
 		.then((dbres) => respondSuccess(dbres, res))
@@ -64,6 +66,7 @@ router.put('/:userid', (req, res) => {
 			login: req.body.login as string,
 			password: req.body.password as string,
 		},
+		select: selectUserSettings
 	})
 		.catch((err) => respondFailure(err, res))
 		.then((dbres) => respondSuccess(dbres, res))
@@ -74,7 +77,8 @@ router.delete('/:userid', (req, res) => {
 	prisma.user.delete({
 		where: {
 			id: parseInt(req.params.userid)
-		}
+		},
+		select: selectUserSettings
 	})
 		.catch((err) => respondFailure(err, res))
 		.then((dbres) => respondSuccess(dbres, res))

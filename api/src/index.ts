@@ -1,6 +1,7 @@
 // App components
 import express from "express";
 import { default as prisma } from "./prisma/prisma"
+import bodyParser from "body-parser"
 
 // Route paths
 import { default as defaultPath } from "./routes/default"
@@ -30,6 +31,9 @@ main()
 
 // Setup app
 const app = express();
+
+// Configure
+app.use(bodyParser.json())
 
 // Routing
 app.use("/api/default/", defaultPath)
