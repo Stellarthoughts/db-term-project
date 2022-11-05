@@ -10,28 +10,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
-}
-
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String?
-  posts   Post[]
-  profile Profile?
+  id         Int      @id @default(autoincrement())
+  login      String   @unique
+  password   String
+  access     Access   @relation(fields: [accessId], references: [id])
+  accessId   Int      @unique
+  progress   Progress @relation(fields: [progressId], references: [id])
+  progressId Int      @unique
+}
+
+model Progress {
+  id         Int   @id @default(autoincrement())
+  lastPage   Page  @relation(fields: [lastPageId], references: [id])
+  lastPageId Int
+  User       User?
+}
+
+model Access {
+  id        Int     @id @default(autoincrement())
+  canView   Boolean @default(true)
+  canEdit   Boolean @default(false)
+  canCreate Boolean @default(false)
+  canDelete Boolean @default(false)
+  User      User?
+}
+
+model Entry {
+  id             Int       @id @default(autoincrement())
+  name           String
+  personalPage   Page      @relation(fields: [personalPageId], references: [id])
+  personalPageId Int
+  chapters       Chapter[]
+}
+
+model Chapter {
+  id             Int    @id @default(autoincrement())
+  name           String
+  personalPage   Page   @relation(name: "chapterPersonalPage", fields: [personalPageId], references: [id])
+  personalPageId Int
+  entry          Entry? @relation(references: [id], fields: [entryId])
+  entryId        Int?
+  pages          Page[] @relation(name: "chapterToPage")
+}
+
+model Page {
+  id                   Int        @id @default(autoincrement())
+  order                Int
+  progressLastPage     Progress[]
+  entryPersonalPages   Entry[]
+  chapterPersonalPages Chapter[]  @relation(name: "chapterPersonalPage")
+  chapter              Chapter?   @relation(name: "chapterToPage", references: [id], fields: [chapterId])
+  chapterId            Int?
+  threads              Thread[]
+}
+
+enum ThreadType {
+  TEXT
+  AUDIO
+  IMAGE
+  VIDEO
+}
+
+model Thread {
+  id      Int        @id @default(autoincrement())
+  order   Int
+  type    ThreadType
+  content String
+  Page    Page?      @relation(fields: [pageId], references: [id])
+  pageId  Int?
 }
