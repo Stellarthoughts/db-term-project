@@ -22,8 +22,8 @@ model User {
 
 model Progress {
   id         Int   @id @default(autoincrement())
-  lastPage   Page  @relation(fields: [lastPageId], references: [id])
-  lastPageId Int
+  lastPage   Page? @relation(fields: [lastPageId], references: [id])
+  lastPageId Int?
   User       User?
 }
 
