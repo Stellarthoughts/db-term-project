@@ -1,7 +1,6 @@
 {
   "devDependencies": {
-    "concurrently": "^7.4.0",
-    "nodemon": "^2.0.20"
+    "concurrently": "^7.4.0"
   },
   "scripts": {
     "server": "nodemon --quiet api",
