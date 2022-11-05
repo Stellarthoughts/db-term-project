@@ -1,31 +1,52 @@
+// App components
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+import { default as prisma } from "./prisma/prisma"
 
-const prisma = new PrismaClient();
-const app = express();
-const port = 5000;
+// Route paths
+import { default as defaultPath } from "./routes/default"
+import { default as userPath } from "./routes/user"
+import { default as accessPath } from "./routes/access"
+import { default as progressPath } from "./routes/progress"
+import { default as entryPath } from "./routes/entry"
+import { default as chapterPath } from "./routes/chapter"
+import { default as pagePath } from "./routes/page"
+import { default as threadPath } from "./routes/thread"
 
+// Log the server
 async function main() {
-  const post = await prisma.post.update({
-    where: { id: 1 },
-    data: { published: true },
-  })
-  console.log(post)
+	console.log("Server started")
 }
 
-
+// Prisma connection logic
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+	.then(async () => {
+		await prisma.$disconnect();
+	})
+	.catch(async (e) => {
+		console.error(e);
+		await prisma.$disconnect();
+		process.exit(1);
+	});
 
+// Setup app
+const app = express();
+
+// Routing
+app.use("/api/default/", defaultPath)
+app.use("/api/user/", userPath)
+app.use("/api/user/access/", accessPath)
+app.use("/api/user/progress/", progressPath)
+app.use("/api/entry/", entryPath)
+app.use("/api/chapter/", chapterPath)
+app.use("/api/page/", pagePath)
+app.use("/api/thread/", threadPath)
+
+// Use public for servin static resources
+app.use(express.static('public'))
+
+// General response
 app.get("/", (_, res) => {
-  res.status(200).send();
+	res.status(200).send()
 });
 
-app.listen(port, () => console.log(`Running on port ${port}`));
+app.listen(process.env.PORT, () => console.log(`Running on port ${process.env.PORT}`))
