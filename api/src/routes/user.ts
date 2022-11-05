@@ -4,8 +4,8 @@
 // Read user
 
 import express from "express";
-import { Response } from "express-serve-static-core";
 import prisma from "../prisma/prisma"
+import { respondFailure, respondSuccess } from "./response/common"
 
 const router = express.Router();
 
@@ -14,16 +14,6 @@ const selectUserSettings = {
 	login: true,
 	accessId: true,
 	progressId: true,
-}
-
-const catchAndRespond = (
-	traceMessage: string,
-	res: Response
-) => {
-	console.trace(traceMessage)
-	res.json({
-		message: "failure",
-	})
 }
 
 // Create
@@ -39,58 +29,55 @@ router.post('/', (req, res) => {
 				create: {}
 			}
 		},
-	}).catch(() => catchAndRespond("POST ERROR: USER", res)).then()
+	})
+		.catch((err) => respondFailure(err, res))
+		.then((dbres) => respondSuccess(dbres, res))
 })
 
 // Read All
 router.get('/', (req, res) => {
 	prisma.user.findMany({
 		select: selectUserSettings
-	}).catch(() => catchAndRespond("GET ERROR: ALL USER", res))
-		.then((dbres) => {
-			res.json({
-				message: "success",
-				data: dbres,
-			})
-			console.log(dbres);
-		})
+	}).catch((err) => respondFailure(err, res))
+		.then((dbres) => respondSuccess(dbres, res))
 })
 
 // Read by ID
 router.get('/:userid', (req, res) => {
 	prisma.user.findUniqueOrThrow({
 		where: {
-			id: req.params['userid'] as unknown as number,
+			id: parseInt(req.params.userid),
 		},
 		select: selectUserSettings
-	}).catch(() => catchAndRespond("GET ERROR: ID USER", res))
-		.then((dbres) => {
-			res.json({
-				message: "success",
-				data: dbres,
-			})
-		})
+	}).catch((err) => respondFailure(err, res))
+		.then((dbres) => respondSuccess(dbres, res))
 })
 
+
 // Update User
-router.put('/', (req, res) => {
-	prisma.user.create({
+router.put('/:userid', (req, res) => {
+	prisma.user.update({
+		where: {
+			id: parseInt(req.params.userid)
+		},
 		data: {
 			login: req.body.login as string,
 			password: req.body.password as string,
-			access: {
-				create: {}
-			},
-			progress: {
-				create: {}
-			}
 		},
-	}).catch(() => catchAndRespond("POST ERROR: USER", res))
+	})
+		.catch((err) => respondFailure(err, res))
+		.then((dbres) => respondSuccess(dbres, res))
 })
 
 // Delete User By ID
-router.delete('/', (req, res) => {
-	return res.send('Received a DELETE HTTP method');
+router.delete('/:userid', (req, res) => {
+	prisma.user.delete({
+		where: {
+			id: parseInt(req.params.userid)
+		}
+	})
+		.catch((err) => respondFailure(err, res))
+		.then((dbres) => respondSuccess(dbres, res))
 })
 
 export default router;
