@@ -1,12 +1,12 @@
 import { Response } from "express"
 
 export const respondFailure = (
-	traceMessage: string,
+	error: string,
 	res: Response
 ) => {
-	console.trace(traceMessage)
 	res.json({
 		message: "failure",
+		error: error
 	})
 }
 

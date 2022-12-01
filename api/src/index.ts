@@ -36,14 +36,14 @@ const app = express();
 app.use(bodyParser.json())
 
 // Routing
-app.use("/api/default/", defaultPath)
-app.use("/api/user/", userPath)
-app.use("/api/user/access/", accessPath)
-app.use("/api/user/progress/", progressPath)
-app.use("/api/entry/", entryPath)
-app.use("/api/chapter/", chapterPath)
-app.use("/api/page/", pagePath)
-app.use("/api/thread/", threadPath)
+app.use("/api/default", defaultPath)
+app.use("/api/user", userPath)
+app.use("/api/access", accessPath)
+app.use("/api/progress", progressPath)
+app.use("/api/entry", entryPath)
+app.use("/api/chapter", chapterPath)
+app.use("/api/page", pagePath)
+app.use("/api/thread", threadPath)
 
 // Use public for servin static resources
 app.use(express.static('public'))

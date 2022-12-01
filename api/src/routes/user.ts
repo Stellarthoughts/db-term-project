@@ -1,87 +1,77 @@
-// TODO User
-// Create user with nested acess and progress
-// Delete user
-// Read user
-
 import express from "express";
-import prisma from "../prisma/prisma"
-import { respondFailure, respondSuccess } from "./response/common"
+import { CreateUser, DeleteUserByID, FindAllUsers, FindUserByID, UpdateUserByID } from "../prisma/db/user";
+import { respondFailure, respondSuccess } from "./response/common";
 
 const router = express.Router();
 
-const selectUserSettings = {
-	id: true,
-	login: true,
-	accessId: true,
-	progressId: true,
-}
-
 // Create
-router.post('/', (req, res) => {
-	console.log(req.body)
-	prisma.user.create({
-		data: {
-			login: req.body.login,
-			password: req.body.password,
-			access: {
-				create: {}
-			},
-			progress: {
-				create: {}
-			}
-		},
-		select: selectUserSettings,
-	})
-		.catch((err) => respondFailure(err, res))
-		.then((dbres) => respondSuccess(dbres, res))
+router.post('/', async (req, res) => {
+	try {
+		const result = CreateUser(req.body.login, req.body.password)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false;
+	}
+	return true;
 })
 
 // Read All
 router.get('/', (req, res) => {
-	prisma.user.findMany({
-		select: selectUserSettings
-	}).catch((err) => respondFailure(err, res))
-		.then((dbres) => respondSuccess(dbres, res))
+	try {
+		const result = FindAllUsers()
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false;
+	}
+	return true;
 })
 
 // Read by ID
 router.get('/:userid', (req, res) => {
-	prisma.user.findUniqueOrThrow({
-		where: {
-			id: parseInt(req.params.userid),
-		},
-		select: selectUserSettings
-	}).catch((err) => respondFailure(err, res))
-		.then((dbres) => respondSuccess(dbres, res))
+	try {
+		const result = FindUserByID(parseInt(req.body.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false;
+	}
+	return true;
 })
 
 
 // Update User
 router.put('/:userid', (req, res) => {
-	prisma.user.update({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		data: {
-			login: req.body.login as string,
-			password: req.body.password as string,
-		},
-		select: selectUserSettings
-	})
-		.catch((err) => respondFailure(err, res))
-		.then((dbres) => respondSuccess(dbres, res))
+	try {
+		const result = UpdateUserByID(
+			parseInt(req.body.id),
+			req.body.login,
+			req.body.password
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false;
+	}
+	return true;
 })
 
 // Delete User By ID
 router.delete('/:userid', (req, res) => {
-	prisma.user.delete({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		select: selectUserSettings
-	})
-		.catch((err) => respondFailure(err, res))
-		.then((dbres) => respondSuccess(dbres, res))
+	try {
+		const result = DeleteUserByID(parseInt(req.body.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false;
+	}
+	return true;
 })
 
 export default router;
