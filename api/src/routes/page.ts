@@ -1,78 +1,78 @@
-import express from "express";
-import prisma from "../prisma/prisma"
-import { handlePrismaPromise } from "./response/common"
+import express from "express"
+import { CreatePage, DeletePageByID, FindAllPages, FindPageByID, UpdatePageByID } from "../prisma/db/page"
+import { respondFailure, respondSuccess } from "./response/common"
 
-const router = express.Router();
-
-const selectUserSettings = {
-	id: true,
-	login: true,
-	accessId: true,
-	progressId: true,
-}
+const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
-	const dbres = prisma.page.create({
-		data: {
-			login: req.body.login,
-			password: req.body.password,
-			access: {
-				create: {}
-			},
-			progress: {
-				create: {}
-			}
-		},
-		select: selectUserSettings,
-	})
-	handlePrismaPromise(dbres, res)
+	try {
+		const result = await CreatePage(
+			parseInt(req.body.chapterId)
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read All
-router.get('/', (req, res) => {
-	const dbres = prisma.page.findMany({
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/', async (req, res) => {
+	try {
+		const result = await FindAllPages()
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read by ID
-router.get('/:userid', (req, res) => {
-	const dbres = prisma.page.findUniqueOrThrow({
-		where: {
-			id: parseInt(req.params.userid),
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/:id', async (req, res) => {
+	try {
+		const result = await FindPageByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 
 // Update Page
-router.put('/:userid', (req, res) => {
-	const dbres = prisma.page.update({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		data: {
-			login: req.body.login as string,
-			password: req.body.password as string,
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.put('/:id', async (req, res) => {
+	try {
+		const result = await UpdatePageByID(
+			parseInt(req.params.id),
+			parseInt(req.body.chapterId)
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Delete Page By ID
-router.delete('/:userid', (req, res) => {
-	const dbres = prisma.page.delete({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.delete('/:id', async (req, res) => {
+	try {
+		const result = await DeletePageByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
-export default router;
+export default router

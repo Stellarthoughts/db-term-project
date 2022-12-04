@@ -1,4 +1,4 @@
-import express from "express";
+import express from "express"
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -17,4 +17,4 @@ router.delete('/', (req, res) => {
 	return res.send('Received a DELETE HTTP method')
 })
 
-export default router;
+export default router

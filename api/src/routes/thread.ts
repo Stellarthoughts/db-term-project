@@ -1,78 +1,83 @@
-import express from "express";
-import prisma from "../prisma/prisma"
-import { handlePrismaPromise } from "./response/common"
+import express from "express"
+import { CreateThread, DeleteThreadByID, FindAllThreads, FindThreadByID, UpdateThreadByID } from "../prisma/db/thread"
+import { respondFailure, respondSuccess } from "./response/common"
+import parseThreadType from "./type/thread"
 
-const router = express.Router();
-
-const selectUserSettings = {
-	id: true,
-	login: true,
-	accessId: true,
-	progressId: true,
-}
+const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
-	const dbres = prisma.thread.create({
-		data: {
-			login: req.body.login,
-			password: req.body.password,
-			access: {
-				create: {}
-			},
-			progress: {
-				create: {}
-			}
-		},
-		select: selectUserSettings,
-	})
-	handlePrismaPromise(dbres, res)
+	try {
+		const result = await CreateThread(
+			parseThreadType(req.body.threadType),
+			req.body.content,
+			parseInt(req.body.pageId)
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read All
-router.get('/', (req, res) => {
-	const dbres = prisma.thread.findMany({
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/', async (req, res) => {
+	try {
+		const result = await FindAllThreads()
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read by ID
-router.get('/:userid', (req, res) => {
-	const dbres = prisma.thread.findUniqueOrThrow({
-		where: {
-			id: parseInt(req.params.userid),
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/:id', async (req, res) => {
+	try {
+		const result = await FindThreadByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 
 // Update Thread
-router.put('/:userid', (req, res) => {
-	const dbres = prisma.thread.update({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		data: {
-			login: req.body.login as string,
-			password: req.body.password as string,
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.put('/:id', async (req, res) => {
+	try {
+		const result = await UpdateThreadByID(
+			parseInt(req.params.id),
+			parseThreadType(req.body.threadType),
+			req.body.content,
+			parseInt(req.body.pageId)
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Delete Thread By ID
-router.delete('/:userid', (req, res) => {
-	const dbres = prisma.thread.delete({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.delete('/:id', async (req, res) => {
+	try {
+		const result = await DeleteThreadByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
-export default router;
+export default router

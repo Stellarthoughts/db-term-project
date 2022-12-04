@@ -1,78 +1,79 @@
-import express from "express";
-import prisma from "../prisma/prisma"
-import { handlePrismaPromise } from "./response/common"
+import express from "express"
+import { CreateEntry, DeleteEntryByID, FindAllEntries, FindEntryByID, UpdateEntryByID } from "../prisma/db/entry"
+import { respondFailure, respondSuccess } from "./response/common"
 
-const router = express.Router();
-
-const selectUserSettings = {
-	id: true,
-	login: true,
-	accessId: true,
-	progressId: true,
-}
+const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
-	const dbres = prisma.entry.create({
-		data: {
-			login: req.body.login,
-			password: req.body.password,
-			access: {
-				create: {}
-			},
-			progress: {
-				create: {}
-			}
-		},
-		select: selectUserSettings,
-	})
-	handlePrismaPromise(dbres, res)
+	try {
+		const result = await CreateEntry(
+			req.body.name
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read All
-router.get('/', (req, res) => {
-	const dbres = prisma.entry.findMany({
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/', async (req, res) => {
+	try {
+		const result = await FindAllEntries()
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read by ID
-router.get('/:userid', (req, res) => {
-	const dbres = prisma.entry.findUniqueOrThrow({
-		where: {
-			id: parseInt(req.params.userid),
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/:id', async (req, res) => {
+	try {
+		const result = await FindEntryByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 
 // Update Entry
-router.put('/:userid', (req, res) => {
-	const dbres = prisma.entry.update({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		data: {
-			login: req.body.login as string,
-			password: req.body.password as string,
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.put('/:id', async (req, res) => {
+	try {
+		const result = await UpdateEntryByID(
+			parseInt(req.params.id),
+			req.body.login,
+			req.body.password
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Delete Entry By ID
-router.delete('/:userid', (req, res) => {
-	const dbres = prisma.entry.delete({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.delete('/:id', async (req, res) => {
+	try {
+		const result = await DeleteEntryByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
-export default router;
+export default router

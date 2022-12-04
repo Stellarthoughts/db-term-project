@@ -1,5 +1,5 @@
 import prisma from "../prisma"
-import { ResolvePrismaRequest } from "./handling";
+import { ResolvePrismaRequest } from "./handling/handling"
 
 const selectUserSettings = {
 	id: true,
@@ -25,7 +25,7 @@ export const CreateUser = (
 		},
 		select: selectUserSettings,
 	})
-	return ResolvePrismaRequest(request);
+	return ResolvePrismaRequest(request)
 }
 
 // Read All

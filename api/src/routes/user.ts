@@ -1,54 +1,54 @@
-import express from "express";
-import { CreateUser, DeleteUserByID, FindAllUsers, FindUserByID, UpdateUserByID } from "../prisma/db/user";
-import { respondFailure, respondSuccess } from "./response/common";
+import express from "express"
+import { CreateUser, DeleteUserByID, FindAllUsers, FindUserByID, UpdateUserByID } from "../prisma/db/user"
+import { respondFailure, respondSuccess } from "./response/common"
 
-const router = express.Router();
+const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
 	try {
-		const result = CreateUser(req.body.login, req.body.password)
+		const result = await CreateUser(req.body.login, req.body.password)
 		respondSuccess(result, res)
 	}
 	catch (err) {
 		respondFailure(err, res)
-		return false;
+		return false
 	}
-	return true;
+	return true
 })
 
 // Read All
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 	try {
-		const result = FindAllUsers()
+		const result = await FindAllUsers()
 		respondSuccess(result, res)
 	}
 	catch (err) {
 		respondFailure(err, res)
-		return false;
+		return false
 	}
-	return true;
+	return true
 })
 
 // Read by ID
-router.get('/:userid', (req, res) => {
+router.get('/:id', async (req, res) => {
 	try {
-		const result = FindUserByID(parseInt(req.body.id))
+		const result = await FindUserByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
 		respondFailure(err, res)
-		return false;
+		return false
 	}
-	return true;
+	return true
 })
 
 
 // Update User
-router.put('/:userid', (req, res) => {
+router.put('/:id', async (req, res) => {
 	try {
-		const result = UpdateUserByID(
-			parseInt(req.body.id),
+		const result = await UpdateUserByID(
+			parseInt(req.params.id),
 			req.body.login,
 			req.body.password
 		)
@@ -56,22 +56,22 @@ router.put('/:userid', (req, res) => {
 	}
 	catch (err) {
 		respondFailure(err, res)
-		return false;
+		return false
 	}
-	return true;
+	return true
 })
 
 // Delete User By ID
-router.delete('/:userid', (req, res) => {
+router.delete('/:id', async (req, res) => {
 	try {
-		const result = DeleteUserByID(parseInt(req.body.id))
+		const result = await DeleteUserByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
 		respondFailure(err, res)
-		return false;
+		return false
 	}
-	return true;
+	return true
 })
 
-export default router;
+export default router

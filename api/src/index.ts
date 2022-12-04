@@ -1,5 +1,5 @@
 // App components
-import express from "express";
+import express from "express"
 import { default as prisma } from "./prisma/prisma"
 import bodyParser from "body-parser"
 
@@ -21,16 +21,16 @@ async function main() {
 // Prisma connection logic
 main()
 	.then(async () => {
-		await prisma.$disconnect();
+		await prisma.$disconnect()
 	})
 	.catch(async (e) => {
-		console.error(e);
-		await prisma.$disconnect();
-		process.exit(1);
-	});
+		console.error(e)
+		await prisma.$disconnect()
+		process.exit(1)
+	})
 
 // Setup app
-const app = express();
+const app = express()
 
 // Configure
 app.use(bodyParser.json())
@@ -51,6 +51,6 @@ app.use(express.static('public'))
 // General response
 app.get("/", (_, res) => {
 	res.status(200).send()
-});
+})
 
 app.listen(process.env.PORT, () => console.log(`Running on port ${process.env.PORT}`))

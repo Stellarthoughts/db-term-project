@@ -1,56 +1,76 @@
-import express from "express";
-import prisma from "../prisma/prisma"
-import { handlePrismaPromise } from "./response/common"
+import express from "express"
+import { CreateProgress, DeleteProgressByID, FindAllProgresses, FindProgressByID, UpdateProgressByID } from "../prisma/db/progress"
+import { respondFailure, respondSuccess } from "./response/common"
 
-const router = express.Router();
+const router = express.Router()
 
-const selectProgressSettings = {
-	id: true,
-	lastPageId: true,
-}
+// Create
+router.post('/', async (req, res) => {
+	try {
+		const result = await CreateProgress()
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
+})
 
 // Read All
-router.get('/', (req, res) => {
-	const dbres = prisma.progress.findMany({
-		select: selectProgressSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/', async (req, res) => {
+	try {
+		const result = await FindAllProgresses()
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read by ID
-router.get('/:progressid', (req, res) => {
-	const dbres = prisma.progress.findUniqueOrThrow({
-		where: {
-			id: parseInt(req.params.progressid),
-		},
-		select: selectProgressSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/:id', async (req, res) => {
+	try {
+		const result = await FindProgressByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
+
 
 // Update Progress
-router.put('/:progressid', (req, res) => {
-	const dbres = prisma.progress.update({
-		where: {
-			id: parseInt(req.params.progressid)
-		},
-		data: {
-			lastPageId: parseInt(req.body.lastPageId),
-		},
-		select: selectProgressSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.put('/:id', async (req, res) => {
+	try {
+		const result = await UpdateProgressByID(
+			parseInt(req.params.id),
+			parseInt(req.body.lastPageId)
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
-// Delete progress By ID
-router.delete('/:progressid', (req, res) => {
-	const dbres = prisma.progress.delete({
-		where: {
-			id: parseInt(req.params.progressid)
-		},
-		select: selectProgressSettings
-	})
-	handlePrismaPromise(dbres, res)
+// Delete Progress By ID
+router.delete('/:id', async (req, res) => {
+	try {
+		const result = await DeleteProgressByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
-export default router;
+export default router

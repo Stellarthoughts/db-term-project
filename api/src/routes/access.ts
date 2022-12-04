@@ -1,65 +1,84 @@
-import express from "express";
-import { CreateUser } from "src/prisma/db/user";
-import prisma from "../prisma/prisma"
-import { handlePrismaPromise } from "./response/common"
+import express from "express"
+import { CreateAccess, DeleteAccessByID, FindAllAccesses, FindAccessByID, UpdateAccessByID } from "../prisma/db/access"
+import { respondFailure, respondSuccess } from "./response/common"
 
-const router = express.Router();
-
-const selectUserSettings = {
-	id: true,
-	login: true,
-	accessId: true,
-	progressId: true,
-}
+const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
+	try {
+		const result = await CreateAccess(
+			req.body.canView == 'true',
+			req.body.canEdit == 'true',
+			req.body.canCreate == 'true',
+			req.body.canDelete == 'true'
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read All
-router.get('/', (req, res) => {
-	const dbres = prisma.access.findMany({
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/', async (req, res) => {
+	try {
+		const result = await FindAllAccesses()
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Read by ID
-router.get('/:userid', (req, res) => {
-	const dbres = prisma.access.findUniqueOrThrow({
-		where: {
-			id: parseInt(req.params.userid),
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.get('/:id', async (req, res) => {
+	try {
+		const result = await FindAccessByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 
 // Update Access
-router.put('/:userid', (req, res) => {
-	const dbres = prisma.access.update({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		data: {
-			login: req.body.login as string,
-			password: req.body.password as string,
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.put('/:id', async (req, res) => {
+	try {
+		const result = await UpdateAccessByID(
+			parseInt(req.params.id),
+			req.body.canView == 'true',
+			req.body.canEdit == 'true',
+			req.body.canCreate == 'true',
+			req.body.canDelete == 'true'
+		)
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
 // Delete Access By ID
-router.delete('/:userid', (req, res) => {
-	const dbres = prisma.access.delete({
-		where: {
-			id: parseInt(req.params.userid)
-		},
-		select: selectUserSettings
-	})
-	handlePrismaPromise(dbres, res)
+router.delete('/:id', async (req, res) => {
+	try {
+		const result = await DeleteAccessByID(parseInt(req.params.id))
+		respondSuccess(result, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
 })
 
-export default router;
+export default router
