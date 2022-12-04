@@ -39,8 +39,8 @@ model Access {
 model Entry {
   id             Int       @id @default(autoincrement())
   name           String
-  personalPage   Page      @relation(fields: [personalPageId], references: [id])
-  personalPageId Int
+  personalPage   Page?     @relation(fields: [personalPageId], references: [id])
+  personalPageId Int?
   chapters       Chapter[]
 }
 
@@ -48,10 +48,10 @@ model Chapter {
   id             Int    @id @default(autoincrement())
   order          Int    @default(autoincrement())
   name           String
-  personalPage   Page   @relation(name: "chapterPersonalPage", fields: [personalPageId], references: [id])
-  personalPageId Int
-  entry          Entry? @relation(references: [id], fields: [entryId])
-  entryId        Int?
+  personalPage   Page?  @relation(name: "chapterPersonalPage", fields: [personalPageId], references: [id])
+  personalPageId Int?
+  entry          Entry  @relation(references: [id], fields: [entryId], onDelete: Cascade)
+  entryId        Int
   pages          Page[] @relation(name: "chapterToPage")
 }
 
@@ -61,7 +61,7 @@ model Page {
   progressLastPage     Progress[]
   entryPersonalPages   Entry[]
   chapterPersonalPages Chapter[]  @relation(name: "chapterPersonalPage")
-  chapter              Chapter?   @relation(name: "chapterToPage", references: [id], fields: [chapterId])
+  chapter              Chapter?   @relation(name: "chapterToPage", references: [id], fields: [chapterId], onDelete: Cascade)
   chapterId            Int?
   threads              Thread[]
 }
@@ -78,6 +78,6 @@ model Thread {
   order   Int        @default(autoincrement())
   type    ThreadType
   content String
-  Page    Page?      @relation(fields: [pageId], references: [id])
-  pageId  Int?
+  Page    Page       @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  pageId  Int
 }
