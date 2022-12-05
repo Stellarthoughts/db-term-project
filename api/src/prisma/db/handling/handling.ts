@@ -7,5 +7,6 @@ export const ResolvePrismaRequest = async (
 	}
 	catch (e) {
 		console.log(e)
+		throw e
 	}
 }
