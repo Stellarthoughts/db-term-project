@@ -8,6 +8,14 @@ const selectUserSettings = {
 	progressId: true,
 }
 
+const selectUserConfidentialSettings = {
+	id: true,
+	login: true,
+	accessId: true,
+	progressId: true,
+	password: true
+}
+
 export const CreateUser = (
 	login: string,
 	password: string
@@ -49,6 +57,20 @@ export const FindUserByID = (
 	})
 	return ResolvePrismaRequest(request)
 }
+
+// Read by ID
+export const FindUserByLogin = (
+	login: string
+) => {
+	const request = prisma.user.findUniqueOrThrow({
+		where: {
+			login: login,
+		},
+		select: selectUserConfidentialSettings
+	})
+	return ResolvePrismaRequest(request)
+}
+
 
 
 // Update User

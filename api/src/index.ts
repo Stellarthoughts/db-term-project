@@ -4,14 +4,18 @@ import { default as prisma } from "./prisma/prisma"
 import bodyParser from "body-parser"
 
 // Route paths
-import { default as defaultPath } from "./routes/default"
-import { default as userPath } from "./routes/user"
-import { default as accessPath } from "./routes/access"
-import { default as progressPath } from "./routes/progress"
-import { default as entryPath } from "./routes/entry"
-import { default as chapterPath } from "./routes/chapter"
-import { default as pagePath } from "./routes/page"
-import { default as threadPath } from "./routes/thread"
+import defaultPath from "./routes/default"
+import userPath from "./routes/user"
+import accessPath from "./routes/access"
+import progressPath from "./routes/progress"
+import entryPath from "./routes/entry"
+import chapterPath from "./routes/chapter"
+import pagePath from "./routes/page"
+import threadPath from "./routes/thread"
+import authPath from "./routes/auth"
+
+// Middleware
+import tokenMiddleware from "./middleware/tokenMiddleware"
 
 // Log the server
 async function main() {
@@ -35,8 +39,17 @@ const app = express()
 // Configure
 app.use(bodyParser.json())
 
-// Routing
+// Public
+app.get("/", (_, res) => {
+	res.status(200).send()
+})
+
 app.use("/api/default", defaultPath)
+app.use("/api/auth", authPath)
+
+app.all("/api/*", tokenMiddleware)
+
+// Private
 app.use("/api/user", userPath)
 app.use("/api/access", accessPath)
 app.use("/api/progress", progressPath)
@@ -49,8 +62,5 @@ app.use("/api/thread", threadPath)
 app.use(express.static('public'))
 
 // General response
-app.get("/", (_, res) => {
-	res.status(200).send()
-})
 
 app.listen(process.env.PORT, () => console.log(`Running on port ${process.env.PORT}`))

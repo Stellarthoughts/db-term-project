@@ -1,5 +1,5 @@
 export const ResolvePrismaRequest = async (
-	req: unknown
+	req: any
 ) => {
 	try {
 		const res = await req
