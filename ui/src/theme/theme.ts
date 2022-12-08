@@ -1,20 +1,20 @@
-import { Theme } from "@mui/material/styles";
-import { createTheme } from '@mui/material/styles';
+import { Theme } from "@mui/material/styles"
+import { createTheme } from '@mui/material/styles'
 
 declare module '@mui/material/styles' {
 	interface Theme {
 		status: {
-			danger: string;
-		};
+			danger: string
+		}
 	}
 	// allow configuration using `createTheme`
 	interface ThemeOptions {
 		status?: {
-			danger?: string;
-		};
+			danger?: string
+		}
 	}
 }
 
-const theme = createTheme();
+const theme = createTheme()
 
-export default theme;
+export default theme

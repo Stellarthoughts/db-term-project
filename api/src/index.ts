@@ -1,16 +1,25 @@
 // App components
-import express from "express";
+import express from "express"
 import { default as prisma } from "./prisma/prisma"
+import bodyParser from "body-parser"
 
 // Route paths
-import { default as defaultPath } from "./routes/default"
-import { default as userPath } from "./routes/user"
-import { default as accessPath } from "./routes/access"
-import { default as progressPath } from "./routes/progress"
-import { default as entryPath } from "./routes/entry"
-import { default as chapterPath } from "./routes/chapter"
-import { default as pagePath } from "./routes/page"
-import { default as threadPath } from "./routes/thread"
+import defaultPath from "./routes/default"
+import userPath from "./routes/model/user"
+import accessPath from "./routes/model/access"
+import progressPath from "./routes/model/progress"
+import entryPath from "./routes/model/entry"
+import chapterPath from "./routes/model/chapter"
+import pagePath from "./routes/model/page"
+import threadPath from "./routes/model/thread"
+import authPath from "./routes/compound/auth"
+import dataPath from "./routes/compound/data"
+
+import uploadPath from "./routes/resources/upload"
+
+// Middleware
+import tokenMiddleware from "./middleware/tokenMiddleware"
+import fileUpload from "express-fileupload"
 
 // Log the server
 async function main() {
@@ -20,33 +29,51 @@ async function main() {
 // Prisma connection logic
 main()
 	.then(async () => {
-		await prisma.$disconnect();
+		await prisma.$disconnect()
 	})
 	.catch(async (e) => {
-		console.error(e);
-		await prisma.$disconnect();
-		process.exit(1);
-	});
+		console.error(e)
+		await prisma.$disconnect()
+		process.exit(1)
+	})
 
 // Setup app
-const app = express();
+const app = express()
 
-// Routing
-app.use("/api/default/", defaultPath)
-app.use("/api/user/", userPath)
-app.use("/api/user/access/", accessPath)
-app.use("/api/user/progress/", progressPath)
-app.use("/api/entry/", entryPath)
-app.use("/api/chapter/", chapterPath)
-app.use("/api/page/", pagePath)
-app.use("/api/thread/", threadPath)
+// Configure
+app.use(bodyParser.json())
+app.use(fileUpload({
+	limits: {
+		fileSize: 10000000, // Around 10MB
+	},
+	abortOnLimit: true,
+}))
+
+// Public
+app.get("/", (_, res) => {
+	res.status(200).send()
+})
+
+app.use("/api/default", defaultPath)
+app.use("/api/auth", authPath)
 
 // Use public for servin static resources
 app.use(express.static('public'))
 
-// General response
-app.get("/", (_, res) => {
-	res.status(200).send()
-});
+// Token Middleware
+app.all("/api/*", tokenMiddleware)
 
+// Private
+app.use("/upload", dataPath)
+
+app.use("/api/data", dataPath)
+app.use("/api/user", userPath)
+app.use("/api/access", accessPath)
+app.use("/api/progress", progressPath)
+app.use("/api/entry", entryPath)
+app.use("/api/chapter", chapterPath)
+app.use("/api/page", pagePath)
+app.use("/api/thread", threadPath)
+
+// Start
 app.listen(process.env.PORT, () => console.log(`Running on port ${process.env.PORT}`))

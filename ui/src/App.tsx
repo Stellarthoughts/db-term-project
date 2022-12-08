@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import Container from '@mui/material/Container'
+import Stack from '@mui/material/Stack'
+import Tree from './components/tree/tree'
+import Header from './components/header/header'
+import {
+	Routes,
+	Route,
+} from "react-router-dom"
+
+import LoginPage from './components/pages/loginPage'
+import DefaultPage from './components/pages/defaultPage'
+import RegistrationPage from './components/pages/registrationPage'
+import GenericPage from './components/pages/genericPage'
+
+import AuthProvider from './auth/provider'
+import RequireAuth from './auth/requireAuth'
+import UploadPage from './components/pages/uploadPage'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	return (
+		<AuthProvider>
+			<Container className="App">
+				<Stack direction="row">
+					<Tree></Tree>
+					<Stack>
+						<Header></Header>
+						<Routes>
+							<Route path="/" element={<DefaultPage />} />
+							<Route path="/login" element={<LoginPage />} />
+							<Route path="/register" element={<RegistrationPage />} />
+							<Route path="/upload" element=
+								{
+									<RequireAuth>
+										<UploadPage />
+									</RequireAuth>
+								}
+							/>
+							<Route path="/page/:pageid" element=
+								{
+									<RequireAuth>
+										<GenericPage />
+									</RequireAuth>
+								}
+							/>
+
+						</Routes>
+					</Stack>
+				</Stack>
+			</Container>
+		</AuthProvider>
+	)
 }
 
-export default App;
+export default App
