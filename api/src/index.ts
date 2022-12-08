@@ -47,7 +47,7 @@ app.use(fileUpload({
 		fileSize: 10000000, // Around 10MB
 	},
 	abortOnLimit: true,
-}));
+}))
 
 // Public
 app.get("/", (_, res) => {

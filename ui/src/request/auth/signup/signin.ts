@@ -1,4 +1,4 @@
-import { GenRequest } from "../../general";
+import { GenRequest } from "../../general"
 
 export const GetAllUsers = async () => {
 	const configInit = {
@@ -6,5 +6,5 @@ export const GetAllUsers = async () => {
 		headers: { 'Content-Type': 'application/json' }
 	}
 	const request = "/users"
-	return await GenRequest(request, configInit);
+	return await GenRequest(request, configInit)
 }

@@ -1,7 +1,7 @@
 function ThreadContainer() {
 	return (
 		<></>
-	);
+	)
 }
 
-export default ThreadContainer;
+export default ThreadContainer

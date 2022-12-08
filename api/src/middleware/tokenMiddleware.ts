@@ -1,26 +1,26 @@
 import jwt from "jsonwebtoken"
-import { respondFailure } from "../routes/response/common";
+import { respondFailure } from "../routes/response/common"
 
 
-const config = process.env;
+const config = process.env
 
 const verifyToken = (req: any, res: any, next: any) => {
 	const token =
-		req.body.token || req.query.token || req.headers["x-access-token"];
+		req.body.token || req.query.token || req.headers["x-access-token"]
 
 	if (!token) {
-		respondFailure("A token is required for authentication", res);
-		return false;
+		respondFailure("A token is required for authentication", res)
+		return false
 	}
 
 	try {
-		const decoded = jwt.verify(token, config.TOKEN_KEY);
-		req.user = decoded;
+		const decoded = jwt.verify(token, config.TOKEN_KEY)
+		req.user = decoded
 	} catch (err) {
-		respondFailure("Invalid Token", res);
-		return false;
+		respondFailure("Invalid Token", res)
+		return false
 	}
-	return next();
-};
+	return next()
+}
 
-export default verifyToken;
+export default verifyToken

@@ -41,4 +41,4 @@ router.get('/threads/:id', async (req, res) => {
 	return true
 })
 
-export default router;
+export default router

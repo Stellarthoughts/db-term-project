@@ -1,22 +1,22 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
-import useAuth from "../../auth/useAuth";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import Grid from "@mui/material/Grid"
+import Link from "@mui/material/Link"
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography"
+import { useNavigate } from "react-router-dom"
+import useAuth from "../../auth/useAuth"
 
 function LoginPage() {
 	const auth = useAuth()
 	const navigate = useNavigate()
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
+		event.preventDefault()
 		const data = new FormData(event.currentTarget)
 		auth.signin("fuck you", () => { console.log(auth.user.current) })
 		navigate("/")
-	};
+	}
 
 	return (
 		<Box
@@ -72,7 +72,7 @@ function LoginPage() {
 				</Grid>
 			</Box>
 		</Box >
-	);
+	)
 }
 
-export default LoginPage;
+export default LoginPage

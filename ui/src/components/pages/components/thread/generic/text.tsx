@@ -1,7 +1,7 @@
 function Text() {
 	return (
 		<></>
-	);
+	)
 }
 
-export default Text;
+export default Text

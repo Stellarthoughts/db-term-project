@@ -1,5 +1,5 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
 
 function GenericPage() {
 	return (
@@ -15,7 +15,7 @@ function GenericPage() {
 				Hello!
 			</Typography>
 		</Box>
-	);
+	)
 }
 
-export default GenericPage;
+export default GenericPage

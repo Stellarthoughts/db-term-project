@@ -1,10 +1,10 @@
-import TreeItem from '@mui/lab/TreeItem';
-import TreeView from '@mui/lab/TreeView';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useLocation, useNavigate } from 'react-router-dom';
-import useAuth from '../../auth/useAuth';
-import { useState } from 'react';
+import TreeItem from '@mui/lab/TreeItem'
+import TreeView from '@mui/lab/TreeView'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { useLocation, useNavigate } from 'react-router-dom'
+import useAuth from '../../auth/useAuth'
+import { useState } from 'react'
 
 function Tree() {
 	const navigate = useNavigate()
@@ -36,7 +36,7 @@ function Tree() {
 		navigate("/page/" + nodeId)
 	}
 
-	console.log(user);
+	console.log(user)
 
 	return (
 		<TreeView
@@ -55,7 +55,7 @@ function Tree() {
 
 
 		</TreeView>
-	);
+	)
 }
 
-export default Tree;
+export default Tree

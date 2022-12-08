@@ -1,7 +1,7 @@
 function Audio() {
 	return (
 		<></>
-	);
+	)
 }
 
-export default Audio;
+export default Audio

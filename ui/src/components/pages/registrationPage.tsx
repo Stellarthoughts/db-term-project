@@ -1,24 +1,24 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import Grid from "@mui/material/Grid"
+import Link from "@mui/material/Link"
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography"
+import { useNavigate } from "react-router-dom"
 
 export function RegistrationPage() {
 
 	const navigate = useNavigate()
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
+		event.preventDefault()
+		const data = new FormData(event.currentTarget)
 		console.log({
 			login: data.get('login'),
 			password: data.get('password'),
-		});
+		})
 		navigate("/")
-	};
+	}
 
 	return (
 		<Box
@@ -71,7 +71,7 @@ export function RegistrationPage() {
 				</Grid>
 			</Box>
 		</Box>
-	);
+	)
 }
 
-export default RegistrationPage;
+export default RegistrationPage

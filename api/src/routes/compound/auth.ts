@@ -9,7 +9,7 @@ const router = express.Router()
 router.post("/register", async (req, res) => {
 	// Our register logic starts here
 	try {
-		const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+		const encryptedPassword = await bcrypt.hash(req.body.password, 10)
 		const user = await RegisterUser(req.body.login, encryptedPassword)
 
 		// Create token
@@ -19,10 +19,10 @@ router.post("/register", async (req, res) => {
 			{
 				expiresIn: "2h",
 			}
-		);
+		)
 		// save user token
-		user.password = null;
-		user.token = token;
+		user.password = null
+		user.token = token
 		respondSuccess(user, res)
 
 	} catch (err) {
@@ -30,7 +30,7 @@ router.post("/register", async (req, res) => {
 		respondFailure(err, res)
 	}
 	// Our register logic ends here
-});
+})
 
 router.post("/login", async (req, res) => {
 
@@ -47,10 +47,10 @@ router.post("/login", async (req, res) => {
 				{
 					expiresIn: "2h",
 				}
-			);
+			)
 			// save user token
-			user.password = null;
-			user.token = token;
+			user.password = null
+			user.token = token
 			respondSuccess(user, res)
 		}
 	} catch (err) {
@@ -58,6 +58,6 @@ router.post("/login", async (req, res) => {
 		respondFailure(err, res)
 	}
 	// Our register logic ends here
-});
+})
 
 export default router

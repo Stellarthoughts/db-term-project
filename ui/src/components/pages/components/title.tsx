@@ -1,7 +1,7 @@
 function Title() {
 	return (
 		<></>
-	);
+	)
 }
 
-export default Title;
+export default Title

@@ -1,7 +1,7 @@
 function LoginThread() {
 	return (
 		<></>
-	);
+	)
 }
 
-export default LoginThread;
+export default LoginThread

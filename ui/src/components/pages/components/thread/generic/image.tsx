@@ -1,7 +1,7 @@
 function Image() {
 	return (
 		<></>
-	);
+	)
 }
 
-export default Image;
+export default Image
