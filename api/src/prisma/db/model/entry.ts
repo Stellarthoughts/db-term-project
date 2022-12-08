@@ -1,7 +1,7 @@
-import prisma from "../prisma"
-import { ResolvePrismaRequest } from "./handling/handling"
+import prisma from "../../prisma"
+import { ResolvePrismaRequest } from "../handling/handling"
 
-const selectEntrySettings = {
+export const selectEntrySettings = {
 	id: true,
 	name: true,
 	personalPageId: true

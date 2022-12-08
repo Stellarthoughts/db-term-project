@@ -1,17 +1,14 @@
 import express from "express"
-import { CreateThread, DeleteThreadByID, FindAllThreads, FindThreadByID, UpdateThreadByID } from "../prisma/db/thread"
-import { respondFailure, respondSuccess } from "./response/common"
-import parseThreadType from "./type/thread"
+import { CreatePage, DeletePageByID, FindAllPages, FindPageByID, UpdatePageByID } from "../../prisma/db/model/page"
+import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
 	try {
-		const result = await CreateThread(
-			parseThreadType(req.body.threadType),
-			req.body.content,
-			parseInt(req.body.pageId)
+		const result = await CreatePage(
+			parseInt(req.body.chapterId)
 		)
 		respondSuccess(result, res)
 	}
@@ -25,7 +22,7 @@ router.post('/', async (req, res) => {
 // Read All
 router.get('/', async (req, res) => {
 	try {
-		const result = await FindAllThreads()
+		const result = await FindAllPages()
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -38,7 +35,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindThreadByID(parseInt(req.params.id))
+		const result = await FindPageByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -49,14 +46,12 @@ router.get('/:id', async (req, res) => {
 })
 
 
-// Update Thread
+// Update Page
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateThreadByID(
+		const result = await UpdatePageByID(
 			parseInt(req.params.id),
-			parseThreadType(req.body.threadType),
-			req.body.content,
-			parseInt(req.body.pageId)
+			parseInt(req.body.chapterId)
 		)
 		respondSuccess(result, res)
 	}
@@ -67,10 +62,10 @@ router.put('/:id', async (req, res) => {
 	return true
 })
 
-// Delete Thread By ID
+// Delete Page By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteThreadByID(parseInt(req.params.id))
+		const result = await DeletePageByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

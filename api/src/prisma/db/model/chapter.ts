@@ -1,7 +1,7 @@
-import prisma from "../prisma"
-import { ResolvePrismaRequest } from "./handling/handling"
+import prisma from "../../prisma"
+import { ResolvePrismaRequest } from "../handling/handling"
 
-const selectChapterSettings = {
+export const selectChapterSettings = {
 	id: true,
 	order: true,
 	name: true,

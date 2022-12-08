@@ -1,15 +1,13 @@
 import express from "express"
-import { CreateEntry, DeleteEntryByID, FindAllEntries, FindEntryByID, UpdateEntryByID } from "../prisma/db/entry"
-import { respondFailure, respondSuccess } from "./response/common"
+import { CreateUser, DeleteUserByID, FindAllUsers, FindUserByID, UpdateUserByID } from "../../prisma/db/model/user"
+import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
 	try {
-		const result = await CreateEntry(
-			req.body.name
-		)
+		const result = await CreateUser(req.body.login, req.body.password)
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -22,7 +20,7 @@ router.post('/', async (req, res) => {
 // Read All
 router.get('/', async (req, res) => {
 	try {
-		const result = await FindAllEntries()
+		const result = await FindAllUsers()
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -35,7 +33,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindEntryByID(parseInt(req.params.id))
+		const result = await FindUserByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -46,10 +44,10 @@ router.get('/:id', async (req, res) => {
 })
 
 
-// Update Entry
+// Update User
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateEntryByID(
+		const result = await UpdateUserByID(
 			parseInt(req.params.id),
 			req.body.login,
 			req.body.password
@@ -63,10 +61,10 @@ router.put('/:id', async (req, res) => {
 	return true
 })
 
-// Delete Entry By ID
+// Delete User By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteEntryByID(parseInt(req.params.id))
+		const result = await DeleteUserByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

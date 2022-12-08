@@ -1,14 +1,17 @@
 import express from "express"
-import { CreatePage, DeletePageByID, FindAllPages, FindPageByID, UpdatePageByID } from "../prisma/db/page"
-import { respondFailure, respondSuccess } from "./response/common"
+import { CreateAccess, DeleteAccessByID, FindAllAccesses, FindAccessByID, UpdateAccessByID } from "../../prisma/db/model/access"
+import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
 	try {
-		const result = await CreatePage(
-			parseInt(req.body.chapterId)
+		const result = await CreateAccess(
+			req.body.canView == 'true',
+			req.body.canEdit == 'true',
+			req.body.canCreate == 'true',
+			req.body.canDelete == 'true'
 		)
 		respondSuccess(result, res)
 	}
@@ -22,7 +25,7 @@ router.post('/', async (req, res) => {
 // Read All
 router.get('/', async (req, res) => {
 	try {
-		const result = await FindAllPages()
+		const result = await FindAllAccesses()
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -35,7 +38,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindPageByID(parseInt(req.params.id))
+		const result = await FindAccessByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -46,12 +49,15 @@ router.get('/:id', async (req, res) => {
 })
 
 
-// Update Page
+// Update Access
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdatePageByID(
+		const result = await UpdateAccessByID(
 			parseInt(req.params.id),
-			parseInt(req.body.chapterId)
+			req.body.canView == 'true',
+			req.body.canEdit == 'true',
+			req.body.canCreate == 'true',
+			req.body.canDelete == 'true'
 		)
 		respondSuccess(result, res)
 	}
@@ -62,10 +68,10 @@ router.put('/:id', async (req, res) => {
 	return true
 })
 
-// Delete Page By ID
+// Delete Access By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeletePageByID(parseInt(req.params.id))
+		const result = await DeleteAccessByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

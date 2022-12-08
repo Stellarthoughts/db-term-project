@@ -1,15 +1,17 @@
 import express from "express"
-import { CreateChapter, DeleteChapterByID, FindAllChapters, FindChapterByID, UpdateChapterByID } from "../prisma/db/chapter"
-import { respondFailure, respondSuccess } from "./response/common"
+import { CreateThread, DeleteThreadByID, FindAllThreads, FindThreadByID, UpdateThreadByID } from "../../prisma/db/model/thread"
+import { respondFailure, respondSuccess } from "../response/common"
+import parseThreadType from "../type/thread"
 
 const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
 	try {
-		const result = await CreateChapter(
-			req.body.name,
-			parseInt(req.body.entryId)
+		const result = await CreateThread(
+			parseThreadType(req.body.threadType),
+			req.body.content,
+			parseInt(req.body.pageId)
 		)
 		respondSuccess(result, res)
 	}
@@ -23,7 +25,7 @@ router.post('/', async (req, res) => {
 // Read All
 router.get('/', async (req, res) => {
 	try {
-		const result = await FindAllChapters()
+		const result = await FindAllThreads()
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -36,7 +38,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindChapterByID(parseInt(req.params.id))
+		const result = await FindThreadByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -47,13 +49,14 @@ router.get('/:id', async (req, res) => {
 })
 
 
-// Update Chapter
+// Update Thread
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateChapterByID(
+		const result = await UpdateThreadByID(
 			parseInt(req.params.id),
-			req.body.name,
-			parseInt(req.body.entryId)
+			parseThreadType(req.body.threadType),
+			req.body.content,
+			parseInt(req.body.pageId)
 		)
 		respondSuccess(result, res)
 	}
@@ -64,10 +67,10 @@ router.put('/:id', async (req, res) => {
 	return true
 })
 
-// Delete Chapter By ID
+// Delete Thread By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteChapterByID(parseInt(req.params.id))
+		const result = await DeleteThreadByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

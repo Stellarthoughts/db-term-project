@@ -5,14 +5,15 @@ import bodyParser from "body-parser"
 
 // Route paths
 import defaultPath from "./routes/default"
-import userPath from "./routes/user"
-import accessPath from "./routes/access"
-import progressPath from "./routes/progress"
-import entryPath from "./routes/entry"
-import chapterPath from "./routes/chapter"
-import pagePath from "./routes/page"
-import threadPath from "./routes/thread"
-import authPath from "./routes/auth"
+import userPath from "./routes/model/user"
+import accessPath from "./routes/model/access"
+import progressPath from "./routes/model/progress"
+import entryPath from "./routes/model/entry"
+import chapterPath from "./routes/model/chapter"
+import pagePath from "./routes/model/page"
+import threadPath from "./routes/model/thread"
+import authPath from "./routes/compound/auth"
+import dataPath from "./routes/compound/data"
 
 // Middleware
 import tokenMiddleware from "./middleware/tokenMiddleware"
@@ -47,9 +48,14 @@ app.get("/", (_, res) => {
 app.use("/api/default", defaultPath)
 app.use("/api/auth", authPath)
 
+// Use public for servin static resources
+app.use(express.static('public'))
+
+// Token Middleware
 app.all("/api/*", tokenMiddleware)
 
 // Private
+app.use("/api/data", dataPath)
 app.use("/api/user", userPath)
 app.use("/api/access", accessPath)
 app.use("/api/progress", progressPath)
@@ -58,9 +64,5 @@ app.use("/api/chapter", chapterPath)
 app.use("/api/page", pagePath)
 app.use("/api/thread", threadPath)
 
-// Use public for servin static resources
-app.use(express.static('public'))
-
-// General response
-
+// Start
 app.listen(process.env.PORT, () => console.log(`Running on port ${process.env.PORT}`))

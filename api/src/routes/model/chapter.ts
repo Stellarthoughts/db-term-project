@@ -1,13 +1,16 @@
 import express from "express"
-import { CreateUser, DeleteUserByID, FindAllUsers, FindUserByID, UpdateUserByID } from "../prisma/db/user"
-import { respondFailure, respondSuccess } from "./response/common"
+import { CreateChapter, DeleteChapterByID, FindAllChapters, FindChapterByID, UpdateChapterByID } from "../../prisma/db/model/chapter"
+import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
 
 // Create
 router.post('/', async (req, res) => {
 	try {
-		const result = await CreateUser(req.body.login, req.body.password)
+		const result = await CreateChapter(
+			req.body.name,
+			parseInt(req.body.entryId)
+		)
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -20,7 +23,7 @@ router.post('/', async (req, res) => {
 // Read All
 router.get('/', async (req, res) => {
 	try {
-		const result = await FindAllUsers()
+		const result = await FindAllChapters()
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -33,7 +36,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindUserByID(parseInt(req.params.id))
+		const result = await FindChapterByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -44,13 +47,13 @@ router.get('/:id', async (req, res) => {
 })
 
 
-// Update User
+// Update Chapter
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateUserByID(
+		const result = await UpdateChapterByID(
 			parseInt(req.params.id),
-			req.body.login,
-			req.body.password
+			req.body.name,
+			parseInt(req.body.entryId)
 		)
 		respondSuccess(result, res)
 	}
@@ -61,10 +64,10 @@ router.put('/:id', async (req, res) => {
 	return true
 })
 
-// Delete User By ID
+// Delete Chapter By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteUserByID(parseInt(req.params.id))
+		const result = await DeleteChapterByID(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

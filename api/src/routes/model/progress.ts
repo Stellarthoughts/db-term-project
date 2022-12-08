@@ -1,6 +1,6 @@
 import express from "express"
-import { CreateProgress, DeleteProgressByID, FindAllProgresses, FindProgressByID, UpdateProgressByID } from "../prisma/db/progress"
-import { respondFailure, respondSuccess } from "./response/common"
+import { CreateProgress, DeleteProgressByID, FindAllProgresses, FindProgressByID, UpdateProgressByID } from "../../prisma/db/model/progress"
+import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
 

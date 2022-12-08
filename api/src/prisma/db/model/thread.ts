@@ -1,8 +1,8 @@
-import prisma from "../prisma"
-import { ResolvePrismaRequest } from "./handling/handling"
+import prisma from "../../prisma"
+import { ResolvePrismaRequest } from "../handling/handling"
 import { ThreadType } from "@prisma/client"
 
-const selectThreadSettings = {
+export const selectThreadSettings = {
 	id: true,
 	order: true,
 	type: true,

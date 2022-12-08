@@ -1,8 +1,8 @@
 import express from "express"
-import { respondFailure, respondSuccess } from "./response/common"
+import { respondFailure, respondSuccess } from "../response/common"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
-import { CreateUser, FindUserByLogin } from "../prisma/db/user"
+import { RetrieveUserByLogin, RegisterUser } from "../../prisma/db/compound/auth"
 
 const router = express.Router()
 
@@ -10,7 +10,7 @@ router.post("/register", async (req, res) => {
 	// Our register logic starts here
 	try {
 		const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-		const user = await CreateUser(req.body.login, encryptedPassword)
+		const user = await RegisterUser(req.body.login, encryptedPassword)
 
 		// Create token
 		const token = jwt.sign(
@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
 	// Our login logic starts here
 	try {
 		// Validate if user exist in our database
-		const user = await FindUserByLogin(req.body.login)
+		const user = await RetrieveUserByLogin(req.body.login)
 
 		if (user && (await bcrypt.compare(req.body.password, user.password))) {
 			// Create token

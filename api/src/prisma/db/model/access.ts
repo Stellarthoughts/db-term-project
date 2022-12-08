@@ -1,5 +1,5 @@
-import prisma from "../prisma"
-import { ResolvePrismaRequest } from "./handling/handling"
+import prisma from "../../prisma"
+import { ResolvePrismaRequest } from "../handling/handling"
 
 export const selectAccessSettings = {
 	id: true,
