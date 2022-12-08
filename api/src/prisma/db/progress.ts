@@ -1,7 +1,7 @@
 import prisma from "../prisma"
 import { ResolvePrismaRequest } from "./handling/handling"
 
-const selectProgressSettings = {
+export const selectProgressSettings = {
 	id: true,
 	lastPageId: true
 }

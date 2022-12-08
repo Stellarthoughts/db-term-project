@@ -1,11 +1,19 @@
 import prisma from "../prisma"
 import { ResolvePrismaRequest } from "./handling/handling"
+import { selectAccessSettings } from "./access"
+import { selectProgressSettings } from "./progress"
 
 const selectUserSettings = {
 	id: true,
 	login: true,
 	accessId: true,
 	progressId: true,
+	access: {
+		select: selectAccessSettings
+	},
+	progress: {
+		select: selectProgressSettings
+	}
 }
 
 const selectUserConfidentialSettings = {
@@ -13,7 +21,13 @@ const selectUserConfidentialSettings = {
 	login: true,
 	accessId: true,
 	progressId: true,
-	password: true
+	password: true,
+	access: {
+		select: selectAccessSettings
+	},
+	progress: {
+		select: selectProgressSettings
+	}
 }
 
 export const CreateUser = (
@@ -31,7 +45,7 @@ export const CreateUser = (
 				create: {}
 			}
 		},
-		select: selectUserSettings,
+		select: selectUserSettings
 	})
 	return ResolvePrismaRequest(request)
 }
@@ -53,10 +67,11 @@ export const FindUserByID = (
 		where: {
 			id: id,
 		},
-		select: selectUserSettings
+		select: selectUserSettings,
 	})
 	return ResolvePrismaRequest(request)
 }
+
 
 // Read by ID
 export const FindUserByLogin = (

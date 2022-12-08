@@ -1,7 +1,7 @@
 import prisma from "../prisma"
 import { ResolvePrismaRequest } from "./handling/handling"
 
-const selectAccessSettings = {
+export const selectAccessSettings = {
 	id: true,
 	canView: true,
 	canEdit: true,
@@ -72,7 +72,6 @@ export const UpdateAccessByID = (
 	})
 	return ResolvePrismaRequest(request)
 }
-
 
 // Delete Access By ID
 export const DeleteAccessByID = (

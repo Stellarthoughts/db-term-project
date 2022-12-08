@@ -21,6 +21,7 @@ router.post("/register", async (req, res) => {
 			}
 		);
 		// save user token
+		user.password = null;
 		user.token = token;
 		respondSuccess(user, res)
 
@@ -48,10 +49,10 @@ router.post("/login", async (req, res) => {
 				}
 			);
 			// save user token
+			user.password = null;
 			user.token = token;
 			respondSuccess(user, res)
 		}
-		res.status(400).send("Invalid Credentials");
 	} catch (err) {
 		console.log(err)
 		respondFailure(err, res)
