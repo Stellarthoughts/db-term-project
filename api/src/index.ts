@@ -15,8 +15,11 @@ import threadPath from "./routes/model/thread"
 import authPath from "./routes/compound/auth"
 import dataPath from "./routes/compound/data"
 
+import uploadPath from "./routes/resources/upload"
+
 // Middleware
 import tokenMiddleware from "./middleware/tokenMiddleware"
+import fileUpload from "express-fileupload"
 
 // Log the server
 async function main() {
@@ -39,6 +42,12 @@ const app = express()
 
 // Configure
 app.use(bodyParser.json())
+app.use(fileUpload({
+	limits: {
+		fileSize: 10000000, // Around 10MB
+	},
+	abortOnLimit: true,
+}));
 
 // Public
 app.get("/", (_, res) => {
@@ -55,6 +64,8 @@ app.use(express.static('public'))
 app.all("/api/*", tokenMiddleware)
 
 // Private
+app.use("/upload", dataPath)
+
 app.use("/api/data", dataPath)
 app.use("/api/user", userPath)
 app.use("/api/access", accessPath)
