@@ -2,24 +2,45 @@ import TreeItem from '@mui/lab/TreeItem';
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useNavigate } from 'react-router-dom';
 
 function Tree() {
+	const navigate = useNavigate()
+
+	const nodeIdRoot = "root"
+	const nodeIdRegistration = "register"
+	const nodeIdLogin = "login"
+
+	const handleOnNodeSelect = (
+		event: React.SyntheticEvent,
+		nodeId: string
+	) => {
+		switch (nodeId) {
+			case nodeIdRoot:
+				navigate("/")
+				return
+			case nodeIdRegistration:
+				navigate("/register")
+				return
+			case nodeIdLogin:
+				navigate("/login")
+				return
+		}
+		navigate("/" + nodeId)
+	}
+
 	return (
 		<TreeView
-			aria-label="file system navigator"
+			aria-label="entry tree"
 			defaultCollapseIcon={<ExpandMoreIcon />}
 			defaultExpandIcon={<ChevronRightIcon />}
+			onNodeSelect={handleOnNodeSelect}
 			sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
 		>
-			<TreeItem nodeId="1" label="Applications">
-				<TreeItem nodeId="2" label="Calendar" />
-			</TreeItem>
-			<TreeItem nodeId="5" label="Documents">
-				<TreeItem nodeId="10" label="OSS" />
-				<TreeItem nodeId="6" label="MUI">
-					<TreeItem nodeId="8" label="index.js" />
-				</TreeItem>
-			</TreeItem>
+			<TreeItem nodeId={nodeIdRoot} label="Welcome!" />
+			<TreeItem nodeId={nodeIdRegistration} label="Sign Up" />
+			<TreeItem nodeId={nodeIdLogin} label="Sign In" />
+
 		</TreeView>
 	);
 }

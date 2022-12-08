@@ -29,7 +29,7 @@ function App() {
 						<Routes>
 							<Route path="/" element={<DefaultPage />} />
 							<Route path="/login" element={<LoginPage />} />
-							<Route path="/signup" element={<RegistrationPage />} />
+							<Route path="/register" element={<RegistrationPage />} />
 							<Route path="/:pageid" element=
 								{
 									<RequireAuth>
