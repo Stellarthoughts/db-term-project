@@ -4,8 +4,11 @@ import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
 export function RegistrationPage() {
+
+	const navigate = useNavigate()
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -14,6 +17,7 @@ export function RegistrationPage() {
 			login: data.get('login'),
 			password: data.get('password'),
 		});
+		navigate("/")
 	};
 
 	return (

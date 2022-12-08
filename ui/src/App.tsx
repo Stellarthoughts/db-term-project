@@ -16,6 +16,7 @@ import GenericPage from './components/pages/genericPage';
 
 import AuthProvider from './auth/provider';
 import RequireAuth from './auth/requireAuth';
+import UploadPage from './components/pages/uploadPage';
 
 function App() {
 
@@ -30,13 +31,21 @@ function App() {
 							<Route path="/" element={<DefaultPage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/register" element={<RegistrationPage />} />
-							<Route path="/:pageid" element=
+							<Route path="/upload" element=
+								{
+									<RequireAuth>
+										<UploadPage />
+									</RequireAuth>
+								}
+							/>
+							<Route path="/page/:pageid" element=
 								{
 									<RequireAuth>
 										<GenericPage />
 									</RequireAuth>
 								}
 							/>
+
 						</Routes>
 					</Stack>
 				</Stack>

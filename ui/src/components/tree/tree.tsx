@@ -2,14 +2,21 @@ import TreeItem from '@mui/lab/TreeItem';
 import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../../auth/useAuth';
+import { useState } from 'react';
 
 function Tree() {
 	const navigate = useNavigate()
+	const location = useLocation()
+	const auth = useAuth()
+
+	const [user, setUser] = useState(auth.user.current)
 
 	const nodeIdRoot = "root"
 	const nodeIdRegistration = "register"
 	const nodeIdLogin = "login"
+	const nodeIdUpload = "upload"
 
 	const handleOnNodeSelect = (
 		event: React.SyntheticEvent,
@@ -26,8 +33,10 @@ function Tree() {
 				navigate("/login")
 				return
 		}
-		navigate("/" + nodeId)
+		navigate("/page/" + nodeId)
 	}
+
+	console.log(user);
 
 	return (
 		<TreeView
@@ -40,6 +49,10 @@ function Tree() {
 			<TreeItem nodeId={nodeIdRoot} label="Welcome!" />
 			<TreeItem nodeId={nodeIdRegistration} label="Sign Up" />
 			<TreeItem nodeId={nodeIdLogin} label="Sign In" />
+			{
+				user ? <TreeItem nodeId={nodeIdUpload} label="Upload Resources" /> : <></>
+			}
+
 
 		</TreeView>
 	);
