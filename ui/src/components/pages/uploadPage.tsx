@@ -1,7 +1,15 @@
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
+import { MuiFileInput } from "mui-file-input"
+import { useState } from "react"
 
 function UploadPage() {
+	const [file, setFile] = useState<File | null>(null)
+
+	const handleChange = (value: File | null) => {
+		setFile(value)
+	}
+
 	return (
 		<Box
 			sx={{
@@ -14,10 +22,7 @@ function UploadPage() {
 			<Typography component="h1" variant="h5">
 				Hello!
 			</Typography>
-			<form action="/upload" method="POST" encType="multipart/form-data">
-				<input type="file" name="image" />
-				<button type="submit">Upload</button>
-			</form>
+			<MuiFileInput value={file} onChange={handleChange} />
 		</Box>
 	)
 }
