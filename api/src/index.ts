@@ -56,14 +56,16 @@ app.get("/", (_, res) => {
 app.use("/api/default", defaultPath)
 app.use("/api/auth", authPath)
 
+
 // Use public for servin static resources
+app.use("/api/upload", uploadPath)
 app.use(express.static('public'))
 
 // Token Middleware
 app.all("/api/*", tokenMiddleware)
 
 // Private
-app.use("/upload", uploadPath)
+
 app.use("/api/data", dataPath)
 app.use("/api/user", userPath)
 app.use("/api/access", accessPath)
