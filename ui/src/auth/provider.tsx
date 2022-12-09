@@ -1,21 +1,24 @@
-import React from "react"
+import React, { useState } from "react"
 import authContext from "./context"
 import { fakeAuthProvider } from "./fakeAuth"
 
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-	const user = React.useRef<any>(null)
+	const userRef = React.useRef<string | null>(null)
+	const [user, setUser] = useState<string | null>(userRef.current)
 
 	const signin = (newUser: string, callback: VoidFunction) => {
 		return fakeAuthProvider.signin(() => {
-			user.current = newUser
+			userRef.current = newUser
+			setUser(userRef.current)
 			callback()
 		})
 	}
 
 	const signout = (callback: VoidFunction) => {
 		return fakeAuthProvider.signout(() => {
-			user.current = null
+			userRef.current = null
+			setUser(userRef.current)
 			callback()
 		})
 	}

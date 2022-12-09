@@ -13,10 +13,12 @@ import LoginPage from './components/pages/loginPage'
 import DefaultPage from './components/pages/defaultPage'
 import RegistrationPage from './components/pages/registrationPage'
 import GenericPage from './components/pages/genericPage'
-
 import AuthProvider from './auth/provider'
 import RequireAuth from './auth/requireAuth'
 import UploadPage from './components/pages/uploadPage'
+
+import paths from './router/paths'
+
 
 function App() {
 
@@ -28,24 +30,23 @@ function App() {
 					<Stack>
 						<Header></Header>
 						<Routes>
-							<Route path="/" element={<DefaultPage />} />
-							<Route path="/login" element={<LoginPage />} />
-							<Route path="/register" element={<RegistrationPage />} />
-							<Route path="/upload" element=
+							<Route path={paths.root.path} element={<DefaultPage />} />
+							<Route path={paths.login.path} element={<LoginPage />} />
+							<Route path={paths.registration.path} element={<RegistrationPage />} />
+							<Route path={paths.upload.path} element=
 								{
 									<RequireAuth>
 										<UploadPage />
 									</RequireAuth>
 								}
 							/>
-							<Route path="/page/:pageid" element=
+							<Route path={`${paths.page.path}/:pageid`} element=
 								{
 									<RequireAuth>
 										<GenericPage />
 									</RequireAuth>
 								}
 							/>
-
 						</Routes>
 					</Stack>
 				</Stack>

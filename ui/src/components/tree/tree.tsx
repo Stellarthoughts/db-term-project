@@ -4,53 +4,54 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../../auth/useAuth'
-import { useState } from 'react'
+import paths, { findNameFromPath } from '../../router/paths'
+import { useEffect, useState } from 'react'
 
 function Tree() {
 	const navigate = useNavigate()
-	const location = useLocation()
 	const auth = useAuth()
+	const location = useLocation()
+	const [selected, setSelected] = useState<string>("");
 
-	const [user, setUser] = useState(auth.user.current)
-
-	const nodeIdRoot = "root"
-	const nodeIdRegistration = "register"
-	const nodeIdLogin = "login"
-	const nodeIdUpload = "upload"
+	useEffect(() => {
+		setSelected(findNameFromPath(location.pathname))
+	}, [location]);
 
 	const handleOnNodeSelect = (
 		event: React.SyntheticEvent,
 		nodeId: string
 	) => {
 		switch (nodeId) {
-			case nodeIdRoot:
-				navigate("/")
+			case paths.root.name:
+				navigate(paths.root.path)
 				return
-			case nodeIdRegistration:
-				navigate("/register")
+			case paths.registration.name:
+				navigate(paths.registration.path)
 				return
-			case nodeIdLogin:
-				navigate("/login")
+			case paths.login.name:
+				navigate(paths.login.path)
+				return
+			case paths.upload.name:
+				navigate(paths.upload.path)
 				return
 		}
-		navigate("/page/" + nodeId)
+		navigate(`${paths.page.path}/${nodeId}`)
 	}
-
-	console.log(user)
 
 	return (
 		<TreeView
 			aria-label="entry tree"
 			defaultCollapseIcon={<ExpandMoreIcon />}
 			defaultExpandIcon={<ChevronRightIcon />}
+			selected={selected}
 			onNodeSelect={handleOnNodeSelect}
 			sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
 		>
-			<TreeItem nodeId={nodeIdRoot} label="Welcome!" />
-			<TreeItem nodeId={nodeIdRegistration} label="Sign Up" />
-			<TreeItem nodeId={nodeIdLogin} label="Sign In" />
+			<TreeItem nodeId={paths.root.name} label="Welcome!" />
+			<TreeItem nodeId={paths.registration.name} label="Sign Up" />
+			<TreeItem nodeId={paths.login.name} label="Sign In" />
 			{
-				user ? <TreeItem nodeId={nodeIdUpload} label="Upload Resources" /> : <></>
+				auth.user ? <TreeItem nodeId={paths.upload.name} label="Upload Resources" /> : <></>
 			}
 
 

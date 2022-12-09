@@ -13,8 +13,8 @@ function LoginPage() {
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-		const data = new FormData(event.currentTarget)
-		auth.signin("fuck you", () => { console.log(auth.user.current) })
+		//const data = new FormData(event.currentTarget)
+		auth.signin("user", () => { console.log(auth.user.current) })
 		navigate("/")
 	}
 
