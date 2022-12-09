@@ -11,11 +11,15 @@ function LoginPage() {
 	const auth = useAuth()
 	const navigate = useNavigate()
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
-		//const data = new FormData(event.currentTarget)
-		auth.signin("user", () => { console.log(auth.user.current) })
-		navigate("/")
+		const data = new FormData(event.currentTarget)
+		auth.signin({
+			login: data.get('login') as string,
+			password: data.get('password') as string
+		}, () => {
+			navigate("/")
+		})
 	}
 
 	return (
