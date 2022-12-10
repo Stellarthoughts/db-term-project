@@ -7,7 +7,9 @@ const config = process.env
 const verifyToken = (req: any, res: any, next: any) => {
 	const token =
 		req.body.token || req.query.token || req.headers["x-access-token"]
+		|| req.headers["authorization"]
 
+	console.log(token)
 	if (!token) {
 		respondFailure("A token is required for authentication", res)
 		return false
