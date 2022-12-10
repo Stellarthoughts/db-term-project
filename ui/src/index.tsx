@@ -2,11 +2,12 @@ import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import App from './App'
 import theme from './theme/theme'
-import { store } from './store/store'
 import reportWebVitals from './reportWebVitals'
 import Provider from 'react-redux/es/components/Provider'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
+import { persistor, store } from './store/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -14,7 +15,9 @@ ReactDOM.render(
 			{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 			<CssBaseline />
 			<BrowserRouter>
-				<App />
+				<PersistGate loading={null} persistor={persistor}>
+					<App />
+				</PersistGate>
 			</BrowserRouter>
 		</ThemeProvider>
 	</Provider>,

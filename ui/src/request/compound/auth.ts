@@ -1,12 +1,11 @@
-import axios from 'axios';
-import { PostRequest, ResponseDataOrNull } from '../common';
+import { PostRequestNoToken, ResponseDataOrNull } from '../common';
 
 export const RegisterUser = async (
 	login: string,
 	password: string
 ) => {
 	try {
-		const response = await PostRequest("/api/auth/register", {
+		const response = await PostRequestNoToken("/api/auth/register", {
 			login: login,
 			password: password
 		})
@@ -23,7 +22,7 @@ export const LoginUser = async (
 	password: string
 ) => {
 	try {
-		const response = await PostRequest("/api/auth/login", {
+		const response = await PostRequestNoToken("/api/auth/login", {
 			login: login,
 			password: password
 		})

@@ -6,10 +6,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../../auth/useAuth'
 import paths, { findNameFromPath } from '../../router/paths'
 import { useEffect, useState } from 'react'
+import { useAppSelector } from '../../hooks/hooks'
 
 function Tree() {
 	const navigate = useNavigate()
-	const auth = useAuth()
+	const user = useAppSelector(state => state.user.user)
 	const location = useLocation()
 	const [selected, setSelected] = useState<string>("");
 
@@ -51,7 +52,7 @@ function Tree() {
 			<TreeItem nodeId={paths.registration.name} label="Sign Up" />
 			<TreeItem nodeId={paths.login.name} label="Sign In" />
 			{
-				auth.user ? <TreeItem nodeId={paths.upload.name} label="Upload Resources" /> : <></>
+				user ? <TreeItem nodeId={paths.upload.name} label="Upload Resources" /> : <></>
 			}
 
 

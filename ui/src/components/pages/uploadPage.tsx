@@ -5,18 +5,20 @@ import { useState } from "react"
 import axios from 'axios';
 import Button from "@mui/material/Button"
 import { UploadFile } from "../../request/resources/upload";
+import { useAppSelector } from "../../hooks/hooks";
 
 function UploadPage() {
 	const [file, setFile] = useState<File | null>(null)
+	const user = useAppSelector(state => state.user.user)
 
 	const handleChange = (value: File | null) => {
 		setFile(value)
 	}
 
 	const handleOnClick = () => {
-		if (file == null)
+		if (file == null || user == null)
 			return
-		UploadFile(file)
+		UploadFile(file, user.token)
 	}
 
 	return (
@@ -32,7 +34,7 @@ function UploadPage() {
 				Hello!
 			</Typography>
 			<MuiFileInput value={file} onChange={handleChange} />
-			<Button onClick={handleOnClick} variant="contained">Upload4444</Button>
+			<Button onClick={handleOnClick} variant="contained">Upload</Button>
 		</Box >
 	)
 }

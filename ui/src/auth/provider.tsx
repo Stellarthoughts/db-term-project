@@ -1,30 +1,32 @@
-import React, { useState } from "react"
+import React from "react"
+import { useAppDispatch } from "../hooks/hooks"
 import { LoginUser, RegisterUser } from "../request/compound/auth"
+import { assignNewUser, UserState } from "../store/userSlice"
 import authContext from "./context"
-import { SavedUser } from "./contextType"
 
-function ParseUser(data: any) {
+function ParseUser(data: any): UserState {
 	return {
-		login: data.login,
-		id: data.id,
-		token: data.token,
-		access: {
-			id: data.access.id,
-			canView: data.access.canView,
-			canEdit: data.access.canEdit,
-			canCreate: data.access.canCreate,
-			canDelete: data.access.canDelete
-		},
-		progress: {
-			id: data.progress.id,
-			lastPageId: data.progress.lastPageId
+		user: {
+			login: data.login,
+			id: data.id,
+			token: data.token,
+			access: {
+				id: data.access.id,
+				canView: data.access.canView,
+				canEdit: data.access.canEdit,
+				canCreate: data.access.canCreate,
+				canDelete: data.access.canDelete
+			},
+			progress: {
+				id: data.progress.id,
+				lastPageId: data.progress.lastPageId
+			}
 		}
 	}
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-	const userRef = React.useRef<SavedUser | null>(null)
-	const [user, setUser] = useState<SavedUser | null>(userRef.current)
+	const dispatch = useAppDispatch()
 
 	const register = async (user: {
 		login: string,
@@ -32,8 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	}, callback: VoidFunction) => {
 		const result = await RegisterUser(user.login, user.password)
 		const newUser = ParseUser(result.body)
-		userRef.current = newUser
-		setUser(newUser)
+		dispatch(assignNewUser(newUser))
 		callback()
 	}
 
@@ -43,19 +44,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	}, callback: VoidFunction) => {
 		const result = await LoginUser(user.login, user.password)
 		const newUser = ParseUser(result.body)
-		userRef.current = newUser
-		setUser(newUser)
+		dispatch(assignNewUser(newUser))
 		callback()
 	}
 
 	const signout = (callback: VoidFunction) => {
-		userRef.current = null
-		setUser(null)
+		dispatch(assignNewUser({ user: null }))
 		callback()
 		return
 	}
 
-	const value = { user, register, signin, signout }
+	const value = { register, signin, signout }
 
 	return <authContext.Provider value={value}>{children}</authContext.Provider>
 }
