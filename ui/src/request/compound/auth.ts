@@ -1,5 +1,5 @@
-import { ParseUser } from '../../types/dbparsers';
-import { PostRequestNoToken, isFailed } from '../common';
+import { ParseUser } from '../../types/dbparsers'
+import { PostRequestNoToken, isFailed } from '../common'
 
 export const RegisterUser = async (
 	login: string,

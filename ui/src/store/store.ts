@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './userSlice'
-import storage from 'redux-persist/lib/storage';
-import { persistReducer, persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
+import storage from 'redux-persist/lib/storage'
+import { persistReducer, persistStore } from 'redux-persist'
+import thunk from 'redux-thunk'
 
 const persistConfig = {
 	key: 'root',

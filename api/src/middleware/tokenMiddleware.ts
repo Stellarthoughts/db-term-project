@@ -4,12 +4,12 @@ import { respondFailure } from "../routes/response/common"
 
 const config = process.env
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const verifyToken = (req: any, res: any, next: any) => {
 	const token =
 		req.body.token || req.query.token || req.headers["x-access-token"]
 		|| req.headers["authorization"]
 
-	console.log(token)
 	if (!token) {
 		respondFailure("A token is required for authentication", res)
 		return false

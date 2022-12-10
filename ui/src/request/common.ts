@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 export const isFailed = (response: AxiosResponse<any, any>) => {
 	return response.data.message == "failure"

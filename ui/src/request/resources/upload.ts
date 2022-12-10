@@ -1,11 +1,11 @@
-import { PostRequest } from '../common';
+import { PostRequest } from '../common'
 
 export const UploadFile = async (
 	file: File,
 	token: string
 ) => {
 	try {
-		const formData = new FormData();
+		const formData = new FormData()
 
 		formData.append(
 			"file",
@@ -13,7 +13,7 @@ export const UploadFile = async (
 			file.name
 		)
 		// Update the formData object
-		return await PostRequest("/api/upload", token, formData);
+		return await PostRequest("/api/upload", token, formData)
 	}
 	catch (err) {
 		console.log(err)

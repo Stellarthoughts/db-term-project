@@ -2,10 +2,9 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import { MuiFileInput } from "mui-file-input"
 import { useState } from "react"
-import axios from 'axios';
 import Button from "@mui/material/Button"
-import { UploadFile } from "../../request/resources/upload";
-import { useAppSelector } from "../../hooks/hooks";
+import { UploadFile } from "../../request/resources/upload"
+import { useAppSelector } from "../../hooks/hooks"
 
 function UploadPage() {
 	const [file, setFile] = useState<File | null>(null)

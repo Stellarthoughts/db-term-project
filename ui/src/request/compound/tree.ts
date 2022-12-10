@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ParseEntry } from "../../types/dbparsers"
 import { GetRequest, isFailed } from "../common"
 

@@ -1,4 +1,5 @@
-import { Access, Chapter, Entry, Page, Progress, Thread, User } from "./dbtypes";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Access, Chapter, Entry, Page, Progress, Thread, User } from "./dbtypes"
 
 export function ParseUser(data: any): User {
 	return {

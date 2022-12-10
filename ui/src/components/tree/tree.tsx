@@ -3,12 +3,10 @@ import TreeView from '@mui/lab/TreeView'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useLocation, useNavigate } from 'react-router-dom'
-import useAuth from '../../auth/useAuth'
 import paths, { findNameFromPath } from '../../router/paths'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '../../hooks/hooks'
 import { Entry } from '../../types/dbtypes'
-import { GetTree } from '../../request/compound/tree'
 
 interface Props {
 	treeNodes: Array<Entry> | null
@@ -18,11 +16,11 @@ function Tree({ treeNodes }: Props) {
 	const navigate = useNavigate()
 	const user = useAppSelector(state => state.user.user)
 	const location = useLocation()
-	const [selected, setSelected] = useState<string>("");
+	const [selected, setSelected] = useState<string>("")
 
 	useEffect(() => {
 		setSelected(findNameFromPath(location.pathname))
-	}, [location]);
+	}, [location])
 
 	const handleOnNodeSelect = (
 		event: React.SyntheticEvent,

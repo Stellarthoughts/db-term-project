@@ -25,7 +25,7 @@ import { GetTree } from './request/compound/tree'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
-	const [tree, setTree] = useState<Array<Entry> | null>(null);
+	const [tree, setTree] = useState<Array<Entry> | null>(null)
 
 	useEffect(() => {
 		const fetch = async () => {
@@ -34,7 +34,7 @@ function App() {
 			const res = await GetTree(user.token)
 			setTree(res)
 		}
-		fetch();
+		fetch()
 	}, [user])
 
 	return (
