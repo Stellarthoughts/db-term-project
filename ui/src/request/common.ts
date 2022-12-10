@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export const ResponseDataOrNull = (response: AxiosResponse<any, any>) => {
-	return response.data.message == "failure" ? null : response.data
+export const isFailed = (response: AxiosResponse<any, any>) => {
+	return response.data.message == "failure"
 }
 
 export const GetRequest = (

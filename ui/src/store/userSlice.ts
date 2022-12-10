@@ -1,24 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { User } from '../types/dbtypes'
 import { RootState } from './store'
 
 // Define a type for the slice state
 export interface UserState {
-	user: {
-		id: number
-		login: string
-		token: string
-		progress: {
-			id: number,
-			lastPageId: number | null
-		}
-		access: {
-			id: number,
-			canView: boolean,
-			canEdit: boolean,
-			canCreate: boolean,
-			canDelete: boolean
-		}
-	} | null
+	user: User | null
 }
 
 // Define the initial state using that type

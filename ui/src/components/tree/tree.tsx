@@ -7,8 +7,14 @@ import useAuth from '../../auth/useAuth'
 import paths, { findNameFromPath } from '../../router/paths'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '../../hooks/hooks'
+import { Entry } from '../../types/dbtypes'
+import { GetTree } from '../../request/compound/tree'
 
-function Tree() {
+interface Props {
+	treeNodes: Array<Entry> | null
+}
+
+function Tree({ treeNodes }: Props) {
 	const navigate = useNavigate()
 	const user = useAppSelector(state => state.user.user)
 	const location = useLocation()
@@ -49,13 +55,31 @@ function Tree() {
 			sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
 		>
 			<TreeItem nodeId={paths.root.name} label="Welcome!" />
-			<TreeItem nodeId={paths.registration.name} label="Sign Up" />
-			<TreeItem nodeId={paths.login.name} label="Sign In" />
+			{
+				!user ?
+					<>
+						<TreeItem nodeId={paths.registration.name} label="Sign Up" />
+						<TreeItem nodeId={paths.login.name} label="Sign In" />
+					</>
+					: <></>
+			}
 			{
 				user ? <TreeItem nodeId={paths.upload.name} label="Upload Resources" /> : <></>
 			}
-
-
+			{
+				user && treeNodes ? treeNodes.map(entry => {
+					return <TreeItem nodeId={`entry${entry.id}`} key={entry.id} label={entry.name}>
+						{
+							entry.chapters ? entry.chapters.map(chapter => {
+								return <TreeItem
+									nodeId={`chapter${chapter.id}`}
+									key={chapter.id}
+									label={chapter.name} />
+							}) : <></>
+						}
+					</TreeItem>
+				}) : <></>
+			}
 		</TreeView>
 	)
 }

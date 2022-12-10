@@ -1,15 +1,12 @@
-import axios from "axios"
-import useAuth from "../../auth/useAuth"
-import { useAppSelector } from "../../hooks/hooks"
-import { GetRequest, ResponseDataOrNull } from "../common"
+import { ParseEntry } from "../../types/dbparsers"
+import { GetRequest, isFailed } from "../common"
 
 export const GetTree = async (token: string) => {
-	const user = useAppSelector(state => state.user.user)
-	if (!user)
-		return null
 	try {
 		const response = await GetRequest("/api/data/tree", token)
-		return ResponseDataOrNull(response)
+		if (isFailed(response))
+			throw new Error("Response failed")
+		return (response.data.body as Array<any>).filter(x => ParseEntry(x))
 	}
 	catch (err) {
 		console.log(err)
