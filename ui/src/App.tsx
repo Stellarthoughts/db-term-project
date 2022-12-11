@@ -20,7 +20,7 @@ import UploadPage from './components/pages/uploadPage'
 import paths from './router/paths'
 import { useAppSelector } from './hooks/hooks'
 import { Entry } from './types/dbtypes'
-import { GetTree } from './request/compound/tree'
+import { GetTree } from './request/compound/data'
 
 
 function App() {

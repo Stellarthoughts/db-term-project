@@ -20,24 +20,24 @@ export interface Progress {
 }
 
 export interface Entry {
-	id: number,
-	name: string,
+	id: number
+	name: string
 	personalPageId: number | null
 	chapters: Array<Chapter> | null
 }
 
 export interface Chapter {
-	id: number,
-	order: number,
-	name: string,
-	personalPageId: number | null,
+	id: number
+	order: number
+	name: string
+	personalPageId: number | null
 	entryId: number
 	pages: Array<Page> | null
 }
 
 export interface Page {
-	id: number,
-	order: number,
+	id: number
+	order: number
 	chapterId: number
 	threads: Array<Thread> | null
 }
@@ -45,9 +45,9 @@ export interface Page {
 export interface Thread {
 	id: number
 	order: number
-	type: string,
-	content: string,
-	pageId: number,
+	type: string
+	content: string
+	pageId: number
 }
 
 export const ThreadType = {

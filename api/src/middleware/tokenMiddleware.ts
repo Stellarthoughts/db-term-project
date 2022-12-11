@@ -9,7 +9,6 @@ const verifyToken = (req: any, res: any, next: any) => {
 	const token =
 		req.body.token || req.query.token || req.headers["x-access-token"]
 		|| req.headers["authorization"]
-
 	if (!token) {
 		respondFailure("A token is required for authentication", res)
 		return false
