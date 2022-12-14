@@ -6,10 +6,14 @@ import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { useNavigate } from "react-router-dom"
 import useAuth from "../../auth/useAuth"
+import { useAppDispatch } from "../../hooks/hooks"
+import paths from "../../router/paths"
+import { setFailure } from "../../store/alertSlice"
 
 function LoginPage() {
 	const auth = useAuth()
 	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -19,6 +23,11 @@ function LoginPage() {
 			password: data.get('password') as string
 		}, () => {
 			navigate("/")
+		}, () => {
+			dispatch(setFailure({
+				message: "Invalid login or password",
+				show: true
+			}))
 		})
 	}
 
@@ -69,7 +78,7 @@ function LoginPage() {
 				</Button>
 				<Grid container justifyContent="flex-end">
 					<Grid item>
-						<Link href="#" variant="body2">
+						<Link href={paths.registration.path} variant="body2">
 							{"Don't have an account? Sign Up"}
 						</Link>
 					</Grid>

@@ -21,7 +21,7 @@ import paths from './router/paths'
 import { useAppSelector } from './hooks/hooks'
 import { Entry } from './types/dbtypes'
 import { GetTree } from './request/compound/data'
-
+import { AppAlert } from './components/alert'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
@@ -44,6 +44,7 @@ function App() {
 					<Tree treeNodes={tree}></Tree>
 					<Stack>
 						<Header></Header>
+						<AppAlert />
 						<Routes>
 							<Route path={paths.root.path} element={<DefaultPage />} />
 							<Route path={paths.login.path} element=

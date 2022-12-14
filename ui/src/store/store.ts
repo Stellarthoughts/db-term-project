@@ -3,17 +3,19 @@ import userReducer from './userSlice'
 import storage from 'redux-persist/lib/storage'
 import { persistReducer, persistStore } from 'redux-persist'
 import thunk from 'redux-thunk'
+import alertReducer from './alertSlice'
 
 const persistConfig = {
 	key: 'root',
 	storage,
 }
 
-const persistedReducer = persistReducer(persistConfig, userReducer)
+const persistedUserReducer = persistReducer(persistConfig, userReducer)
 
 export const store = configureStore({
 	reducer: {
-		user: persistedReducer
+		user: persistedUserReducer,
+		alert: alertReducer
 	},
 	middleware: [thunk]
 })

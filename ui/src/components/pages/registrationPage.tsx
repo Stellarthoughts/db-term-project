@@ -5,19 +5,29 @@ import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { useNavigate } from "react-router-dom"
+import useAuth from "../../auth/useAuth"
+import { useAppDispatch } from "../../hooks/hooks"
+import { setFailure } from "../../store/alertSlice"
 
 export function RegistrationPage() {
-
+	const auth = useAuth()
 	const navigate = useNavigate()
+	const dispatch = useAppDispatch()
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		const data = new FormData(event.currentTarget)
-		console.log({
-			login: data.get('login'),
-			password: data.get('password'),
+		auth.register({
+			login: data.get('login') as string,
+			password: data.get('password') as string
+		}, () => {
+			navigate("/")
+		}, () => {
+			dispatch(setFailure({
+				message: "Could not register",
+				show: true
+			}))
 		})
-		navigate("/")
 	}
 
 	return (

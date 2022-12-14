@@ -1,12 +1,13 @@
+import React from "react"
 export interface AuthContextType {
 	register: (user: {
 		login: string,
 		password: string
-	}, callback: VoidFunction) => void
+	}, callbackSuccess: VoidFunction, callbackFailure: VoidFunction) => void
 	signin: (user: {
 		login: string,
 		password: string
-	}, callback: VoidFunction) => void
+	}, callbackSuccess: VoidFunction, callbackFailure: VoidFunction) => void
 	signout: (callback: VoidFunction) => void
 }
 

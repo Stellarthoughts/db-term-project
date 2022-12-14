@@ -10,21 +10,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const register = async (user: {
 		login: string,
 		password: string
-	}, callback: VoidFunction) => {
-		const result = await RegisterUser(user.login, user.password)
-		const newUser = { user: result }
-		dispatch(assignNewUser(newUser))
-		callback()
+	},
+		callbackSuccess: VoidFunction,
+		callbackFailure: VoidFunction) => {
+		try {
+			const result = await RegisterUser(user.login, user.password)
+			const newUser = { user: result }
+			dispatch(assignNewUser(newUser))
+			callbackSuccess()
+		}
+		catch (err) {
+			console.log(err)
+			callbackFailure()
+		}
 	}
 
 	const signin = async (user: {
 		login: string,
 		password: string
-	}, callback: VoidFunction) => {
-		const result = await LoginUser(user.login, user.password)
-		const newUser = { user: result }
-		dispatch(assignNewUser(newUser))
-		callback()
+	},
+		callbackSuccess: VoidFunction,
+		callbackFailure: VoidFunction) => {
+		try {
+			const result = await LoginUser(user.login, user.password)
+			const newUser = { user: result }
+			dispatch(assignNewUser(newUser))
+			callbackSuccess()
+		}
+		catch (err) {
+			console.log(err)
+			callbackFailure()
+		}
 	}
 
 	const signout = (callback: VoidFunction) => {
