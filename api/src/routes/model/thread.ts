@@ -1,5 +1,5 @@
 import express from "express"
-import { CreateThread, DeleteThreadByID, FindAllThreads, FindThreadByID, UpdateThreadByID } from "../../prisma/db/model/thread"
+import { CreateThread, DeleteThreadById, FindAllThreads, FindThreadById, UpdateThreadById } from "../../prisma/db/model/thread"
 import { respondFailure, respondSuccess } from "../response/common"
 import parseThreadType from "../type/thread"
 
@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindThreadByID(parseInt(req.params.id))
+		const result = await FindThreadById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
 // Update Thread
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateThreadByID(
+		const result = await UpdateThreadById(
 			parseInt(req.params.id),
 			parseThreadType(req.body.threadType),
 			req.body.content,
@@ -70,7 +70,7 @@ router.put('/:id', async (req, res) => {
 // Delete Thread By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteThreadByID(parseInt(req.params.id))
+		const result = await DeleteThreadById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

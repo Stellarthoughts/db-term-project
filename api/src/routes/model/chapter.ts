@@ -1,5 +1,5 @@
 import express from "express"
-import { CreateChapter, DeleteChapterByID, FindAllChapters, FindChapterByID, UpdateChapterByID } from "../../prisma/db/model/chapter"
+import { CreateChapter, DeleteChapterById, FindAllChapters, FindChapterById, UpdateChapterById } from "../../prisma/db/model/chapter"
 import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindChapterByID(parseInt(req.params.id))
+		const result = await FindChapterById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
 // Update Chapter
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateChapterByID(
+		const result = await UpdateChapterById(
 			parseInt(req.params.id),
 			req.body.name,
 			parseInt(req.body.entryId)
@@ -67,7 +67,7 @@ router.put('/:id', async (req, res) => {
 // Delete Chapter By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteChapterByID(parseInt(req.params.id))
+		const result = await DeleteChapterById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

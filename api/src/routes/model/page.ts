@@ -1,5 +1,5 @@
 import express from "express"
-import { CreatePage, DeletePageByID, FindAllPages, FindPageByID, UpdatePageByID } from "../../prisma/db/model/page"
+import { CreatePage, DeletePageById, FindAllPages, FindPageById, UpdatePageById } from "../../prisma/db/model/page"
 import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindPageByID(parseInt(req.params.id))
+		const result = await FindPageById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -49,7 +49,7 @@ router.get('/:id', async (req, res) => {
 // Update Page
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdatePageByID(
+		const result = await UpdatePageById(
 			parseInt(req.params.id),
 			parseInt(req.body.chapterId)
 		)
@@ -65,7 +65,7 @@ router.put('/:id', async (req, res) => {
 // Delete Page By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeletePageByID(parseInt(req.params.id))
+		const result = await DeletePageById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

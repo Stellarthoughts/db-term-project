@@ -33,7 +33,7 @@ export const FindAllChapters = () => {
 
 
 // Read by ID
-export const FindChapterByID = (
+export const FindChapterById = (
 	id: number
 ) => {
 	const request = prisma.chapter.findUniqueOrThrow({
@@ -47,7 +47,7 @@ export const FindChapterByID = (
 
 
 // Update Chapter
-export const UpdateChapterByID = (
+export const UpdateChapterById = (
 	id: number,
 	name: string,
 	entryId: number
@@ -67,7 +67,7 @@ export const UpdateChapterByID = (
 
 
 // Delete Chapter By ID
-export const DeleteChapterByID = (
+export const DeleteChapterById = (
 	id: number
 ) => {
 	const request = prisma.chapter.delete({

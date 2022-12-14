@@ -1,5 +1,5 @@
 import express from "express"
-import { CreateUser, DeleteUserByID, FindAllUsers, FindUserByID, UpdateUserByID } from "../../prisma/db/model/user"
+import { CreateUser, DeleteUserById, FindAllUsers, FindUserById, UpdateUserById } from "../../prisma/db/model/user"
 import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindUserByID(parseInt(req.params.id))
+		const result = await FindUserById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -47,7 +47,7 @@ router.get('/:id', async (req, res) => {
 // Update User
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateUserByID(
+		const result = await UpdateUserById(
 			parseInt(req.params.id),
 			req.body.login,
 			req.body.password
@@ -64,7 +64,7 @@ router.put('/:id', async (req, res) => {
 // Delete User By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteUserByID(parseInt(req.params.id))
+		const result = await DeleteUserById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

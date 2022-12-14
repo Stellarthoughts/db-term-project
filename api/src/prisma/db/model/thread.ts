@@ -36,7 +36,7 @@ export const FindAllThreads = () => {
 
 
 // Read by ID
-export const FindThreadByID = (
+export const FindThreadById = (
 	id: number
 ) => {
 	const request = prisma.thread.findUniqueOrThrow({
@@ -50,7 +50,7 @@ export const FindThreadByID = (
 
 
 // Update Thread
-export const UpdateThreadByID = (
+export const UpdateThreadById = (
 	id: number,
 	type: ThreadType,
 	content: string,
@@ -72,7 +72,7 @@ export const UpdateThreadByID = (
 
 
 // Delete Thread By ID
-export const DeleteThreadByID = (
+export const DeleteThreadById = (
 	id: number
 ) => {
 	const request = prisma.thread.delete({

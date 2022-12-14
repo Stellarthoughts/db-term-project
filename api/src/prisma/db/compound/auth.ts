@@ -39,7 +39,7 @@ export const RegisterUser = (
 
 
 // Read by ID
-export const RetrieveUserByID = (
+export const RetrieveUserById = (
 	id: number
 ) => {
 	const request = prisma.user.findUniqueOrThrow({

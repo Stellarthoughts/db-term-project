@@ -29,7 +29,7 @@ export const FindAllEntries = () => {
 
 
 // Read by ID
-export const FindEntryByID = (
+export const FindEntryById = (
 	id: number
 ) => {
 	const request = prisma.entry.findUniqueOrThrow({
@@ -43,7 +43,7 @@ export const FindEntryByID = (
 
 
 // Update Entry
-export const UpdateEntryByID = (
+export const UpdateEntryById = (
 	id: number,
 	name: string,
 	personalPageId: number
@@ -63,7 +63,7 @@ export const UpdateEntryByID = (
 
 
 // Delete Entry By ID
-export const DeleteEntryByID = (
+export const DeleteEntryById = (
 	id: number
 ) => {
 	const request = prisma.entry.delete({

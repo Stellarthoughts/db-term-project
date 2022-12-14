@@ -1,5 +1,5 @@
 import express from "express"
-import { CreateAccess, DeleteAccessByID, FindAllAccesses, FindAccessByID, UpdateAccessByID } from "../../prisma/db/model/access"
+import { CreateAccess, DeleteAccessById, FindAllAccesses, FindAccessById, UpdateAccessById } from "../../prisma/db/model/access"
 import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindAccessByID(parseInt(req.params.id))
+		const result = await FindAccessById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
 // Update Access
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateAccessByID(
+		const result = await UpdateAccessById(
 			parseInt(req.params.id),
 			req.body.canView == 'true',
 			req.body.canEdit == 'true',
@@ -71,7 +71,7 @@ router.put('/:id', async (req, res) => {
 // Delete Access By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteAccessByID(parseInt(req.params.id))
+		const result = await DeleteAccessById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

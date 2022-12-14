@@ -1,5 +1,5 @@
 import express from "express"
-import { CreateEntry, DeleteEntryByID, FindAllEntries, FindEntryByID, UpdateEntryByID } from "../../prisma/db/model/entry"
+import { CreateEntry, DeleteEntryById, FindAllEntries, FindEntryById, UpdateEntryById } from "../../prisma/db/model/entry"
 import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindEntryByID(parseInt(req.params.id))
+		const result = await FindEntryById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -49,7 +49,7 @@ router.get('/:id', async (req, res) => {
 // Update Entry
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateEntryByID(
+		const result = await UpdateEntryById(
 			parseInt(req.params.id),
 			req.body.login,
 			req.body.password
@@ -66,7 +66,7 @@ router.put('/:id', async (req, res) => {
 // Delete Entry By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteEntryByID(parseInt(req.params.id))
+		const result = await DeleteEntryById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

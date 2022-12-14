@@ -1,5 +1,5 @@
 import express from "express"
-import { CreateProgress, DeleteProgressByID, FindAllProgresses, FindProgressByID, UpdateProgressByID } from "../../prisma/db/model/progress"
+import { CreateProgress, DeleteProgressById, FindAllProgresses, FindProgressById, UpdateProgressById } from "../../prisma/db/model/progress"
 import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
 // Read by ID
 router.get('/:id', async (req, res) => {
 	try {
-		const result = await FindProgressByID(parseInt(req.params.id))
+		const result = await FindProgressById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {
@@ -47,7 +47,7 @@ router.get('/:id', async (req, res) => {
 // Update Progress
 router.put('/:id', async (req, res) => {
 	try {
-		const result = await UpdateProgressByID(
+		const result = await UpdateProgressById(
 			parseInt(req.params.id),
 			parseInt(req.body.lastPageId)
 		)
@@ -63,7 +63,7 @@ router.put('/:id', async (req, res) => {
 // Delete Progress By ID
 router.delete('/:id', async (req, res) => {
 	try {
-		const result = await DeleteProgressByID(parseInt(req.params.id))
+		const result = await DeleteProgressById(parseInt(req.params.id))
 		respondSuccess(result, res)
 	}
 	catch (err) {

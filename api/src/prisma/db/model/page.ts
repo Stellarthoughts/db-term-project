@@ -29,7 +29,7 @@ export const FindAllPages = () => {
 
 
 // Read by ID
-export const FindPageByID = (
+export const FindPageById = (
 	id: number
 ) => {
 	const request = prisma.page.findUniqueOrThrow({
@@ -43,7 +43,7 @@ export const FindPageByID = (
 
 
 // Update Page
-export const UpdatePageByID = (
+export const UpdatePageById = (
 	id: number,
 	chapterId: number
 ) => {
@@ -61,7 +61,7 @@ export const UpdatePageByID = (
 
 
 // Delete Page By ID
-export const DeletePageByID = (
+export const DeletePageById = (
 	id: number
 ) => {
 	const request = prisma.page.delete({

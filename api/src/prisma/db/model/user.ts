@@ -38,7 +38,7 @@ export const FindAllUsers = () => {
 
 
 // Read by ID
-export const FindUserByID = (
+export const FindUserById = (
 	id: number
 ) => {
 	const request = prisma.user.findUniqueOrThrow({
@@ -67,7 +67,7 @@ export const FindUserByLogin = (
 
 
 // Update User
-export const UpdateUserByID = (
+export const UpdateUserById = (
 	id: number,
 	login: string,
 	password: string,
@@ -87,7 +87,7 @@ export const UpdateUserByID = (
 
 
 // Delete User By ID
-export const DeleteUserByID = (
+export const DeleteUserById = (
 	id: number
 ) => {
 	const request = prisma.user.delete({

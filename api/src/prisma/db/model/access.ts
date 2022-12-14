@@ -37,7 +37,7 @@ export const FindAllAccesses = () => {
 
 
 // Read by ID
-export const FindAccessByID = (
+export const FindAccessById = (
 	id: number
 ) => {
 	const request = prisma.access.findUniqueOrThrow({
@@ -51,7 +51,7 @@ export const FindAccessByID = (
 
 
 // Update Access
-export const UpdateAccessByID = (
+export const UpdateAccessById = (
 	id: number,
 	canView: boolean,
 	canEdit: boolean,
@@ -74,7 +74,7 @@ export const UpdateAccessByID = (
 }
 
 // Delete Access By ID
-export const DeleteAccessByID = (
+export const DeleteAccessById = (
 	id: number
 ) => {
 	const request = prisma.access.delete({

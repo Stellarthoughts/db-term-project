@@ -26,7 +26,7 @@ export const FindAllProgresses = () => {
 
 
 // Read by ID
-export const FindProgressByID = (
+export const FindProgressById = (
 	id: number
 ) => {
 	const request = prisma.progress.findUniqueOrThrow({
@@ -40,7 +40,7 @@ export const FindProgressByID = (
 
 
 // Update Progress
-export const UpdateProgressByID = (
+export const UpdateProgressById = (
 	id: number,
 	lastPageId: number
 ) => {
@@ -58,7 +58,7 @@ export const UpdateProgressByID = (
 
 
 // Delete Progress By ID
-export const DeleteProgressByID = (
+export const DeleteProgressById = (
 	id: number
 ) => {
 	const request = prisma.progress.delete({
