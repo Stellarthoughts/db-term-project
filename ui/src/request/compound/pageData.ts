@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ParseChapter, ParseEntry, ParsePage, ParseThread } from "../../types/dbparsers"
 import { Chapter, Entry, Page, Thread } from "../../types/dbtypes"
 import { GetRequest, isFailed } from "../common"
