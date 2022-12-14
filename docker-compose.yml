@@ -1,8 +1,23 @@
 version: '3.4'
 
 services:
-  dbtermprojectfrontend:
-    image: dbtermprojectfrontend
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+    networks:
+      - db_connection
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - db_connection
+
+  ui:
     build:
       context: ui
       dockerfile: ./Dockerfile
@@ -10,8 +25,10 @@ services:
       NODE_ENV: production
     ports:
       - 3000:3000
-  dbtermprojectbackend:
-    image: dbtermprojectbackend
+    networks:
+      - api_connection
+
+  api:
     build:
       context: api
       dockerfile: ./Dockerfile
@@ -19,4 +36,14 @@ services:
       NODE_ENV: production
     ports:
       - 5000:5000
+    depends_on:
+      - db
+    networks:
+      - db_connection
+      - api_connection
 
+networks:
+  db_connection:
+    driver: bridge
+  api_connection:
+    driver: bridge
