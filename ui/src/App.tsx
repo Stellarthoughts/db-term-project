@@ -11,23 +11,21 @@ import Header from './components/header/header'
 import Tree from './components/tree/tree'
 
 import RequireAuth from './auth/components/requireAuth'
+import ChapterPage from './components/pages/chapterPage'
 import DefaultPage from './components/pages/defaultPage'
+import EntryPage from './components/pages/entryPage'
 import GenericPage from './components/pages/genericPage'
 import LoginPage from './components/pages/loginPage'
 import RegistrationPage from './components/pages/registrationPage'
 import UploadPage from './components/pages/uploadPage'
-import ChapterPage from './components/pages/chapterPage'
-import EntryPage from './components/pages/entryPage'
 
 import Grid from '@mui/material/Grid'
 import { AppAlert } from './components/alert'
 import { useAppSelector } from './hooks/hooks'
-import { GetThreadsByPageId, GetTree } from './request/compound/data'
-import { GetChapterById } from './request/model/chapter'
-import { GetEntryById } from './request/model/entry'
-import { GetPageById } from './request/model/page'
+import { GetTree } from './request/compound/data'
+import { chapterPageDataNull, entryPageDataNull, genericPageDataNull, GetChapterPageData, GetEntryPageData, GetGenericPageData } from './request/compound/pageData'
 import paths from './router/paths'
-import { Chapter, Entry, Page, Thread } from './types/dbtypes'
+import { Entry } from './types/dbtypes'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
@@ -45,54 +43,41 @@ function App() {
 
 	const pageLoader: LoaderFunction = async ({ params }) => {
 		if (!user)
-			return
-		const id = parseInt(params.id as string)
-		const page = await GetPageById(user.token, id)
-		const threads = await GetThreadsByPageId(user.token, id)
-		let chapter: Chapter | null = null
-		if (page.chapterId != null) {
-			chapter = await GetChapterById(user.token, page.chapterId)
+			return genericPageDataNull
+		try {
+			const data = await GetGenericPageData(user.token, parseInt(params.id as string))
+			return data
 		}
-		return {
-			parentData: chapter,
-			entityData: page,
-			entriesData: threads,
+		catch (e) {
+			console.log(e)
+			return genericPageDataNull
 		}
 	}
 
 	const chapterLoader: LoaderFunction = async ({ params }) => {
 		if (!user)
-			return
-		const id = parseInt(params.id as string)
-		const chapter = await GetChapterById(user.token, id)
-		let personalPage: Page | null = null
-		let threads: Thread[] | null = null
-		if (chapter.personalPageId != null) {
-			personalPage = await GetPageById(user.token, chapter.personalPageId)
-			threads = await GetThreadsByPageId(user.token, chapter.personalPageId)
+			return chapterPageDataNull
+		try {
+			const data = await GetChapterPageData(user.token, parseInt(params.id as string))
+			return data
 		}
-		return {
-			parentData: chapter,
-			entityData: personalPage,
-			entriesData: threads,
+		catch (e) {
+			console.log(e)
+			return chapterPageDataNull
 		}
 	}
 
+	// entry loader
 	const entryLoader: LoaderFunction = async ({ params }) => {
 		if (!user)
-			return
-		const id = parseInt(params.id as string)
-		const entry = await GetEntryById(user.token, id)
-		let personalPage: Page | null = null
-		let threads: Thread[] | null = null
-		if (entry.personalPageId != null) {
-			personalPage = await GetPageById(user.token, entry.personalPageId)
-			threads = await GetThreadsByPageId(user.token, entry.personalPageId)
+			return entryPageDataNull
+		try {
+			const data = await GetEntryPageData(user.token, parseInt(params.id as string))
+			return data
 		}
-		return {
-			parentData: entry,
-			entityData: personalPage,
-			entriesData: threads,
+		catch (e) {
+			console.log(e)
+			return entryPageDataNull
 		}
 	}
 

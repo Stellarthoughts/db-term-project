@@ -1,14 +1,9 @@
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import { useLoaderData } from "react-router-dom"
-import { Chapter, Page, Thread } from "../../types/dbtypes"
+import { ChapterPageData } from "../../request/compound/pageData"
 
-interface ChapterPageData {
-	personalPageData: Page | null
-	personalPageThreadsData: Thread[]
-	chapterData: Chapter
-	pagesData: Page[] | null
-}
+
 
 function ChapterPage() {
 	const data = useLoaderData()

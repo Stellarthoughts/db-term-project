@@ -1,5 +1,5 @@
 import express from "express"
-import { FindAllEntriesAndChapters, FindPagesInChapter, FindThreadsInPage } from "../../prisma/db/compound/data"
+import { FindAllEntriesAndChapters, FindChaptersInEntry, FindPagesInChapter, FindThreadsInPage } from "../../prisma/db/compound/data"
 import { respondFailure, respondSuccess } from "../response/common"
 
 const router = express.Router()
@@ -33,6 +33,18 @@ router.get('/threads/:id', async (req, res) => {
 	try {
 		const result = await FindThreadsInPage(parseInt(req.params.id))
 		respondSuccess(result.threads, res)
+	}
+	catch (err) {
+		respondFailure(err, res)
+		return false
+	}
+	return true
+})
+
+router.get('/chapters/:id', async (req, res) => {
+	try {
+		const result = await FindChaptersInEntry(parseInt(req.params.id))
+		respondSuccess(result.chapters, res)
 	}
 	catch (err) {
 		respondFailure(err, res)

@@ -63,3 +63,15 @@ export const FindThreadsInPage = (
 	})
 	return ResolvePrismaRequest(request)
 }
+
+export const FindChaptersInEntry = (
+	id: number
+) => {
+	const request = prisma.entry.findUniqueOrThrow({
+		where: {
+			id: id
+		},
+		select: selectEntrySettings
+	})
+	return ResolvePrismaRequest(request)
+}

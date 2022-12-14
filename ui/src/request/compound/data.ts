@@ -15,6 +15,19 @@ export const GetTree = async (token: string) => {
 	}
 }
 
+export const GetChaptersByEntryId = async (token: string, entryId: number) => {
+	try {
+		const response = await GetRequest(`/api/data/chapters/${entryId}`, token)
+		if (isFailed(response))
+			throw new Error("Response failed")
+		return (response.data.body as Array<any>).filter(x => ParseEntry(x))
+	}
+	catch (err) {
+		console.log(err)
+		throw err
+	}
+}
+
 export const GetPagesByChapterId = async (token: string, chapterId: number) => {
 	try {
 		const response = await GetRequest(`/api/data/pages/${chapterId}`, token)

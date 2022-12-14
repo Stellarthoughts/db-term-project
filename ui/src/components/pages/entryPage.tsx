@@ -1,14 +1,8 @@
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import { useLoaderData } from "react-router-dom"
-import { Chapter, Entry, Page, Thread } from "../../types/dbtypes"
+import { EntryPageData } from "../../request/compound/pageData"
 
-interface EntryPageData {
-	personalPageData: Page | null
-	personalPageThreadsData: Thread[]
-	entryData: Entry
-	chaptersData: Chapter[] | null
-}
 
 function EntryPage() {
 	const data = useLoaderData()
@@ -30,7 +24,12 @@ function EntryPage() {
 							{entryData.name}
 						</Typography>
 					</>
-					: <></>
+					:
+					<>
+						<Typography>
+							Похоже, этой страницы не существует!
+						</Typography>
+					</>
 			}
 			{
 				personalPageData ?
@@ -56,7 +55,7 @@ function EntryPage() {
 					</>
 			}
 			{
-				chaptersData ?
+				entryData && chaptersData ?
 					<></>
 					:
 					<>

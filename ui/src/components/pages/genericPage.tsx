@@ -1,17 +1,10 @@
 import Box from "@mui/material/Box"
 import { useLoaderData } from "react-router-dom"
-import { Chapter, Page, Thread } from "../../types/dbtypes"
+import { GenericPageData } from "../../request/compound/pageData"
 
-interface EntryPageData {
-	pageData: Page
-	threadsData: Thread[] | null
-	chapterData: Chapter[] | null
-	otherPagesData: Page[] | null
-}
-
-function EntryPage() {
+function GenericPage() {
 	const data = useLoaderData()
-	const { pageData, threadsData, chapterData, otherPagesData } = data as EntryPageData
+	const { pageData, threadsData, chapterData, otherPagesData } = data as GenericPageData
 
 	console.log(data)
 	return (
@@ -22,8 +15,9 @@ function EntryPage() {
 				alignItems: 'center',
 			}}
 		>
+
 		</Box>
 	)
 }
 
-export default EntryPage
+export default GenericPage

@@ -15,6 +15,7 @@ import threadPath from "./routes/model/thread"
 import authPath from "./routes/compound/auth"
 import dataPath from "./routes/compound/data"
 import uploadPath from "./routes/resources/upload"
+import pageDataPath from "./routes/compound/pageData"
 
 // Middleware
 import tokenMiddleware from "./middleware/tokenMiddleware"
@@ -63,6 +64,7 @@ app.use(express.static('public'))
 app.all("/api/*", tokenMiddleware)
 
 // Private
+app.use("/api/pageData", pageDataPath)
 app.use("/api/upload", uploadPath)
 app.use("/api/data", dataPath)
 app.use("/api/user", userPath)
