@@ -26,21 +26,7 @@ function Tree({ treeNodes }: Props) {
 		event: React.SyntheticEvent,
 		nodeId: string
 	) => {
-		switch (nodeId) {
-			case paths.root.name:
-				navigate(paths.root.path)
-				return
-			case paths.registration.name:
-				navigate(paths.registration.path)
-				return
-			case paths.login.name:
-				navigate(paths.login.path)
-				return
-			case paths.upload.name:
-				navigate(paths.upload.path)
-				return
-		}
-		navigate(`${paths.page.path}/${nodeId}`)
+		navigate(`${nodeId}`)
 	}
 
 	return (
@@ -50,27 +36,27 @@ function Tree({ treeNodes }: Props) {
 			defaultExpandIcon={<ChevronRightIcon />}
 			selected={selected}
 			onNodeSelect={handleOnNodeSelect}
-			sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+			sx={{ flexGrow: 1, overflowY: 'auto' }}
 		>
-			<TreeItem nodeId={paths.root.name} label="Welcome!" />
+			<TreeItem nodeId={paths.root.path} label="Добро пожаловать!" />
 			{
 				!user ?
 					<>
-						<TreeItem nodeId={paths.registration.name} label="Sign Up" />
-						<TreeItem nodeId={paths.login.name} label="Sign In" />
+						<TreeItem nodeId={paths.registration.path} label="Зарегистрироваться" />
+						<TreeItem nodeId={paths.login.path} label="Войти" />
 					</>
 					: <></>
 			}
 			{
-				user ? <TreeItem nodeId={paths.upload.name} label="Upload Resources" /> : <></>
+				user ? <TreeItem nodeId={paths.upload.path} label="Загрузить ресурсы" /> : <></>
 			}
 			{
 				user && treeNodes ? treeNodes.map(entry => {
-					return <TreeItem nodeId={`entry${entry.id}`} key={entry.id} label={entry.name}>
+					return <TreeItem nodeId={`${paths.entry.path}/${entry.id}`} key={entry.id} label={entry.name}>
 						{
 							entry.chapters ? entry.chapters.map(chapter => {
 								return <TreeItem
-									nodeId={`chapter${chapter.id}`}
+									nodeId={`${paths.chapter.path}/${chapter.id}`}
 									key={chapter.id}
 									label={chapter.name} />
 							}) : <></>

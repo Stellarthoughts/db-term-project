@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid"
 import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link as RouterLink } from "react-router-dom"
 import useAuth from "../../auth/useAuth"
 import { useAppDispatch } from "../../hooks/hooks"
 import paths from "../../router/paths"
@@ -25,7 +25,7 @@ function LoginPage() {
 			navigate("/")
 		}, () => {
 			dispatch(setFailure({
-				message: "Invalid login or password",
+				message: "Неправильный логин или пароль!",
 				show: true
 			}))
 		})
@@ -34,16 +34,15 @@ function LoginPage() {
 	return (
 		<Box
 			sx={{
-				marginTop: 8,
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
 			}}
 		>
 			<Typography component="h1" variant="h5">
-				Sign in
+				Войти в существующий аккаунт
 			</Typography>
-			<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+			<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<TextField
@@ -51,7 +50,7 @@ function LoginPage() {
 							required
 							fullWidth
 							id="login"
-							label="Login"
+							label="Логин"
 							name="login"
 							autoFocus
 						/>
@@ -62,7 +61,7 @@ function LoginPage() {
 							required
 							fullWidth
 							name="password"
-							label="Password"
+							label="Пароль"
 							type="password"
 							id="password"
 						/>
@@ -74,12 +73,14 @@ function LoginPage() {
 					variant="contained"
 					sx={{ mt: 3, mb: 2 }}
 				>
-					Sign In
+					Войти
 				</Button>
 				<Grid container justifyContent="flex-end">
 					<Grid item>
-						<Link href={paths.registration.path} variant="body2">
-							{"Don't have an account? Sign Up"}
+						<Link variant="body2">
+							<RouterLink to={paths.registration.path}>
+								{"У вас еще нет аккаунта? Зарегистрируйтесь здесь"}
+							</RouterLink>
 						</Link>
 					</Grid>
 				</Grid>

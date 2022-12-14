@@ -23,7 +23,7 @@ export function AppAlert() {
 		<Box>
 			<Collapse in={alertSuccess.show}>
 				<Alert
-					security="success"
+					severity="success"
 					action={
 						<IconButton
 							aria-label="close"
@@ -46,7 +46,7 @@ export function AppAlert() {
 			</Collapse>
 			<Collapse in={alertFailure.show}>
 				<Alert
-					security="error"
+					severity="error"
 					action={
 						<IconButton
 							aria-label="close"

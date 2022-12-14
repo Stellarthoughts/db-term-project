@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import useAuth from "../../auth/useAuth"
 import paths from "../../router/paths"
 import { useAppSelector } from "../../hooks/hooks"
+import { Typography } from "@mui/material"
 
 function Header() {
 	const user = useAppSelector(state => state.user.user)
@@ -15,7 +16,19 @@ function Header() {
 	}
 
 	return (
-		<Box>
+		<Box sx={{
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'space-between',
+			marginTop: '10px',
+			minHeight: '50px',
+		}}>
+			<Typography>
+				{
+					user ? `Добро пожаловать, ${user.login}!` : "Добро пожаловать в WebBook!"
+				}
+			</Typography>
 			{
 				user ? <Button onClick={handleOnClick}>Signout</Button> : <></>
 			}

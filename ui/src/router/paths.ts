@@ -27,6 +27,14 @@ export const paths =
 	page: {
 		path: "/page",
 		name: "page"
+	},
+	entry: {
+		path: "/entry",
+		name: "entry"
+	},
+	chapter: {
+		path: "/chapter",
+		name: "chapter"
 	}
 }
 

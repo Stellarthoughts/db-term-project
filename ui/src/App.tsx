@@ -22,6 +22,7 @@ import { useAppSelector } from './hooks/hooks'
 import { Entry } from './types/dbtypes'
 import { GetTree } from './request/compound/data'
 import { AppAlert } from './components/alert'
+import Grid from '@mui/material/Grid'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
@@ -39,9 +40,12 @@ function App() {
 
 	return (
 		<AuthProvider>
-			<Container className="App">
-				<Stack direction="row">
+			<Grid container justifyContent="center">
+				<Grid item xs={0} sm={0} lg={1} />
+				<Grid item xs={12} sm={4} lg={2}>
 					<Tree treeNodes={tree}></Tree>
+				</Grid>
+				<Grid item xs={12} sm={8} lg={6}>
 					<Stack>
 						<Header></Header>
 						<AppAlert />
@@ -75,10 +79,25 @@ function App() {
 									</RequireAuth>
 								}
 							/>
+							<Route path={`${paths.entry.path}/:entryid`} element=
+								{
+									<RequireAuth>
+										<GenericPage />
+									</RequireAuth>
+								}
+							/>
+							<Route path={`${paths.chapter.path}/:chapterid`} element=
+								{
+									<RequireAuth>
+										<GenericPage />
+									</RequireAuth>
+								}
+							/>
 						</Routes>
 					</Stack>
-				</Stack>
-			</Container>
+				</Grid>
+				<Grid item xs={0} sm={0} lg={3} />
+			</Grid>
 		</AuthProvider>
 	)
 }
