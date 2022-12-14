@@ -22,7 +22,7 @@ export function RegistrationPage() {
 			login: data.get('login') as string,
 			password: data.get('password') as string
 		}, () => {
-			navigate(paths.root.path)
+			navigate(paths.root.absolutePath)
 		}, () => {
 			dispatch(setFailure({
 				message: "Не получилось зарегистрироваться!",
@@ -78,7 +78,7 @@ export function RegistrationPage() {
 				<Grid container justifyContent="flex-end">
 					<Grid item>
 						<Link variant="body2">
-							<RouterLink to={paths.login.path}>
+							<RouterLink to={paths.login.absolutePath}>
 								У вас уже есть аккаун? Войдите здесь
 							</RouterLink>
 						</Link>

@@ -5,20 +5,20 @@ import theme from './theme/theme'
 import reportWebVitals from './reportWebVitals'
 import Provider from 'react-redux/es/components/Provider'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
 import { persistor, store } from './store/store'
 import { PersistGate } from 'redux-persist/integration/react'
+import AuthProvider from './auth/components/provider'
 
 ReactDOM.render(
 	<Provider store={store}>
 		<ThemeProvider theme={theme}>
 			{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
 			<CssBaseline />
-			<BrowserRouter>
-				<PersistGate loading={null} persistor={persistor}>
+			<PersistGate loading={null} persistor={persistor}>
+				<AuthProvider>
 					<App />
-				</PersistGate>
-			</BrowserRouter>
+				</AuthProvider>
+			</PersistGate>
 		</ThemeProvider>
 	</Provider>,
 	document.querySelector('#root'),

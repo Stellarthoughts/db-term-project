@@ -3,7 +3,7 @@ import TreeView from '@mui/lab/TreeView'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useLocation, useNavigate } from 'react-router-dom'
-import paths, { findNameFromPath } from '../../router/paths'
+import paths from '../../router/paths'
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '../../hooks/hooks'
 import { Entry } from '../../types/dbtypes'
@@ -19,7 +19,7 @@ function Tree({ treeNodes }: Props) {
 	const [selected, setSelected] = useState<string>("")
 
 	useEffect(() => {
-		setSelected(findNameFromPath(location.pathname))
+		setSelected(location.pathname)
 	}, [location])
 
 	const handleOnNodeSelect = (
@@ -38,25 +38,25 @@ function Tree({ treeNodes }: Props) {
 			onNodeSelect={handleOnNodeSelect}
 			sx={{ flexGrow: 1, overflowY: 'auto' }}
 		>
-			<TreeItem nodeId={paths.root.path} label="Добро пожаловать!" />
+			<TreeItem nodeId={paths.root.absolutePath} label="Добро пожаловать!" />
 			{
 				!user ?
 					<>
-						<TreeItem nodeId={paths.registration.path} label="Зарегистрироваться" />
-						<TreeItem nodeId={paths.login.path} label="Войти" />
+						<TreeItem nodeId={paths.register.absolutePath} label="Зарегистрироваться" />
+						<TreeItem nodeId={paths.login.absolutePath} label="Войти" />
 					</>
 					: <></>
 			}
 			{
-				user ? <TreeItem nodeId={paths.upload.path} label="Загрузить ресурсы" /> : <></>
+				user ? <TreeItem nodeId={paths.upload.absolutePath} label="Загрузить ресурсы" /> : <></>
 			}
 			{
 				user && treeNodes ? treeNodes.map(entry => {
-					return <TreeItem nodeId={`${paths.entry.path}/${entry.id}`} key={entry.id} label={entry.name}>
+					return <TreeItem nodeId={`${paths.entry.absolutePath}/${entry.id}`} key={entry.id} label={entry.name}>
 						{
 							entry.chapters ? entry.chapters.map(chapter => {
 								return <TreeItem
-									nodeId={`${paths.chapter.path}/${chapter.id}`}
+									nodeId={`${paths.chapter.absolutePath}/${chapter.id}`}
 									key={chapter.id}
 									label={chapter.name} />
 							}) : <></>

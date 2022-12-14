@@ -4,7 +4,7 @@
 import { ParseProgress } from "../../types/dbparsers"
 import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
 
-export const GetProgress = async (token: string) => {
+export const GetAllProgreses = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/progress", token)
 		if (isFailed(response))
@@ -17,7 +17,7 @@ export const GetProgress = async (token: string) => {
 	}
 }
 
-export const GetProgressID = async (token: string, id: number) => {
+export const GetProgressById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/progress/${id}`, token)
 		if (isFailed(response))
@@ -45,7 +45,7 @@ export const PostProgress = async (token: string, lastPageId: number) => {
 	}
 }
 
-export const PutProgressID = async (token: string, id: number, lastPageId: number) => {
+export const PutProgressById = async (token: string, id: number, lastPageId: number) => {
 	try {
 		const response = await PutRequest(`/api/progress/${id}`, token, {
 			lastPageId: lastPageId
@@ -60,7 +60,7 @@ export const PutProgressID = async (token: string, id: number, lastPageId: numbe
 	}
 }
 
-export const DeleteProgressID = async (token: string, id: number) => {
+export const DeleteProgressById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/progress/${id}`, token)
 		if (isFailed(response))

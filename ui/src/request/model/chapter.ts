@@ -5,7 +5,7 @@
 import { ParseChapter } from "../../types/dbparsers"
 import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
 
-export const GetChapter = async (token: string) => {
+export const GetAllChapters = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/chapter", token)
 		if (isFailed(response))
@@ -18,7 +18,7 @@ export const GetChapter = async (token: string) => {
 	}
 }
 
-export const GetChapterID = async (token: string, id: number) => {
+export const GetChapterById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/chapter/${id}`, token)
 		if (isFailed(response))
@@ -54,7 +54,7 @@ export const PostChapter = async (
 	}
 }
 
-export const PutChapterID = async (
+export const PutChapterById = async (
 	token: string,
 	id: number,
 	order: number,
@@ -78,7 +78,7 @@ export const PutChapterID = async (
 	}
 }
 
-export const DeleteChapterID = async (token: string, id: number) => {
+export const DeleteChapterById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/chapter/${id}`, token)
 		if (isFailed(response))

@@ -78,7 +78,7 @@ function LoginPage() {
 				<Grid container justifyContent="flex-end">
 					<Grid item>
 						<Link variant="body2">
-							<RouterLink to={paths.registration.path}>
+							<RouterLink to={paths.register.absolutePath}>
 								{"У вас еще нет аккаунта? Зарегистрируйтесь здесь"}
 							</RouterLink>
 						</Link>

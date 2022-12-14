@@ -1,7 +1,19 @@
 import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
+import { useLoaderData } from "react-router-dom"
+import { Chapter, Page, Thread } from "../../types/dbtypes"
 
-function GenericPage() {
+interface EntryPageData {
+	pageData: Page
+	threadsData: Thread[] | null
+	chapterData: Chapter[] | null
+	otherPagesData: Page[] | null
+}
+
+function EntryPage() {
+	const data = useLoaderData()
+	const { pageData, threadsData, chapterData, otherPagesData } = data as EntryPageData
+
+	console.log(data)
 	return (
 		<Box
 			sx={{
@@ -10,11 +22,8 @@ function GenericPage() {
 				alignItems: 'center',
 			}}
 		>
-			<Typography component="h1" variant="h5">
-				Hello!
-			</Typography>
 		</Box>
 	)
 }
 
-export default GenericPage
+export default EntryPage

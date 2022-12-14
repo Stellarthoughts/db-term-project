@@ -38,7 +38,7 @@ export interface Chapter {
 export interface Page {
 	id: number
 	order: number
-	chapterId: number
+	chapterId: number | null
 	threads: Array<Thread> | null
 }
 

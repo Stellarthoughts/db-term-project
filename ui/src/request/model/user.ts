@@ -4,7 +4,7 @@
 import { ParseUser } from "../../types/dbparsers"
 import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
 
-export const GetUser = async (token: string) => {
+export const GetAllUsers = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/user", token)
 		if (isFailed(response))
@@ -17,7 +17,7 @@ export const GetUser = async (token: string) => {
 	}
 }
 
-export const GetUserID = async (token: string, id: number) => {
+export const GetUserById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/user/${id}`, token)
 		if (isFailed(response))
@@ -49,7 +49,7 @@ export const PostUser = async (
 	}
 }
 
-export const PutUserID = async (
+export const PutUserById = async (
 	token: string,
 	id: number,
 	login: string,
@@ -69,7 +69,7 @@ export const PutUserID = async (
 	}
 }
 
-export const DeleteUserID = async (token: string, id: number) => {
+export const DeleteUserById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/user/${id}`, token)
 		if (isFailed(response))

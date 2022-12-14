@@ -4,7 +4,7 @@
 import { ParseEntry } from "../../types/dbparsers"
 import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
 
-export const GetEntry = async (token: string) => {
+export const GetAllEntries = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/entry", token)
 		if (isFailed(response))
@@ -17,7 +17,7 @@ export const GetEntry = async (token: string) => {
 	}
 }
 
-export const GetEntryID = async (token: string, id: number) => {
+export const GetEntryById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/entry/${id}`, token)
 		if (isFailed(response))
@@ -49,7 +49,7 @@ export const PostEntry = async (
 	}
 }
 
-export const PutEntryID = async (
+export const PutEntryById = async (
 	token: string,
 	id: number,
 	name: string,
@@ -69,7 +69,7 @@ export const PutEntryID = async (
 	}
 }
 
-export const DeleteEntryID = async (token: string, id: number) => {
+export const DeleteEntryById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/entry/${id}`, token)
 		if (isFailed(response))

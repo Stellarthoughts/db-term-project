@@ -5,7 +5,7 @@
 import { ParsePage } from "../../types/dbparsers"
 import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
 
-export const GetPage = async (token: string) => {
+export const GetAllPages = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/page", token)
 		if (isFailed(response))
@@ -18,7 +18,7 @@ export const GetPage = async (token: string) => {
 	}
 }
 
-export const GetPageID = async (token: string, id: number) => {
+export const GetPageById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/page/${id}`, token)
 		if (isFailed(response))
@@ -50,7 +50,7 @@ export const PostPage = async (
 	}
 }
 
-export const PutPageID = async (
+export const PutPageById = async (
 	token: string,
 	id: number,
 	order: number,
@@ -70,7 +70,7 @@ export const PutPageID = async (
 	}
 }
 
-export const DeletePageID = async (token: string, id: number) => {
+export const DeletePageById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/page/${id}`, token)
 		if (isFailed(response))

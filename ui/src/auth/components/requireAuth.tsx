@@ -11,10 +11,10 @@ export function RequireAuth({ children, notAuth = false }: { children: JSX.Eleme
 		// trying to go to when they were redirected. This allows us to send them
 		// along to that page after they login, which is a nicer user experience
 		// than dropping them off on the home page.
-		return <Navigate to={paths.login.path} state={{ from: location }} replace />
+		return <Navigate to={paths.login.absolutePath} state={{ from: location }} replace />
 	}
 	else if (user && notAuth) {
-		return <Navigate to={paths.root.path} state={{ from: location }} replace />
+		return <Navigate to={paths.root.absolutePath} state={{ from: location }} replace />
 	}
 
 	return children

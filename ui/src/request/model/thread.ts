@@ -5,7 +5,7 @@
 import { ParseThread } from "../../types/dbparsers"
 import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
 
-export const GetThread = async (token: string) => {
+export const GetAllThreads = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/thread", token)
 		if (isFailed(response))
@@ -18,7 +18,7 @@ export const GetThread = async (token: string) => {
 	}
 }
 
-export const GetThreadID = async (token: string, id: number) => {
+export const GetThreadById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/thread/${id}`, token)
 		if (isFailed(response))
@@ -54,7 +54,7 @@ export const PostThread = async (
 	}
 }
 
-export const PutThreadID = async (
+export const PutThreadById = async (
 	token: string,
 	id: number,
 	order: number,
@@ -78,7 +78,7 @@ export const PutThreadID = async (
 	}
 }
 
-export const DeleteThreadID = async (token: string, id: number) => {
+export const DeleteThreadById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/thread/${id}`, token)
 		if (isFailed(response))

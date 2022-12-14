@@ -4,7 +4,7 @@
 import { ParseAccess } from "../../types/dbparsers"
 import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
 
-export const GetAccess = async (token: string) => {
+export const GetAllAccesses = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/access", token)
 		if (isFailed(response))
@@ -17,7 +17,7 @@ export const GetAccess = async (token: string) => {
 	}
 }
 
-export const GetAccessID = async (token: string, id: number) => {
+export const GetAccessById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/access/${id}`, token)
 		if (isFailed(response))
@@ -54,7 +54,7 @@ export const PostAccess = async (
 	}
 }
 
-export const PutAccessID = async (
+export const PutAccessById = async (
 	token: string,
 	id: number,
 	canView: boolean,
@@ -79,7 +79,7 @@ export const PutAccessID = async (
 	}
 }
 
-export const DeleteAccessID = async (token: string, id: number) => {
+export const DeleteAccessById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/access/${id}`, token)
 		if (isFailed(response))

@@ -1,39 +1,32 @@
-export const findNameFromPath = (path: string): string => {
-	for (const [, value] of Object.entries(paths)) {
-		if (value.path == path)
-			return value.name
-	}
-	return "/"
-}
-
 export const paths =
 {
 	root: {
-		path: "/",
+		absolutePath: "/",
 		name: "root"
 	},
 	login: {
-		path: "/login",
+		absolutePath: "/login",
+
 		name: "login"
 	},
-	registration: {
-		path: "/register",
-		name: "registration"
+	register: {
+		absolutePath: "/register",
+		name: "register"
 	},
 	upload: {
-		path: "/upload",
+		absolutePath: "/upload",
 		name: "upload"
 	},
 	page: {
-		path: "/page",
+		absolutePath: "/page",
 		name: "page"
 	},
 	entry: {
-		path: "/entry",
+		absolutePath: "/entry",
 		name: "entry"
 	},
 	chapter: {
-		path: "/chapter",
+		absolutePath: "/chapter",
 		name: "chapter"
 	}
 }
