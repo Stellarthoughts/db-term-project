@@ -25,7 +25,7 @@ export function RegistrationPage() {
 			navigate(paths.root.path)
 		}, () => {
 			dispatch(setFailure({
-				message: "Could not register",
+				message: "Не получилось зарегистрироваться!",
 				show: true
 			}))
 		})
@@ -50,7 +50,7 @@ export function RegistrationPage() {
 							required
 							fullWidth
 							id="login"
-							label="Login"
+							label="Логин"
 							name="login"
 							autoFocus
 						/>
@@ -61,7 +61,7 @@ export function RegistrationPage() {
 							required
 							fullWidth
 							name="password"
-							label="Password"
+							label="Пароль"
 							type="password"
 							id="password"
 						/>

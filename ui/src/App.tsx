@@ -1,28 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import './App.css'
-import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
-import Tree from './components/tree/tree'
-import Header from './components/header/header'
+import { useEffect, useState } from 'react'
 import {
-	Routes,
-	Route,
+	Route, Routes
 } from "react-router-dom"
+import './App.css'
+import Header from './components/header/header'
+import Tree from './components/tree/tree'
 
-import LoginPage from './components/pages/loginPage'
-import DefaultPage from './components/pages/defaultPage'
-import RegistrationPage from './components/pages/registrationPage'
-import GenericPage from './components/pages/genericPage'
 import AuthProvider from './auth/components/provider'
 import RequireAuth from './auth/components/requireAuth'
+import DefaultPage from './components/pages/defaultPage'
+import GenericPage from './components/pages/genericPage'
+import LoginPage from './components/pages/loginPage'
+import RegistrationPage from './components/pages/registrationPage'
 import UploadPage from './components/pages/uploadPage'
 
-import paths from './router/paths'
-import { useAppSelector } from './hooks/hooks'
-import { Entry } from './types/dbtypes'
-import { GetTree } from './request/compound/data'
-import { AppAlert } from './components/alert'
 import Grid from '@mui/material/Grid'
+import { AppAlert } from './components/alert'
+import { useAppSelector } from './hooks/hooks'
+import { GetTree } from './request/compound/data'
+import paths from './router/paths'
+import { Entry } from './types/dbtypes'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)

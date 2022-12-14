@@ -14,7 +14,7 @@ export interface AlertState {
 }
 
 // Define the initial state using that type
-const initialState: AlertState = {
+export const initialState: AlertState = {
 	success: {
 		show: false,
 		message: "Success!",
@@ -46,16 +46,44 @@ export const alertSlice = createSlice({
 			state.failure = action.payload
 			console.log("failure set")
 		},
-		setInformation: (state, action: PayloadAction<AlertInterface>) => {
+		setInfo: (state, action: PayloadAction<AlertInterface>) => {
 			state.info = action.payload
 		},
 		setWarning: (state, action: PayloadAction<AlertInterface>) => {
 			state.warning = action.payload
+		},
+		// reset all alerts
+		resetSuccess: (state) => {
+			state.success = initialState.success
+		},
+		resetFailure: (state) => {
+			state.failure = initialState.failure
+		},
+		resetInfo: (state) => {
+			state.info = initialState.info
+		},
+		resetWarning: (state) => {
+			state.warning = initialState.warning
+		},
+		// hide all alers
+		hideSuccess: (state) => {
+			state.success.show = false
+		},
+		hideFailure: (state) => {
+			state.failure.show = false
+		},
+		hideInfo: (state) => {
+			state.info.show = false
+		},
+		hideWarning: (state) => {
+			state.warning.show = false
 		}
 	}
 })
 
-export const { setSuccess, setFailure, setInformation, setWarning } = alertSlice.actions
+export const { setSuccess, setFailure, setInfo, setWarning } = alertSlice.actions
+export const { resetSuccess, resetFailure, resetInfo, resetWarning } = alertSlice.actions
+export const { hideSuccess, hideFailure, hideInfo, hideWarning } = alertSlice.actions
 
 export const selectAlert = (state: RootState) => state.alert
 
