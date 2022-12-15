@@ -58,7 +58,7 @@ app.use("/api/default", defaultPath)
 app.use("/api/auth", authPath)
 
 // Use public for servin static resources
-app.use(express.static('public'))
+app.use("/api/static", express.static('public'))
 
 // Token Middleware
 app.all("/api/*", tokenMiddleware)
