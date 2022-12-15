@@ -5,20 +5,32 @@ import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useTimer } from 'react-timer-hook'
 import { useAppDispatch, useAppSelector } from '../hooks/hooks'
-import { hideFailure, hideInfo, hideSuccess, hideWarning } from '../store/alertSlice'
+import { hideFailure, hideForceFailure, hideForceInfo, hideForceSuccess, hideForceWarning, hideInfo, hideSuccess, hideWarning } from '../store/alertSlice'
 
 export function AppAlert() {
 	const dispatch = useAppDispatch()
 	const location = useLocation()
-
 	const alertSuccess = useAppSelector(state => state.alert.success)
 	const alertFailure = useAppSelector(state => state.alert.failure)
 	const alertInfo = useAppSelector(state => state.alert.info)
 	const alertWarning = useAppSelector(state => state.alert.warning)
 
+	const expiryTimestamp = new Date();
+	expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 3)
+
+	useTimer({
+		expiryTimestamp, onExpire: () => {
+			dispatch(hideForceFailure())
+			dispatch(hideForceSuccess())
+			dispatch(hideForceInfo())
+			dispatch(hideForceWarning())
+		}
+	})
+
 	useEffect(() => {
-		// hide all alerts with hideAlertname()
+		// hide all alerts with hideAlertname() with manual = false
 		dispatch(hideFailure())
 		dispatch(hideSuccess())
 		dispatch(hideInfo())
@@ -36,7 +48,7 @@ export function AppAlert() {
 							color="inherit"
 							size="small"
 							onClick={() => {
-								dispatch(hideSuccess())
+								dispatch(hideForceSuccess())
 							}}
 						>
 							<CloseIcon fontSize="inherit" />
@@ -56,7 +68,7 @@ export function AppAlert() {
 							color="inherit"
 							size="small"
 							onClick={() => {
-								dispatch(hideFailure())
+								dispatch(hideForceFailure())
 							}}
 						>
 							<CloseIcon fontSize="inherit" />
@@ -76,7 +88,7 @@ export function AppAlert() {
 							color="inherit"
 							size="small"
 							onClick={() => {
-								dispatch(hideInfo())
+								dispatch(hideForceInfo())
 							}}
 						>
 							<CloseIcon fontSize="inherit" />
@@ -96,7 +108,7 @@ export function AppAlert() {
 							color="inherit"
 							size="small"
 							onClick={() => {
-								dispatch(hideWarning())
+								dispatch(hideForceWarning())
 							}}
 						>
 							<CloseIcon fontSize="inherit" />

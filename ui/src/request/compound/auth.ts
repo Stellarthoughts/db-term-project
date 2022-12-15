@@ -1,5 +1,6 @@
+
 import { ParseUser } from '../../types/dbparsers'
-import { PostRequestNoToken, isFailed } from '../common'
+import { generalHandling, PostRequestNoToken } from '../common'
 
 export const RegisterUser = async (
 	login: string,
@@ -10,13 +11,10 @@ export const RegisterUser = async (
 			login: login,
 			password: password
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return ParseUser(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -29,12 +27,9 @@ export const LoginUser = async (
 			login: login,
 			password: password
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return ParseUser(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }

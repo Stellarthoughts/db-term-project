@@ -21,22 +21,36 @@ import UploadPage from './components/pages/uploadPage'
 
 import Grid from '@mui/material/Grid'
 import { AppAlert } from './components/alert'
-import { useAppSelector } from './hooks/hooks'
+import { useAppDispatch, useAppSelector } from './hooks/hooks'
 import { GetTree } from './request/compound/data'
 import { chapterPageDataNull, entryPageDataNull, genericPageDataNull, GetChapterPageData, GetEntryPageData, GetGenericPageData } from './request/compound/pageData'
 import paths from './router/paths'
 import { Entry } from './types/dbtypes'
+import { InvalidTokenError } from './error/error'
+import { setFailure } from './store/alertSlice'
+import { alertInvalidToken, alertSomethingWentWrong } from './store/alertFailure'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
 	const [tree, setTree] = useState<Array<Entry> | null>(null)
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
 		const fetch = async () => {
 			if (user == null)
 				return
-			const res = await GetTree(user.token)
-			setTree(res)
+			try {
+				const res = await GetTree(user.token)
+				setTree(res)
+			}
+			catch (err) {
+				if (err instanceof InvalidTokenError) {
+					dispatch(setFailure(alertInvalidToken))
+				}
+				else {
+					dispatch(setFailure(alertSomethingWentWrong))
+				}
+			}
 		}
 		fetch()
 	}, [user])

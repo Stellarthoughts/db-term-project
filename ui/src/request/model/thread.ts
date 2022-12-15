@@ -3,31 +3,25 @@
 // and dbtypes.ts for arguments
 
 import { ParseThread } from "../../types/dbparsers"
-import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
+import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllThreads = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/thread", token)
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return (response.data.body as Array<any>).filter(x => ParseThread(x))
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const GetThreadById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/thread/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return ParseThread(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -44,13 +38,10 @@ export const PostThread = async (
 			content: content,
 			pageId: pageId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return ParseThread(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -68,25 +59,21 @@ export const PutThreadById = async (
 			content: content,
 			pageId: pageId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParseThread(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const DeleteThreadById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/thread/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParseThread(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }

@@ -1,13 +1,16 @@
 import Box from "@mui/material/Box"
+import Pagination from "@mui/material/Pagination"
 import Typography from "@mui/material/Typography"
 import { useLoaderData } from "react-router-dom"
 import { ChapterPageData } from "../../request/compound/pageData"
+import ThreadContainer from "./components/thread/threadContainer"
 
 
 
 function ChapterPage() {
 	const data = useLoaderData()
 	const { personalPageData, personalPageThreadsData, chapterData, pagesData } = data as ChapterPageData
+
 
 	console.log(data)
 	return (
@@ -28,11 +31,27 @@ function ChapterPage() {
 					: <></>
 			}
 			{
+				pagesData ?
+					<>
+						<Typography>
+							Страницы главы:
+						</Typography>
+						<Pagination count={pagesData.length} page={0} color="primary" />
+					</>
+					:
+					<>
+						<Typography>
+							Похоже, в этой главе пока нет страниц!
+						</Typography>
+					</>
+			}
+			{
 				personalPageData ?
 					<>
 						{
 							personalPageThreadsData ?
 								<>
+									<ThreadContainer threads={personalPageThreadsData} />
 								</>
 								:
 								<>
@@ -47,16 +66,6 @@ function ChapterPage() {
 					<>
 						<Typography>
 							Похоже, у этой главы пока нет собственной страницы!
-						</Typography>
-					</>
-			}
-			{
-				pagesData ?
-					<></>
-					:
-					<>
-						<Typography>
-							Похоже, в этой главе пока нет страниц!
 						</Typography>
 					</>
 			}

@@ -1,7 +1,9 @@
-function Image() {
+import { Thread } from "../../../../../types/dbtypes"
+
+function ImageThread({ thread }: { thread: Thread }) {
 	return (
 		<></>
 	)
 }
 
-export default Image
+export default ImageThread

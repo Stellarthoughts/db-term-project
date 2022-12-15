@@ -6,7 +6,6 @@ export const paths =
 	},
 	login: {
 		absolutePath: "/login",
-
 		name: "login"
 	},
 	register: {

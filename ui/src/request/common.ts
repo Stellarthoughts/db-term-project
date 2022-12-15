@@ -1,8 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { InvalidTokenError } from '../error/error'
+import { LogFetchError } from './logError'
 
 export const isFailed = (response: AxiosResponse<any, any>) => {
-	return response.data.message == "failure"
+	return response.data.body.message == "failure"
+}
+
+export const isInvalidToken = (response: AxiosResponse<any, any>) => {
+	console.log(response.data.body.error)
+	return response.data.error == "Invalid Token"
+}
+
+export const generalHandling = (err: any) => {
+	if (err instanceof AxiosError) {
+		LogFetchError(err)
+		if (!err.response)
+			throw err
+		if (!isFailed(err.response))
+			throw err
+		if (isInvalidToken(err.response))
+			throw new InvalidTokenError()
+		else
+			throw new Error("Response failed")
+	}
+	return null
 }
 
 export const GetRequest = (

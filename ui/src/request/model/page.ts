@@ -3,31 +3,27 @@
 // and dbtypes.ts for arguments
 
 import { ParsePage } from "../../types/dbparsers"
-import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
+import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllPages = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/page", token)
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return (response.data.body as Array<any>).filter(x => ParsePage(x))
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const GetPageById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/page/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParsePage(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -40,13 +36,11 @@ export const PostPage = async (
 			order: order,
 			chapterId: chapterId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParsePage(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -60,25 +54,21 @@ export const PutPageById = async (
 			order: order,
 			chapterId: chapterId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParsePage(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const DeletePageById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/page/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParsePage(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }

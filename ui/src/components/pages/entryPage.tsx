@@ -2,6 +2,7 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import { useLoaderData } from "react-router-dom"
 import { EntryPageData } from "../../request/compound/pageData"
+import ThreadContainer from "./components/thread/threadContainer"
 
 
 function EntryPage() {
@@ -37,6 +38,7 @@ function EntryPage() {
 						{
 							personalPageThreadsData ?
 								<>
+									<ThreadContainer threads={personalPageThreadsData} />
 								</>
 								:
 								<>

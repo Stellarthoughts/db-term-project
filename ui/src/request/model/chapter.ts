@@ -3,31 +3,25 @@
 // and dbtypes.ts for arguments
 
 import { ParseChapter } from "../../types/dbparsers"
-import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
+import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllChapters = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/chapter", token)
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return (response.data.body as Array<any>).filter(x => ParseChapter(x))
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const GetChapterById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/chapter/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return ParseChapter(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -44,13 +38,10 @@ export const PostChapter = async (
 			personalPageId: personalPageId,
 			entryId: entryId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return ParseChapter(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -68,25 +59,19 @@ export const PutChapterById = async (
 			personalPageId: personalPageId,
 			entryId: entryId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
 		return ParseChapter(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const DeleteChapterById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/chapter/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
-		return true
+		return response.data.body
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }

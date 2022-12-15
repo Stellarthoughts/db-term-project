@@ -8,7 +8,9 @@ import { useNavigate, Link as RouterLink } from "react-router-dom"
 import useAuth from "../../auth/useAuth"
 import { useAppDispatch } from "../../hooks/hooks"
 import paths from "../../router/paths"
-import { setFailure } from "../../store/alertSlice"
+import { alertCouldNotSignUp } from "../../store/alertFailure"
+import { setFailure, setSuccess } from "../../store/alertSlice"
+import { alertSignIn } from "../../store/alertSuccess"
 
 export function RegistrationPage() {
 	const auth = useAuth()
@@ -23,11 +25,9 @@ export function RegistrationPage() {
 			password: data.get('password') as string
 		}, () => {
 			navigate(paths.root.absolutePath)
+			dispatch(setSuccess(alertSignIn))
 		}, () => {
-			dispatch(setFailure({
-				message: "Не получилось зарегистрироваться!",
-				show: true
-			}))
+			dispatch(setFailure(alertCouldNotSignUp))
 		})
 	}
 

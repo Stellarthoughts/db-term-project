@@ -2,31 +2,27 @@
 // Write an API to get the Entry information from backend using /api/entry route, ParseEntry function
 // and dbtypes.ts for arguments
 import { ParseEntry } from "../../types/dbparsers"
-import { DeleteRequest, GetRequest, isFailed, PostRequest, PutRequest } from "../common"
+import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllEntries = async (token: string) => {
 	try {
 		const response = await GetRequest("/api/entry", token)
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return (response.data.body as Array<any>).filter(x => ParseEntry(x))
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const GetEntryById = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/entry/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParseEntry(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -39,13 +35,11 @@ export const PostEntry = async (
 			name: name,
 			personalPageId: personalPageId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParseEntry(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -59,25 +53,21 @@ export const PutEntryById = async (
 			name: name,
 			personalPageId: personalPageId
 		})
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParseEntry(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
 export const DeleteEntryById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/entry/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
+
 		return ParseEntry(response.data.body)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }

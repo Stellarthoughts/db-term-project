@@ -4,6 +4,7 @@ import { RootState } from './store'
 export interface AlertInterface {
 	show: boolean
 	message: string
+	manual: boolean
 }
 // Define a type for the slice state
 export interface AlertState {
@@ -17,18 +18,22 @@ export interface AlertState {
 export const initialState: AlertState = {
 	success: {
 		show: false,
+		manual: false,
 		message: "Success!",
 	},
 	failure: {
 		show: false,
+		manual: false,
 		message: "Failure!",
 	},
 	info: {
 		show: false,
+		manual: false,
 		message: "Info!"
 	},
 	warning: {
 		show: false,
+		manual: false,
 		message: "Warning!"
 	}
 }
@@ -67,23 +72,40 @@ export const alertSlice = createSlice({
 		},
 		// hide all alers
 		hideSuccess: (state) => {
-			state.success.show = false
+			if (!state.success.manual)
+				state.success.show = false
 		},
 		hideFailure: (state) => {
-			state.failure.show = false
+			if (!state.failure.manual)
+				state.failure.show = false
 		},
 		hideInfo: (state) => {
-			state.info.show = false
+			if (!state.info.manual)
+				state.info.show = false
 		},
 		hideWarning: (state) => {
+			if (!state.warning.manual)
+				state.warning.show = false
+		},
+		hideForceSuccess: (state) => {
+			state.success.show = false
+		},
+		hideForceFailure: (state) => {
+			state.failure.show = false
+		},
+		hideForceInfo: (state) => {
+			state.info.show = false
+		},
+		hideForceWarning: (state) => {
 			state.warning.show = false
-		}
+		},
 	}
 })
 
 export const { setSuccess, setFailure, setInfo, setWarning } = alertSlice.actions
 export const { resetSuccess, resetFailure, resetInfo, resetWarning } = alertSlice.actions
 export const { hideSuccess, hideFailure, hideInfo, hideWarning } = alertSlice.actions
+export const { hideForceSuccess, hideForceFailure, hideForceInfo, hideForceWarning } = alertSlice.actions
 
 export const selectAlert = (state: RootState) => state.alert
 

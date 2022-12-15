@@ -1,7 +1,9 @@
-function Audio() {
+import { Thread } from "../../../../../types/dbtypes"
+
+function AudioThread({ thread }: { thread: Thread }) {
 	return (
 		<></>
 	)
 }
 
-export default Audio
+export default AudioThread

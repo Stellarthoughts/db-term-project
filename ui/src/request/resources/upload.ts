@@ -1,4 +1,4 @@
-import { PostRequest } from '../common'
+import { generalHandling, PostRequest } from '../common'
 
 export const UploadFile = async (
 	token: string,
@@ -8,17 +8,24 @@ export const UploadFile = async (
 	try {
 		const formData = new FormData()
 
-		const nameWithExtension = name + "." + file.name.split(".")[1.].concat()
+		const splitByDot = name.split(".");
+		console.log(name)
+		console.log(splitByDot)
+		if (splitByDot.join() == name) {
+			const fileNameSplit = file.name.split(".")
+			const extension = fileNameSplit[fileNameSplit.length - 1];
+			name = name + "." + extension
+		}
+
 		formData.append(
 			"file",
 			file as Blob,
-			nameWithExtension
+			name
 		)
 		// Update the formData object
-		return await PostRequest("/api/upload", token, formData)
+		return PostRequest("/api/upload", token, formData)
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }

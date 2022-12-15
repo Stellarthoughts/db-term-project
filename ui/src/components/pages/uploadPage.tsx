@@ -4,26 +4,48 @@ import { MuiFileInput } from "mui-file-input"
 import { useState } from "react"
 import Button from "@mui/material/Button"
 import { UploadFile } from "../../request/resources/upload"
-import { useAppSelector } from "../../hooks/hooks"
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
 import Grid from "@mui/material/Grid"
 import TextField from "@mui/material/TextField"
 import { maxWidth } from "@mui/system"
+import { setFailure, setInfo, setSuccess } from "../../store/alertSlice"
+import { alertFileUploadSuccess } from "../../store/alertSuccess"
+import { alertFileUploadError } from "../../store/alertFailure"
+import { alertSelectFile } from "../../store/alertInfo"
 
 function UploadPage() {
 	const [file, setFile] = useState<File | null>(null)
 	const [name, setName] = useState("")
 	const user = useAppSelector(state => state.user.user)
+	const dispatch = useAppDispatch()
 
 	const handleChange = (value: File | null) => {
+		console.log(value)
+		if (value != null)
+			setName(value.name)
 		setFile(value)
 	}
 
+	const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.value == "") {
+			setName(file?.name ?? "")
+			return;
+		}
+		setName(e.target.value)
+	}
 
-
-	const handleOnClick = () => {
-		if (file == null || user == null)
+	const handleOnClick = async () => {
+		if (file == null || user == null) {
+			dispatch(setInfo(alertSelectFile))
 			return
-		UploadFile(user.token, file, name)
+		}
+		try {
+			await UploadFile(user.token, file, name)
+			dispatch(setSuccess(alertFileUploadSuccess))
+		}
+		catch (err) {
+			dispatch(setFailure(alertFileUploadError))
+		}
 	}
 
 	return (
@@ -38,16 +60,17 @@ function UploadPage() {
 				Загрузка файлов на сервер
 			</Typography>
 			<Box component="form" noValidate sx={{ mt: 1 }}>
-				<TextField
-					margin="normal"
-					required
-					fullWidth
-					id=""
-					label="Имя файла"
-					name="login"
-					onChange={(e) => setName(e.target.value)}
-				/>
 				<Grid spacing={2} justifyContent="center" container>
+					<Grid item xs={12}>
+						<TextField
+							margin="normal"
+							fullWidth
+							id=""
+							label={name}
+							name="login"
+							onChange={handleChangeText}
+						/>
+					</Grid>
 					<Grid item xs={12}>
 						<MuiFileInput value={file} onChange={handleChange} sx={{
 							width: "100%"

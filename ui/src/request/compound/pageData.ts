@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ParseChapter, ParseEntry, ParsePage, ParseThread } from "../../types/dbparsers"
 import { Chapter, Entry, Page, Thread } from "../../types/dbtypes"
-import { GetRequest, isFailed } from "../common"
+import { generalHandling, GetRequest } from "../common"
 
 export const GetGenericPageData = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/pageData/generic/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
 		const body = response.data.body
 		const data: GenericPageData = {
 			pageData: body.pageData ? ParsePage(body.pageData) : null,
@@ -18,8 +16,7 @@ export const GetGenericPageData = async (token: string, id: number) => {
 		return data
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -27,8 +24,6 @@ export const GetGenericPageData = async (token: string, id: number) => {
 export const GetChapterPageData = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/pageData/chapter/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
 		const body = response.data.body
 		const data: ChapterPageData = {
 			personalPageData: body.personalPageData ? ParsePage(body.personalPageData) : null,
@@ -41,8 +36,7 @@ export const GetChapterPageData = async (token: string, id: number) => {
 		return data
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
@@ -50,8 +44,6 @@ export const GetChapterPageData = async (token: string, id: number) => {
 export const GetEntryPageData = async (token: string, id: number) => {
 	try {
 		const response = await GetRequest(`/api/pageData/entry/${id}`, token)
-		if (isFailed(response))
-			throw new Error("Response failed")
 		const body = response.data.body
 		const data: EntryPageData = {
 			personalPageData: body.personalPageData ? ParsePage(body.personalPageData) : null,
@@ -62,8 +54,7 @@ export const GetEntryPageData = async (token: string, id: number) => {
 		return data
 	}
 	catch (err) {
-		console.log(err)
-		throw err
+		return generalHandling(err)
 	}
 }
 
