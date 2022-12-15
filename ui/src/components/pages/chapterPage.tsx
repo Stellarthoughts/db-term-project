@@ -4,13 +4,12 @@ import Typography from "@mui/material/Typography"
 import { useLoaderData } from "react-router-dom"
 import { ChapterPageData } from "../../request/compound/pageData"
 import ThreadContainer from "./components/thread/threadContainer"
-
+import { Link } from "react-router-dom"
 
 
 function ChapterPage() {
 	const data = useLoaderData()
-	const { personalPageData, personalPageThreadsData, chapterData, pagesData } = data as ChapterPageData
-
+	const { personalPageData, personalPageThreadsData, chapterData, pagesData, otherChaptersData, entryData } = data as ChapterPageData
 
 	console.log(data)
 	return (
@@ -29,6 +28,18 @@ function ChapterPage() {
 						</Typography>
 					</>
 					: <></>
+			}
+			{
+				entryData ?
+					<>
+						<Typography>
+							{"Книга: "}
+							<Link to={`/entry/${entryData.id}`}>
+								{entryData.name}
+							</Link>
+						</Typography>
+					</> :
+					<></>
 			}
 			{
 				pagesData ?

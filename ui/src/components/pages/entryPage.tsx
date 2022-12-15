@@ -3,6 +3,8 @@ import Typography from "@mui/material/Typography"
 import { useLoaderData } from "react-router-dom"
 import { EntryPageData } from "../../request/compound/pageData"
 import ThreadContainer from "./components/thread/threadContainer"
+import Button from "@mui/material/Button"
+import { Link } from "react-router-dom"
 
 
 function EntryPage() {
@@ -58,7 +60,20 @@ function EntryPage() {
 			}
 			{
 				entryData && chaptersData ?
-					<></>
+					<>
+						<Typography>
+							Главы:
+						</Typography>
+						{
+							chaptersData.map((chapterData) => {
+								return (
+									<Link key={chapterData.id} to={`/chapter/${chapterData.id}`}>
+										{chapterData.name}
+									</Link>
+								)
+							})
+						}
+					</>
 					:
 					<>
 						<Typography>
