@@ -16,19 +16,17 @@ const container = document.getElementById('root');
 const root = createRoot(container!);
 
 root.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-				<CssBaseline />
-				<PersistGate loading={null} persistor={persistor}>
-					<AuthProvider>
-						<App />
-					</AuthProvider>
-				</PersistGate>
-			</ThemeProvider>
-		</Provider>
-	</React.StrictMode>
+	<Provider store={store}>
+		<ThemeProvider theme={theme}>
+			{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+			<CssBaseline />
+			<PersistGate loading={null} persistor={persistor}>
+				<AuthProvider>
+					<App />
+				</AuthProvider>
+			</PersistGate>
+		</ThemeProvider>
+	</Provider>
 )
 
 // If you want to start measuring performance in your app, pass a function

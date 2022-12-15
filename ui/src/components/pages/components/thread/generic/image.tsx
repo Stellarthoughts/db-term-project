@@ -12,7 +12,7 @@ function ImageThread({ thread }: { thread: Thread }) {
 				maxWidth: { xs: 350, md: 250 },
 			}}
 			alt="The house from the offer."
-			src={`/public/${thread.content}`}
+			src={`/api/static/${thread.content}`}
 		/>
 	)
 }

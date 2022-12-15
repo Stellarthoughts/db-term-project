@@ -1,10 +1,10 @@
-import ReactPlayer from "react-player"
+import { Player } from "video-react"
 import { Thread } from "../../../../../types/dbtypes"
 
 function VideoThread({ thread }: { thread: Thread }) {
 	return (
 		<>
-			<ReactPlayer url={`/api/static/${thread.content}`} />
+			<Player src={`/api/static/${thread.content}`} />
 		</>
 	)
 }

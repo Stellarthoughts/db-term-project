@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import ReactAudioPlayer from "react-audio-player"
-import ReactPlayer from "react-player"
+import { Player } from "video-react";
+import "../../../node_modules/video-react/dist/video-react.css";
 
 function DefaultPage() {
 	return (
@@ -30,7 +31,10 @@ function DefaultPage() {
 				alt="The house from the offer."
 				src={`/api/static/image.jpg`}
 			/>
-			<ReactPlayer url={`/api/static/fuckoff.mov`} />
+			<Player
+				playsInline
+				src="/api/static/obluma.mp4"
+			/>
 		</Box>
 	)
 }

@@ -5,7 +5,7 @@ function AudioThread({ thread }: { thread: Thread }) {
 	return (
 		<>
 			<ReactAudioPlayer
-				src={`/public/${thread.content}`}
+				src={`/api/static/${thread.content}`}
 				controls
 			/>
 		</>
