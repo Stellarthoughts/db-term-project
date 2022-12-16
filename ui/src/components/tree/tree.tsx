@@ -25,6 +25,7 @@ function Tree({ treeNodes, fetchTree }: Props) {
 
 	const idCreate = "action/create"
 
+
 	useEffect(() => {
 		setSelected(location.pathname)
 	}, [location])

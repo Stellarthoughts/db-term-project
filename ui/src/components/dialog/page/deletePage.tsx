@@ -5,18 +5,17 @@ import FormControl from "@mui/material/FormControl"
 import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Box from "@mui/system/Box"
-import Stack from "@mui/system/Stack"
 import { useAppSelector } from "../../../hooks/hooks"
-import { DeleteEntryById } from "../../../request/model/entry"
+import { DeletePageById } from "../../../request/model/page"
 
 interface Props {
-	defaultEntryId?: number
 	open: boolean
 	setOpen: (open: boolean) => void
 	callBack: () => void
+	defaultPageId?: number
 }
 
-function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
+function DeletePageDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,9 +23,9 @@ function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
 		const data = new FormData(event.currentTarget)
 		if (!user)
 			return
-		const id = parseInt(data.get('id') as string)
+		const pageId = parseInt(data.get('pageId') as string)
 		try {
-			await DeleteEntryById(user.token, id)
+			await DeletePageById(user.token, pageId)
 			callBack()
 		}
 		catch (err) {
@@ -38,14 +37,12 @@ function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)}>
 			<Box sx={{ margin: "20px" }}>
-				<DialogTitle>Удалить книгу</DialogTitle>
+				<DialogTitle>Удалить страницу</DialogTitle>
 				<Box component="form" onSubmit={handleSubmit}>
 					<FormControl>
-						<Stack spacing={1}>
-							<FormLabel>ID книги</FormLabel>
-							<TextField name="id" defaultValue={defaultEntryId} />
-							<Button type="submit">Удалить</Button>
-						</Stack>
+						<FormLabel>ID страницы</FormLabel>
+						<TextField name="pageId" defaultValue={defaultPageId} />
+						<Button type="submit">Удалить</Button>
 					</FormControl>
 				</Box>
 			</Box>
@@ -53,4 +50,4 @@ function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
 	)
 }
 
-export default DeleteEntryDialog
+export default DeletePageDialog

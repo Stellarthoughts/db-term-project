@@ -1,10 +1,10 @@
-import React from "react"
+import { ReactNode } from "react"
 import { useAppDispatch } from "../../hooks/hooks"
 import { LoginUser, RegisterUser } from "../../request/compound/auth"
 import { assignNewUser } from "../../store/userSlice"
 import authContext from "../context"
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
 	const dispatch = useAppDispatch()
 
 	const register = async (user: {

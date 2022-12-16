@@ -5,18 +5,17 @@ import FormControl from "@mui/material/FormControl"
 import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Box from "@mui/system/Box"
-import Stack from "@mui/system/Stack"
 import { useAppSelector } from "../../../hooks/hooks"
-import { DeleteEntryById } from "../../../request/model/entry"
+import { PostPage } from "../../../request/model/page"
 
 interface Props {
-	defaultEntryId?: number
 	open: boolean
 	setOpen: (open: boolean) => void
 	callBack: () => void
+	defaultChapterId?: number
 }
 
-function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
+function CreateChapterDialog({ open, setOpen, callBack, defaultChapterId }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,9 +23,14 @@ function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
 		const data = new FormData(event.currentTarget)
 		if (!user)
 			return
-		const id = parseInt(data.get('id') as string)
+		const chapterId = parseInt(data.get('chapterId') as string)
 		try {
-			await DeleteEntryById(user.token, id)
+			await PostPage(user.token, {
+				id: 0,
+				order: 0,
+				chapterId: chapterId,
+				threads: []
+			})
 			callBack()
 		}
 		catch (err) {
@@ -38,14 +42,12 @@ function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)}>
 			<Box sx={{ margin: "20px" }}>
-				<DialogTitle>Удалить книгу</DialogTitle>
+				<DialogTitle>Создать страницу</DialogTitle>
 				<Box component="form" onSubmit={handleSubmit}>
 					<FormControl>
-						<Stack spacing={1}>
-							<FormLabel>ID книги</FormLabel>
-							<TextField name="id" defaultValue={defaultEntryId} />
-							<Button type="submit">Удалить</Button>
-						</Stack>
+						<FormLabel>ID главы</FormLabel>
+						<TextField name="entryId" defaultValue={defaultChapterId} />
+						<Button type="submit">Создать</Button>
 					</FormControl>
 				</Box>
 			</Box>
@@ -53,4 +55,4 @@ function DeleteEntryDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
 	)
 }
 
-export default DeleteEntryDialog
+export default CreateChapterDialog

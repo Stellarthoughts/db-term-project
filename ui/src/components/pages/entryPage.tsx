@@ -41,7 +41,7 @@ function EntryPage({ fetchTree }: Props) {
 					open={deleteEntryDialogOpen}
 					setOpen={setDeleteEntryDialogOpen}
 					callBack={fetchTree}
-					defaultId={entry.id}
+					defaultEntryId={entry.id}
 				/> : <></>
 			}
 			{
