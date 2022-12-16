@@ -21,6 +21,8 @@ function Header() {
 			display: 'flex',
 			marginTop: '10px',
 			minHeight: '50px',
+			paddingLeft: '20px',
+			paddingRight: '20px'
 		}}>
 			<Grid justifyContent="space-between" container>
 				<Grid item>

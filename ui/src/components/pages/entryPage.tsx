@@ -1,54 +1,94 @@
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, useLocation } from "react-router-dom"
 import { EntryPageData } from "../../request/compound/pageData"
 import ThreadContainer from "./components/thread/threadContainer"
-import Button from "@mui/material/Button"
 import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import DeleteEntryDialog from "../dialog/entry/deleteEntry"
+import Button from "@mui/material/Button"
+import CreateChapterDialog from "../dialog/chapter/createChapter"
 
+interface Props {
+	fetchTree: () => void
+}
 
-function EntryPage() {
+function EntryPage({ fetchTree }: Props) {
 	const data = useLoaderData()
+	const location = useLocation()
+
 	const { personalPageData, personalPageThreadsData, entryData, chaptersData } = data as EntryPageData
 
-	console.log(data)
+	const [personalPage, setPersonalPage] = useState(personalPageData)
+	const [personalPageThreads, setPersonalPageThreads] = useState(personalPageThreadsData)
+	const [entry, setEntry] = useState(entryData)
+	const [chapters, setChapters] = useState(chaptersData)
+
+	useEffect(() => {
+		setPersonalPage(personalPageData)
+		setPersonalPageThreads(personalPageThreadsData)
+		setEntry(entryData)
+		setChapters(chaptersData)
+	}, [location])
+
+	const [deleteEntryDialogOpen, setDeleteEntryDialogOpen] = useState(false)
+	const [addChapterDialogOpen, setAddChapterDialogOpen] = useState(false)
+
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-			}}
-		>
+		<>
 			{
-				entryData ?
+				entry ? <DeleteEntryDialog
+					open={deleteEntryDialogOpen}
+					setOpen={setDeleteEntryDialogOpen}
+					callBack={fetchTree}
+					defaultId={entry.id}
+				/> : <></>
+			}
+			{
+				entry ? <CreateChapterDialog
+					open={addChapterDialogOpen}
+					setOpen={setAddChapterDialogOpen}
+					callBack={fetchTree}
+					defaultEntryId={entry.id}
+				/> : <></>
+			}
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
+				{
+					entry ? <Button onClick={() => setDeleteEntryDialogOpen(true)}>Удалить книгу</Button> : <></>
+				}
+				{entry ?
 					<>
 						<Typography component="h1" variant="h5">
-							{entryData.name}
+							{entry.name}
+						</Typography>
+						<Typography component="h5">
+							{`ID: ${entry.id}`}
 						</Typography>
 					</>
 					:
 					<>
 						<Typography>
-							Похоже, этой страницы не существует!
+							Похоже, этой книги не существует!
 						</Typography>
-					</>
-			}
-			{
-				personalPageData ?
+					</>}
+				{personalPage ?
 					<>
-						{
-							personalPageThreadsData ?
-								<>
-									<ThreadContainer threads={personalPageThreadsData} />
-								</>
-								:
-								<>
-									<Typography>
-										Похоже, у собственной страницы книги пока нет содержимого!
-									</Typography>
-								</>
-						}
+						{personalPageThreads ?
+							<>
+								<ThreadContainer threads={personalPageThreads} />
+							</>
+							:
+							<>
+								<Typography>
+									Похоже, у собственной страницы книги пока нет содержимого!
+								</Typography>
+							</>}
 
 					</>
 					:
@@ -56,32 +96,33 @@ function EntryPage() {
 						<Typography>
 							Похоже, у этой книги пока нет собственной страницы!
 						</Typography>
-					</>
-			}
-			{
-				entryData && chaptersData ?
+					</>}
+				{entry && chapters ?
 					<>
 						<Typography>
 							Главы:
 						</Typography>
-						{
-							chaptersData.map((chapterData) => {
-								return (
-									<Link key={chapterData.id} to={`/chapter/${chapterData.id}`}>
-										{chapterData.name}
-									</Link>
-								)
-							})
-						}
+						{chapters.map((chapterData) => {
+							return (
+								<Link key={chapterData.id} to={`/chapter/${chapterData.id}`}>
+									{chapterData.name}
+								</Link>
+							)
+						})}
+						<Button onClick={() => setAddChapterDialogOpen(true)}>Добавить главу</Button>
 					</>
 					:
 					<>
 						<Typography>
 							Похоже, в этой книге пока нет глав!
 						</Typography>
-					</>
-			}
-		</Box>
+					</>}
+				{entry ?
+					<>
+					</> :
+					<>
+					</>}
+			</Box></>
 	)
 }
 

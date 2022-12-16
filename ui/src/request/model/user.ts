@@ -2,6 +2,7 @@
 // Write an API to get the User's information from backend using /api/user route and User model
 
 import { ParseUser } from "../../types/dbparsers"
+import { User } from "../../types/dbtypes"
 import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllUsers = async (token: string) => {
@@ -26,13 +27,9 @@ export const GetUserById = async (token: string, id: number) => {
 
 export const PostUser = async (
 	token: string,
-	login: string,
-	password: string) => {
+	user: User) => {
 	try {
-		const response = await PostRequest("/api/user", token, {
-			login: login,
-			password: password
-		})
+		const response = await PostRequest("/api/user", token, user)
 		return ParseUser(response.data.body)
 	}
 	catch (err) {
@@ -42,14 +39,9 @@ export const PostUser = async (
 
 export const PutUserById = async (
 	token: string,
-	id: number,
-	login: string,
-	password: string) => {
+	user: User) => {
 	try {
-		const response = await PutRequest(`/api/user/${id}`, token, {
-			login: login,
-			password: password
-		})
+		const response = await PutRequest(`/api/user/${user.id}`, token, user)
 		return ParseUser(response.data.body)
 	}
 	catch (err) {

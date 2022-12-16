@@ -3,6 +3,7 @@
 // and dbtypes.ts for arguments
 
 import { ParseThread } from "../../types/dbparsers"
+import { Thread } from "../../types/dbtypes"
 import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllThreads = async (token: string) => {
@@ -27,17 +28,9 @@ export const GetThreadById = async (token: string, id: number) => {
 
 export const PostThread = async (
 	token: string,
-	order: number,
-	type: string,
-	content: string,
-	pageId: number) => {
+	thread: Thread) => {
 	try {
-		const response = await PostRequest("/api/thread", token, {
-			order: order,
-			type: type,
-			content: content,
-			pageId: pageId
-		})
+		const response = await PostRequest("/api/thread", token, thread)
 		return ParseThread(response.data.body)
 	}
 	catch (err) {
@@ -47,19 +40,10 @@ export const PostThread = async (
 
 export const PutThreadById = async (
 	token: string,
-	id: number,
-	order: number,
-	type: string,
-	content: string,
-	pageId: number) => {
+	thread: Thread
+) => {
 	try {
-		const response = await PutRequest(`/api/thread/${id}`, token, {
-			order: order,
-			type: type,
-			content: content,
-			pageId: pageId
-		})
-
+		const response = await PutRequest(`/api/thread/${thread.id}`, token, thread)
 		return ParseThread(response.data.body)
 	}
 	catch (err) {
@@ -70,7 +54,6 @@ export const PutThreadById = async (
 export const DeleteThreadById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/thread/${id}`, token)
-
 		return ParseThread(response.data.body)
 	}
 	catch (err) {

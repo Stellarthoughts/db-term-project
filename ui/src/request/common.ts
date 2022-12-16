@@ -4,12 +4,11 @@ import { InvalidTokenError } from '../error/error'
 import { LogFetchError } from './logError'
 
 export const isFailed = (response: AxiosResponse<any, any>) => {
-	return response.data.body.message == "failure"
+	return response.data.message == "failure"
 }
 
 export const isInvalidToken = (response: AxiosResponse<any, any>) => {
-	console.log(response.data.body.error)
-	return response.data.error == "Invalid Token"
+	return response.data.error == "Invalid Token" || response.data.error == "A token is required for authentication"
 }
 
 export const generalHandling = (err: any) => {
@@ -107,7 +106,7 @@ export const DeleteRequest = (
 				Authorization: token
 			}
 		}
-		return axios.delete(url)
+		return axios.delete(url, config)
 	}
 	if (config.headers == undefined) {
 		config.headers = {

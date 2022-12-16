@@ -2,6 +2,7 @@
 // Write an API to get the Entry information from backend using /api/entry route, ParseEntry function
 // and dbtypes.ts for arguments
 import { ParseEntry } from "../../types/dbparsers"
+import { Entry } from "../../types/dbtypes"
 import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllEntries = async (token: string) => {
@@ -28,13 +29,10 @@ export const GetEntryById = async (token: string, id: number) => {
 
 export const PostEntry = async (
 	token: string,
-	name: string,
-	personalPageId: number | null) => {
+	entry: Entry
+) => {
 	try {
-		const response = await PostRequest("/api/entry", token, {
-			name: name,
-			personalPageId: personalPageId
-		})
+		const response = await PostRequest("/api/entry", token, entry)
 
 		return ParseEntry(response.data.body)
 	}
@@ -45,14 +43,10 @@ export const PostEntry = async (
 
 export const PutEntryById = async (
 	token: string,
-	id: number,
-	name: string,
-	personalPageId: number | null) => {
+	entry: Entry
+) => {
 	try {
-		const response = await PutRequest(`/api/entry/${id}`, token, {
-			name: name,
-			personalPageId: personalPageId
-		})
+		const response = await PutRequest(`/api/entry/${entry.id}`, token, entry)
 
 		return ParseEntry(response.data.body)
 	}
@@ -64,7 +58,6 @@ export const PutEntryById = async (
 export const DeleteEntryById = async (token: string, id: number) => {
 	try {
 		const response = await DeleteRequest(`/api/entry/${id}`, token)
-
 		return ParseEntry(response.data.body)
 	}
 	catch (err) {

@@ -29,30 +29,33 @@ import { Entry } from './types/dbtypes'
 import { InvalidTokenError } from './error/error'
 import { setFailure } from './store/alertSlice'
 import { alertInvalidToken, alertSomethingWentWrong } from './store/alertFailure'
+import Box from '@mui/material/Box'
+import SearchPage from './components/pages/searchPage'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
 	const [tree, setTree] = useState<Array<Entry> | null>(null)
 	const dispatch = useAppDispatch()
 
-	useEffect(() => {
-		const fetch = async () => {
-			if (user == null)
-				return
-			try {
-				const res = await GetTree(user.token)
-				setTree(res)
+	const fetchTree = async () => {
+		if (user == null)
+			return
+		try {
+			const res = await GetTree(user.token)
+			setTree(res)
+		}
+		catch (err) {
+			if (err instanceof InvalidTokenError) {
+				dispatch(setFailure(alertInvalidToken))
 			}
-			catch (err) {
-				if (err instanceof InvalidTokenError) {
-					dispatch(setFailure(alertInvalidToken))
-				}
-				else {
-					dispatch(setFailure(alertSomethingWentWrong))
-				}
+			else {
+				dispatch(setFailure(alertSomethingWentWrong))
 			}
 		}
-		fetch()
+	}
+
+	useEffect(() => {
+		fetchTree()
 	}, [user])
 
 	const pageLoader: LoaderFunction = async ({ params }) => {
@@ -100,13 +103,15 @@ function App() {
 			<Grid container justifyContent="center">
 				<Grid item xs={0} sm={0} lg={1} />
 				<Grid item xs={12} sm={4} lg={2}>
-					<Tree treeNodes={tree}></Tree>
+					<Tree treeNodes={tree} fetchTree={fetchTree}></Tree>
 				</Grid>
 				<Grid item xs={12} sm={8} lg={6}>
 					<Stack>
 						<Header></Header>
 						<AppAlert />
-						{children}
+						<Box sx={{ paddingLeft: "20px", paddingRight: '20px' }}>
+							{children}
+						</Box>
 					</Stack>
 				</Grid>
 				<Grid item xs={0} sm={0} lg={3} />
@@ -165,7 +170,7 @@ function App() {
 					{
 						<RequireAuth>
 							<PageStructure>
-								<EntryPage />
+								<EntryPage fetchTree={fetchTree} />
 							</PageStructure>
 						</RequireAuth>
 					}
@@ -175,11 +180,20 @@ function App() {
 					{
 						<RequireAuth>
 							<PageStructure>
-								<ChapterPage />
+								<ChapterPage fetchTree={fetchTree} />
 							</PageStructure>
 						</RequireAuth>
 					}
 					loader={chapterLoader}
+				/>,
+				<Route key={8} path={paths.search.absolutePath} element=
+					{
+						<RequireAuth>
+							<PageStructure>
+								<SearchPage />
+							</PageStructure>
+						</RequireAuth>
+					}
 				/>
 			]
 		)

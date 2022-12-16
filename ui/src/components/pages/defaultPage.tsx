@@ -33,7 +33,7 @@ function DefaultPage() {
 			/>
 			<Player
 				playsInline
-				src="/api/static/obluma.mp4"
+				src="/api/static/f.mov"
 			/>
 		</Box>
 	)

@@ -2,6 +2,7 @@
 // Write an API to get the Access information from backend using /api/access route and ParseAccess function
 
 import { ParseAccess } from "../../types/dbparsers"
+import { Access } from "../../types/dbtypes"
 import { DeleteRequest, generalHandling, GetRequest, PostRequest, PutRequest } from "../common"
 
 export const GetAllAccesses = async (token: string) => {
@@ -26,18 +27,10 @@ export const GetAccessById = async (token: string, id: number) => {
 
 export const PostAccess = async (
 	token: string,
-	canView: boolean,
-	canEdit: boolean,
-	canDelete: boolean,
-	canCreate: boolean,
+	access: Access
 ) => {
 	try {
-		const response = await PostRequest("/api/access", token, {
-			canView: canView,
-			canEdit: canEdit,
-			canDelete: canDelete,
-			canCreate: canCreate,
-		})
+		const response = await PostRequest("/api/access", token, access)
 		return ParseAccess(response.data.body)
 	}
 	catch (err) {
@@ -47,19 +40,10 @@ export const PostAccess = async (
 
 export const PutAccessById = async (
 	token: string,
-	id: number,
-	canView: boolean,
-	canEdit: boolean,
-	canDelete: boolean,
-	canCreate: boolean,
+	access: Access
 ) => {
 	try {
-		const response = await PutRequest(`/api/access/${id}`, token, {
-			canView: canView,
-			canEdit: canEdit,
-			canDelete: canDelete,
-			canCreate: canCreate,
-		})
+		const response = await PutRequest(`/api/access/${access.id}`, token, access)
 		return ParseAccess(response.data.body)
 	}
 	catch (err) {

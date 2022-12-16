@@ -16,6 +16,10 @@ export const paths =
 		absolutePath: "/upload",
 		name: "upload"
 	},
+	search: {
+		absolutePath: "/search",
+		name: "search"
+	},
 	page: {
 		absolutePath: "/page",
 		name: "page"

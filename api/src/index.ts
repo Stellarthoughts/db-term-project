@@ -16,6 +16,8 @@ import authPath from "./routes/compound/auth"
 import dataPath from "./routes/compound/data"
 import uploadPath from "./routes/resources/upload"
 import pageDataPath from "./routes/compound/pageData"
+import queryDataPath from "./routes/search/query"
+import statisticPath from "./routes/statistic/stats"
 
 // Middleware
 import tokenMiddleware from "./middleware/tokenMiddleware"
@@ -74,6 +76,8 @@ app.use("/api/entry", entryPath)
 app.use("/api/chapter", chapterPath)
 app.use("/api/page", pagePath)
 app.use("/api/thread", threadPath)
+app.use("/api/query", queryDataPath)
+app.use("/api/statistic", statisticPath)
 
 // Start
 app.listen(process.env.PORT, () => console.log(`Running on port ${process.env.PORT}`))

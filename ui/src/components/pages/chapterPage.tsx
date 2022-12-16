@@ -1,15 +1,36 @@
 import Box from "@mui/material/Box"
 import Pagination from "@mui/material/Pagination"
 import Typography from "@mui/material/Typography"
-import { useLoaderData } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useLoaderData } from "react-router-dom"
 import { ChapterPageData } from "../../request/compound/pageData"
 import ThreadContainer from "./components/thread/threadContainer"
-import { Link } from "react-router-dom"
 
+interface Props {
+	fetchTree: () => void
+}
 
-function ChapterPage() {
+function ChapterPage({ fetchTree }: Props) {
 	const data = useLoaderData()
 	const { personalPageData, personalPageThreadsData, chapterData, pagesData, otherChaptersData, entryData } = data as ChapterPageData
+
+	const [personalPage, setPersonalPage] = useState(personalPageData)
+	const [personalPageThreads, setPersonalPageThreads] = useState(personalPageThreadsData)
+	const [chapter, setChapter] = useState(chapterData)
+	const [pages, setPages] = useState(pagesData)
+	const [otherChapters, setOtherChapters] = useState(otherChaptersData)
+	const [entry, setEntry] = useState(entryData)
+
+	const [deleteChapterDialogOpen, setDeleteChapterDialogOpen] = useState(false)
+
+	useEffect(() => {
+		setPersonalPage(personalPageData)
+		setPersonalPageThreads(personalPageThreadsData)
+		setChapter(chapterData)
+		setPages(pagesData)
+		setOtherChapters(otherChaptersData)
+		setEntry(entryData)
+	}, [location])
 
 	console.log(data)
 	return (
@@ -21,33 +42,33 @@ function ChapterPage() {
 			}}
 		>
 			{
-				chapterData ?
+				chapter ?
 					<>
 						<Typography component="h1" variant="h5">
-							{chapterData.name}
+							{chapter.name}
 						</Typography>
 					</>
 					: <></>
 			}
 			{
-				entryData ?
+				entry ?
 					<>
 						<Typography>
 							{"Книга: "}
-							<Link to={`/entry/${entryData.id}`}>
-								{entryData.name}
+							<Link to={`/entry/${entry.id}`}>
+								{entry.name}
 							</Link>
 						</Typography>
 					</> :
 					<></>
 			}
 			{
-				pagesData ?
+				pages ?
 					<>
 						<Typography>
 							Страницы главы:
 						</Typography>
-						<Pagination count={pagesData.length} page={0} color="primary" />
+						<Pagination count={pages.length} page={0} color="primary" />
 					</>
 					:
 					<>
@@ -57,12 +78,12 @@ function ChapterPage() {
 					</>
 			}
 			{
-				personalPageData ?
+				personalPage ?
 					<>
 						{
-							personalPageThreadsData ?
+							personalPageThreads ?
 								<>
-									<ThreadContainer threads={personalPageThreadsData} />
+									<ThreadContainer threads={personalPageThreads} />
 								</>
 								:
 								<>
