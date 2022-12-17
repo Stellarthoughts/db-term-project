@@ -19,7 +19,6 @@ function UploadPage() {
 	const dispatch = useAppDispatch()
 
 	const handleChange = (value: File | null) => {
-		console.log(value)
 		if (value != null)
 			setName(value.name)
 		setFile(value)

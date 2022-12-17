@@ -9,13 +9,12 @@ export const UploadFile = async (
 		const formData = new FormData()
 
 		const splitByDot = name.split(".");
-		console.log(name)
-		console.log(splitByDot)
 		if (splitByDot.join() == name) {
 			const fileNameSplit = file.name.split(".")
 			const extension = fileNameSplit[fileNameSplit.length - 1];
 			name = name + "." + extension
 		}
+		console.log(name)
 
 		formData.append(
 			"file",

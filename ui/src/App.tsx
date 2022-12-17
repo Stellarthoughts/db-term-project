@@ -11,33 +11,32 @@ import Header from './components/header/header'
 import Tree from './components/tree/tree'
 
 import RequireAuth from './auth/components/requireAuth'
-import ChapterPage from './components/pages/chapterPage'
+import ChapterPage, { fetchChapterPage as fetchChapterPageData } from './components/pages/chapterPage'
 import DefaultPage from './components/pages/defaultPage'
-import EntryPage from './components/pages/entryPage'
-import GenericPage from './components/pages/genericPage'
+import EntryPage, { fetchEntryPage as fetchEntryPageData } from './components/pages/entryPage'
+import GenericPage, { fetchGenericPage as fetchGenericPageData } from './components/pages/genericPage'
 import LoginPage from './components/pages/loginPage'
 import RegistrationPage from './components/pages/registrationPage'
 import UploadPage from './components/pages/uploadPage'
 
+import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { AppAlert } from './components/alert'
+import SearchPage from './components/pages/searchPage'
+import { InvalidTokenError } from './error/error'
 import { useAppDispatch, useAppSelector } from './hooks/hooks'
 import { GetTree } from './request/compound/data'
-import { chapterPageDataNull, entryPageDataNull, genericPageDataNull, GetChapterPageData, GetEntryPageData, GetGenericPageData } from './request/compound/pageData'
 import paths from './router/paths'
-import { Entry } from './types/dbtypes'
-import { InvalidTokenError } from './error/error'
-import { setFailure } from './store/alertSlice'
 import { alertInvalidToken, alertSomethingWentWrong } from './store/alertFailure'
-import Box from '@mui/material/Box'
-import SearchPage from './components/pages/searchPage'
+import { setFailure } from './store/alertSlice'
+import { Entry } from './types/dbtypes'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
 	const [tree, setTree] = useState<Array<Entry> | null>(null)
 	const dispatch = useAppDispatch()
 
-	const fetchTree = async () => {
+	const updateTree = async () => {
 		if (user == null)
 			return
 		try {
@@ -55,47 +54,20 @@ function App() {
 	}
 
 	useEffect(() => {
-		fetchTree()
+		updateTree()
 	}, [user])
 
 	const pageLoader: LoaderFunction = async ({ params }) => {
-		if (!user)
-			return genericPageDataNull
-		try {
-			const data = await GetGenericPageData(user.token, parseInt(params.id as string))
-			return data
-		}
-		catch (e) {
-			console.log(e)
-			return genericPageDataNull
-		}
+		return await fetchGenericPageData(user, parseInt(params.id as string))
 	}
 
 	const chapterLoader: LoaderFunction = async ({ params }) => {
-		if (!user)
-			return chapterPageDataNull
-		try {
-			const data = await GetChapterPageData(user.token, parseInt(params.id as string))
-			return data
-		}
-		catch (e) {
-			console.log(e)
-			return chapterPageDataNull
-		}
+		return await fetchChapterPageData(user, parseInt(params.id as string))
 	}
 
 	// entry loader
 	const entryLoader: LoaderFunction = async ({ params }) => {
-		if (!user)
-			return entryPageDataNull
-		try {
-			const data = await GetEntryPageData(user.token, parseInt(params.id as string))
-			return data
-		}
-		catch (e) {
-			console.log(e)
-			return entryPageDataNull
-		}
+		return await fetchEntryPageData(user, parseInt(params.id as string))
 	}
 
 	function PageStructure({ children }: { children: JSX.Element }) {
@@ -103,9 +75,9 @@ function App() {
 			<Grid container justifyContent="center">
 				<Grid item xs={0} sm={0} lg={1} />
 				<Grid item xs={12} sm={4} lg={2}>
-					<Tree treeNodes={tree} fetchTree={fetchTree}></Tree>
+					<Tree treeNodes={tree} updateTree={updateTree}></Tree>
 				</Grid>
-				<Grid item xs={12} sm={8} lg={6}>
+				<Grid item xs={12} sm={8} lg={6} >
 					<Stack>
 						<Header></Header>
 						<AppAlert />
@@ -115,7 +87,7 @@ function App() {
 					</Stack>
 				</Grid>
 				<Grid item xs={0} sm={0} lg={3} />
-			</Grid>
+			</Grid >
 		)
 	}
 
@@ -170,7 +142,7 @@ function App() {
 					{
 						<RequireAuth>
 							<PageStructure>
-								<EntryPage fetchTree={fetchTree} />
+								<EntryPage updateTree={updateTree} />
 							</PageStructure>
 						</RequireAuth>
 					}
@@ -180,7 +152,7 @@ function App() {
 					{
 						<RequireAuth>
 							<PageStructure>
-								<ChapterPage fetchTree={fetchTree} />
+								<ChapterPage updateTree={updateTree} />
 							</PageStructure>
 						</RequireAuth>
 					}

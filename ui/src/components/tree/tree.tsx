@@ -9,19 +9,21 @@ import { useAppSelector } from '../../hooks/hooks'
 import { Entry } from '../../types/dbtypes'
 import CreateEntryDialog from '../dialog/entry/createEntry'
 import DeleteEntryDialog from '../dialog/entry/deleteEntry'
+import Box from '@mui/material/Box'
 
 interface Props {
 	treeNodes: Array<Entry> | null
-	fetchTree: () => void
+	updateTree: () => void
 }
 
-function Tree({ treeNodes, fetchTree }: Props) {
+function Tree({ treeNodes, updateTree }: Props) {
 	const navigate = useNavigate()
 	const user = useAppSelector(state => state.user.user)
 	const location = useLocation()
 	const [selected, setSelected] = useState<string>("")
 	const [showCreate, setCreate] = useState<boolean>(false)
 	const [showDelete, setDelete] = useState<boolean>(false)
+	const [expanded, setExpanded] = useState<string[]>([])
 
 	const idCreate = "action/create"
 
@@ -43,15 +45,20 @@ function Tree({ treeNodes, fetchTree }: Props) {
 		navigate(`${nodeId}`)
 	}
 
+	const handleExpandToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
+		setExpanded(nodeIds)
+	}
 	return (
-		<>
-			<CreateEntryDialog open={showCreate} setOpen={setCreate} callBack={fetchTree} />
-			<DeleteEntryDialog open={showDelete} setOpen={setDelete} callBack={fetchTree} />
+		<Box sx={{ position: "sticky", top: "0" }}>
+			<CreateEntryDialog open={showCreate} setOpen={setCreate} callBack={updateTree} />
+			<DeleteEntryDialog open={showDelete} setOpen={setDelete} callBack={updateTree} />
 			<TreeView
+				expanded={expanded}
 				aria-label="entry tree"
 				defaultCollapseIcon={<ExpandMoreIcon />}
 				defaultExpandIcon={<ChevronRightIcon />}
 				selected={selected}
+				onNodeToggle={handleExpandToggle}
 				onNodeSelect={handleOnNodeSelect}
 				sx={{ flexGrow: 1, overflowY: 'auto' }}
 			>
@@ -91,7 +98,7 @@ function Tree({ treeNodes, fetchTree }: Props) {
 					}) : <></>
 				}
 			</TreeView>
-		</>
+		</Box>
 	)
 }
 

@@ -57,8 +57,14 @@ export const PutRequest = (
 ) => {
 	if (data == null)
 		throw new Error("No data was passed")
-	if (config == undefined)
+	if (config == undefined) {
+		config = {
+			headers: {
+				Authorization: token
+			}
+		}
 		return axios.put(url, data, config)
+	}
 	if (config.headers == undefined) {
 		config.headers = {
 			Authorization: token

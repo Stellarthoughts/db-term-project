@@ -49,7 +49,6 @@ export const alertSlice = createSlice({
 		},
 		setFailure: (state, action: PayloadAction<AlertInterface>) => {
 			state.failure = action.payload
-			console.log("failure set")
 		},
 		setInfo: (state, action: PayloadAction<AlertInterface>) => {
 			state.info = action.payload

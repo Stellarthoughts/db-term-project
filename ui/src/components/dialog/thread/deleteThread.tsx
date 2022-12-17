@@ -6,7 +6,7 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Box from "@mui/system/Box"
 import { useAppSelector } from "../../../hooks/hooks"
-import { DeleteChapterById } from "../../../request/model/chapter"
+import { DeleteThreadById } from "../../../request/model/thread"
 
 interface Props {
 	open: boolean
@@ -25,7 +25,7 @@ function DeleteThreadDialog({ open, setOpen, callBack, defaultThreadId }: Props)
 			return
 		const threadId = parseInt(data.get('threadId') as string)
 		try {
-			await DeleteChapterById(user.token, threadId)
+			await DeleteThreadById(user.token, threadId)
 			callBack()
 		}
 		catch (err) {

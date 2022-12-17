@@ -19,7 +19,7 @@ interface Props {
 	defaultPageId?: number
 }
 
-function CreateChapterDialog({ open, setOpen, callBack, defaultPageId }: Props) {
+function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
 	const [radioValue, setRadioValue] = useState('TEXT')
@@ -31,7 +31,7 @@ function CreateChapterDialog({ open, setOpen, callBack, defaultPageId }: Props) 
 			return
 		const content = data.get('content') as string
 		const type = (data.get('type') as string)
-		const pageId = parseInt(data.get('entryId') as string)
+		const pageId = parseInt(data.get('pageId') as string)
 		try {
 			await PostThread(user.token, {
 				order: 0,
@@ -57,12 +57,12 @@ function CreateChapterDialog({ open, setOpen, callBack, defaultPageId }: Props) 
 						<FormLabel>Содержимое</FormLabel>
 						<TextField name="content" />
 						<FormControl>
-							<FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+							<FormLabel id="radio-buttons-group-label">Тип</FormLabel>
 							<RadioGroup
-								aria-labelledby="demo-radio-buttons-group-label"
-								defaultValue={radioValue}
+								aria-labelledby="radio-buttons-group-label"
+								value={radioValue}
 								onChange={(event) => setRadioValue(event.target.value)}
-								name="radio-buttons-group"
+								name="type"
 							>
 								<FormControlLabel value="TEXT" control={<Radio />} label="Текст" />
 								<FormControlLabel value="IMAGE" control={<Radio />} label="Изображение" />
@@ -80,4 +80,4 @@ function CreateChapterDialog({ open, setOpen, callBack, defaultPageId }: Props) 
 	)
 }
 
-export default CreateChapterDialog
+export default CreateThreadDialog

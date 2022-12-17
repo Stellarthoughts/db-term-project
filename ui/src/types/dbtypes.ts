@@ -50,6 +50,17 @@ export interface Thread {
 	pageId: number
 }
 
+export const MoqThread = (type: string, content: string) => {
+	const thread: Thread = {
+		id: 0,
+		order: 0,
+		type: type,
+		content: content,
+		pageId: 0
+	}
+	return thread
+}
+
 export const ThreadType = {
 	TEXT: "TEXT",
 	AUDIO: "AUDIO",

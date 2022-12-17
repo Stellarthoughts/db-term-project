@@ -1,28 +1,52 @@
 import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
-import { useLoaderData, useLocation } from "react-router-dom"
-import { EntryPageData } from "../../request/compound/pageData"
-import ThreadContainer from "./components/thread/threadContainer"
-import { Link } from "react-router-dom"
-import { useEffect, useState } from "react"
-import DeleteEntryDialog from "../dialog/entry/deleteEntry"
 import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import { useEffect, useState } from "react"
+import { Link, useLoaderData, useLocation } from "react-router-dom"
+import { useAppSelector } from "../../hooks/hooks"
+import { EntryPageData, entryPageDataNull, GetEntryPageData } from "../../request/compound/pageData"
+import { PutEntryById } from "../../request/model/entry"
+import paths from "../../router/paths"
+import { Page, User } from "../../types/dbtypes"
 import CreateChapterDialog from "../dialog/chapter/createChapter"
+import DeleteEntryDialog from "../dialog/entry/deleteEntry"
+import CreatePersonalPage from "../dialog/page/createPersonalPage"
+import ThreadContainer from "./components/thread/threadContainer"
 
 interface Props {
-	fetchTree: () => void
+	updateTree: () => void
 }
 
-function EntryPage({ fetchTree }: Props) {
+export async function fetchEntryPage(user: User | null, id: number) {
+	if (!user)
+		return entryPageDataNull
+	try {
+		const data = await GetEntryPageData(user.token, id)
+		return data
+	}
+	catch (e) {
+		console.log(e)
+		return entryPageDataNull
+	}
+}
+
+function EntryPage({ updateTree }: Props) {
 	const data = useLoaderData()
 	const location = useLocation()
+	const user = useAppSelector(state => state.user.user)
 
+	// Get from loader
 	const { personalPageData, personalPageThreadsData, entryData, chaptersData } = data as EntryPageData
 
+	// Set state
 	const [personalPage, setPersonalPage] = useState(personalPageData)
 	const [personalPageThreads, setPersonalPageThreads] = useState(personalPageThreadsData)
 	const [entry, setEntry] = useState(entryData)
 	const [chapters, setChapters] = useState(chaptersData)
+	// Dialogs
+	const [deleteEntryDialogOpen, setDeleteEntryDialogOpen] = useState(false)
+	const [createChapterDialogOpen, setCreateChapterDialogOpen] = useState(false)
+	const [createPersonalPageDialogOpen, setCreatePersonalPageDialogOpen] = useState(false)
 
 	useEffect(() => {
 		setPersonalPage(personalPageData)
@@ -31,8 +55,30 @@ function EntryPage({ fetchTree }: Props) {
 		setChapters(chaptersData)
 	}, [location])
 
-	const [deleteEntryDialogOpen, setDeleteEntryDialogOpen] = useState(false)
-	const [addChapterDialogOpen, setAddChapterDialogOpen] = useState(false)
+	const updateEntryPage = async () => {
+		if (!entry)
+			return
+		const data = await fetchEntryPage(user, entry.id)
+		if (!data)
+			return
+		setPersonalPage(data.personalPageData)
+		setPersonalPageThreads(data.personalPageThreadsData)
+		setEntry(data.entryData)
+		setChapters(data.chaptersData)
+	}
+
+	const updateOnCreatePersonalPage = async (page: Page) => {
+		try {
+			if (!entry || !user)
+				return
+			entry.personalPageId = page.id
+			await PutEntryById(user.token, entry)
+			updateEntryPage()
+		}
+		catch (e) {
+			console.log(e)
+		}
+	}
 
 	return (
 		<>
@@ -40,16 +86,23 @@ function EntryPage({ fetchTree }: Props) {
 				entry ? <DeleteEntryDialog
 					open={deleteEntryDialogOpen}
 					setOpen={setDeleteEntryDialogOpen}
-					callBack={fetchTree}
+					callBack={updateTree}
 					defaultEntryId={entry.id}
 				/> : <></>
 			}
 			{
 				entry ? <CreateChapterDialog
-					open={addChapterDialogOpen}
-					setOpen={setAddChapterDialogOpen}
-					callBack={fetchTree}
+					open={createChapterDialogOpen}
+					setOpen={setCreateChapterDialogOpen}
+					callBack={updateTree}
 					defaultEntryId={entry.id}
+				/> : <></>
+			}
+			{
+				entry ? <CreatePersonalPage
+					open={createPersonalPageDialogOpen}
+					setOpen={setCreatePersonalPageDialogOpen}
+					callBack={updateOnCreatePersonalPage}
 				/> : <></>
 			}
 			<Box
@@ -77,11 +130,36 @@ function EntryPage({ fetchTree }: Props) {
 							Похоже, этой книги не существует!
 						</Typography>
 					</>}
+				{entry && chapters ?
+					<>
+						<Typography>
+							Главы:
+						</Typography>
+						{chapters.map((chapter) => {
+							return (
+								<Link key={chapter.id} to={`${paths.chapter.absolutePath}/${chapter.id}`}>
+									{chapter.name}
+								</Link>
+							)
+						})}
+						<Button onClick={() => setCreateChapterDialogOpen(true)}>Добавить главу</Button>
+					</>
+					:
+					<>
+						<Typography>
+							Похоже, в этой книге пока нет глав!
+						</Typography>
+					</>}
+				{entry ?
+					<>
+					</> :
+					<>
+					</>}
 				{personalPage ?
 					<>
 						{personalPageThreads ?
 							<>
-								<ThreadContainer threads={personalPageThreads} />
+								<ThreadContainer threads={personalPageThreads} updatePage={updateEntryPage} />
 							</>
 							:
 							<>
@@ -96,31 +174,9 @@ function EntryPage({ fetchTree }: Props) {
 						<Typography>
 							Похоже, у этой книги пока нет собственной страницы!
 						</Typography>
-					</>}
-				{entry && chapters ?
-					<>
-						<Typography>
-							Главы:
-						</Typography>
-						{chapters.map((chapterData) => {
-							return (
-								<Link key={chapterData.id} to={`/chapter/${chapterData.id}`}>
-									{chapterData.name}
-								</Link>
-							)
-						})}
-						<Button onClick={() => setAddChapterDialogOpen(true)}>Добавить главу</Button>
-					</>
-					:
-					<>
-						<Typography>
-							Похоже, в этой книге пока нет глав!
-						</Typography>
-					</>}
-				{entry ?
-					<>
-					</> :
-					<>
+						<Button onClick={() => setCreatePersonalPageDialogOpen(true)}>
+							Добавить собственную страницу
+						</Button>
 					</>}
 			</Box></>
 	)

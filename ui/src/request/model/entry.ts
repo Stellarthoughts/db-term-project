@@ -46,8 +46,8 @@ export const PutEntryById = async (
 	entry: Entry
 ) => {
 	try {
+		console.log(entry)
 		const response = await PutRequest(`/api/entry/${entry.id}`, token, entry)
-
 		return ParseEntry(response.data.body)
 	}
 	catch (err) {
