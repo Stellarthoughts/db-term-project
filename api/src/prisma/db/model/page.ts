@@ -8,7 +8,7 @@ export const selectPageSettings = {
 }
 
 export const CreatePage = (
-	chapterId: number
+	chapterId: number | null
 ) => {
 	const request = prisma.page.create({
 		data: {

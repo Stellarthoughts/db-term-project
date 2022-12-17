@@ -9,9 +9,10 @@ const router = express.Router()
 router.post('/', async (req, res) => {
 	try {
 		const result = await CreateThread(
-			parseThreadType(req.body.threadType),
+			parseThreadType(req.body.type),
 			req.body.content,
-			parseInt(req.body.pageId)
+			parseInt(req.body.pageId),
+			parseInt(req.body.order),
 		)
 		respondSuccess(result, res)
 	}

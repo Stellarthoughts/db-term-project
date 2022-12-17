@@ -63,7 +63,7 @@ model Page {
   chapterPersonalPages Chapter[]  @relation(name: "chapterPersonalPage")
   chapter              Chapter?   @relation(name: "chapterToPage", references: [id], fields: [chapterId], onDelete: Cascade)
   chapterId            Int?
-  threads              Thread[]
+  threads              Thread[]   @relation(name: "pageToThread")
 }
 
 enum ThreadType {
@@ -78,6 +78,6 @@ model Thread {
   order   Int        @default(autoincrement())
   type    ThreadType
   content String
-  Page    Page       @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  Page    Page       @relation(name: "pageToThread", references: [id], fields: [pageId], onDelete: Cascade)
   pageId  Int
 }

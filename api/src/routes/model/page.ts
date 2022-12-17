@@ -8,7 +8,7 @@ const router = express.Router()
 router.post('/', async (req, res) => {
 	try {
 		const result = await CreatePage(
-			parseInt(req.body.chapterId)
+			req.body.chapterId ? parseInt(req.body.chapterId) : null
 		)
 		respondSuccess(result, res)
 	}

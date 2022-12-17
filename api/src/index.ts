@@ -46,7 +46,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(fileUpload({
 	limits: {
-		fileSize: 10000000, // Around 10MB
+		fileSize: 100000000, // Around 10MB
 	},
 	abortOnLimit: true,
 }))

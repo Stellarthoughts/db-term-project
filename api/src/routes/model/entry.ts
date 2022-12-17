@@ -51,8 +51,8 @@ router.put('/:id', async (req, res) => {
 	try {
 		const result = await UpdateEntryById(
 			parseInt(req.params.id),
-			req.body.login,
-			req.body.password
+			req.body.name,
+			parseInt(req.body.personalPageId)
 		)
 		respondSuccess(result, res)
 	}

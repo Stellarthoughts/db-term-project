@@ -50,7 +50,8 @@ export const FindChapterById = (
 export const UpdateChapterById = (
 	id: number,
 	name: string,
-	entryId: number
+	entryId: number,
+	personalPageId: number
 ) => {
 	const request = prisma.chapter.update({
 		where: {
@@ -58,7 +59,8 @@ export const UpdateChapterById = (
 		},
 		data: {
 			name: name,
-			entryId: entryId
+			entryId: entryId,
+			personalPageId: personalPageId
 		},
 		select: selectChapterSettings
 	})

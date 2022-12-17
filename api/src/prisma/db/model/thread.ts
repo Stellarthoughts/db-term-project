@@ -14,12 +14,14 @@ export const CreateThread = (
 	type: ThreadType,
 	content: string,
 	pageId: number,
+	order: number
 ) => {
 	const request = prisma.thread.create({
 		data: {
 			type: type,
 			content: content,
-			pageId: pageId
+			pageId: pageId,
+			order: order
 		},
 		select: selectThreadSettings,
 	})
