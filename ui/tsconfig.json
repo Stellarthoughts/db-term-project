@@ -23,6 +23,7 @@
 	"include": [
 		"src/**/*",
 		"src/**/*.json",
-		".env"
+		".env",
+		"src/components/dialog/entry/.tsx"
 	]
 }
