@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField"
 import Box from "@mui/system/Box"
 import Stack from "@mui/system/Stack"
 import { useAppSelector } from "../../../hooks/hooks"
-import { PostEntry, PutEntryById } from "../../../request/model/entry"
+import { PutEntryById } from "../../../request/model/entry"
 import { Entry } from "../../../types/dbtypes"
 
 interface Props {
