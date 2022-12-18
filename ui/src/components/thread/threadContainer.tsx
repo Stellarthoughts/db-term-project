@@ -1,14 +1,14 @@
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
-import { Thread, ThreadType } from "../../../../types/dbtypes"
-import AudioThread from "./generic/audio"
-import ImageThread from "./generic/image"
-import TextThread from "./generic/text"
-import VideoThread from "./generic/video"
+import { Thread, ThreadType } from "../../types/dbtypes"
+import AudioThread from "./types/audio"
+import ImageThread from "./types/image"
+import TextThread from "./types/text"
+import VideoThread from "./types/video"
 
 interface Props {
 	threads: Thread[]
-	updatePage: () => void
+	updatePage?: () => void
 }
 
 function ThreadContainer({ threads, updatePage }: Props) {

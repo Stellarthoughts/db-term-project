@@ -5,12 +5,12 @@ import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { useNavigate, Link as RouterLink } from "react-router-dom"
-import useAuth from "../../auth/useAuth"
-import { useAppDispatch } from "../../hooks/hooks"
-import paths from "../../router/paths"
-import { alertCouldNotSignUp } from "../../store/alertFailure"
-import { setFailure, setSuccess } from "../../store/alertSlice"
-import { alertSignIn } from "../../store/alertSuccess"
+import useAuth from "../../../auth/useAuth"
+import { useAppDispatch } from "../../../hooks/hooks"
+import paths from "../../../router/paths"
+import { alertCouldNotSignUp } from "../../../store/alertFailure"
+import { setFailure, setSuccess } from "../../../store/alertSlice"
+import { alertSignIn } from "../../../store/alertSuccess"
 
 export function RegistrationPage() {
 	const auth = useAuth()

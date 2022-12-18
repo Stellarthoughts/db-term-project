@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { User } from '../types/dbtypes'
+import { Access, User } from '../types/dbtypes'
 import { RootState } from './store'
 
 // Define a type for the slice state
@@ -20,11 +20,16 @@ export const userSlice = createSlice({
 		// Use the PayloadAction type to declare the contents of `action.payload`
 		assignNewUser: (state, action: PayloadAction<UserState>) => {
 			state.user = action.payload.user
-		}
+		},
+		assignNewAccess: (state, action: PayloadAction<Access>) => {
+			if (!state.user)
+				return
+			state.user.access = action.payload
+		},
 	}
 })
 
-export const { assignNewUser } = userSlice.actions
+export const { assignNewUser, assignNewAccess } = userSlice.actions
 
 export const selectUser = (state: RootState) => state.user
 

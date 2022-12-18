@@ -10,19 +10,20 @@ import TextField from "@mui/material/TextField"
 import Box from "@mui/system/Box"
 import { useState } from "react"
 import { useAppSelector } from "../../../hooks/hooks"
-import { PostThread } from "../../../request/model/thread"
+import { PutThreadById } from "../../../request/model/thread"
+import { Thread } from "../../../types/dbtypes"
 
 interface Props {
 	open: boolean
 	setOpen: (open: boolean) => void
 	callBack: () => void
-	defaultPageId?: number
+	defaultThread: Thread
 }
 
-function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
+function UpdateThreadDialog({ open, setOpen, callBack, defaultThread }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
-	const [radioValue, setRadioValue] = useState('TEXT')
+	const [radioValue, setRadioValue] = useState(defaultThread.type)
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -30,14 +31,14 @@ function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 		if (!user)
 			return
 		const content = data.get('content') as string
-		const type = (data.get('type') as string)
 		const pageId = parseInt(data.get('pageId') as string)
+		const threadId = parseInt(data.get('threadId') as string)
 		try {
-			await PostThread(user.token, {
+			await PutThreadById(user.token, {
 				order: 0,
 				pageId: pageId,
-				id: 0,
-				type: type,
+				id: threadId,
+				type: radioValue,
 				content: content
 			})
 			callBack()
@@ -51,16 +52,18 @@ function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)}>
 			<Box sx={{ margin: "20px" }}>
-				<DialogTitle>Создать тред</DialogTitle>
+				<DialogTitle>Обновить тред</DialogTitle>
 				<Box component="form" onSubmit={handleSubmit}>
 					<FormControl>
+						<FormLabel>ID треда</FormLabel>
+						<TextField name="threadId" defaultValue={defaultThread.id} />
 						<FormLabel>Содержимое</FormLabel>
-						<TextField name="content" />
+						<TextField name="content" defaultValue={defaultThread.content} />
 						<FormControl>
 							<FormLabel id="radio-buttons-group-label">Тип</FormLabel>
 							<RadioGroup
 								aria-labelledby="radio-buttons-group-label"
-								value={radioValue}
+								defaultValue={defaultThread.type}
 								onChange={(event) => setRadioValue(event.target.value)}
 								name="type"
 							>
@@ -71,8 +74,8 @@ function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 							</RadioGroup>
 						</FormControl>
 						<FormLabel>ID страницы</FormLabel>
-						<TextField name="pageId" defaultValue={defaultPageId} />
-						<Button type="submit">Создать</Button>
+						<TextField name="pageId" defaultValue={defaultThread.pageId} />
+						<Button type="submit">Обновить</Button>
 					</FormControl>
 				</Box>
 			</Box>
@@ -80,4 +83,4 @@ function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 	)
 }
 
-export default CreateThreadDialog
+export default UpdateThreadDialog

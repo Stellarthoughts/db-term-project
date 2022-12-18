@@ -66,4 +66,12 @@ export const ThreadType = {
 	AUDIO: "AUDIO",
 	VIDEO: "VIDEO",
 	IMAGE: "IMAGE"
-} 
+}
+
+export interface Stats {
+	entryCount: number
+	userCount: number
+	chapterCount: number
+	threadCount: number
+	pageCount: number
+}

@@ -6,16 +6,17 @@ import FormLabel from "@mui/material/FormLabel"
 import TextField from "@mui/material/TextField"
 import Box from "@mui/system/Box"
 import { useAppSelector } from "../../../hooks/hooks"
-import { DeleteThreadById } from "../../../request/model/thread"
+import { PostPage as PutPageById } from "../../../request/model/page"
+import { Page } from "../../../types/dbtypes"
 
 interface Props {
 	open: boolean
 	setOpen: (open: boolean) => void
 	callBack: () => void
-	defaultThreadId?: number
+	defaultPage: Page
 }
 
-function DeleteThreadDialog({ open, setOpen, callBack, defaultThreadId }: Props) {
+function UpdatePageDialog({ open, setOpen, callBack, defaultPage }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -23,9 +24,15 @@ function DeleteThreadDialog({ open, setOpen, callBack, defaultThreadId }: Props)
 		const data = new FormData(event.currentTarget)
 		if (!user)
 			return
-		const threadId = parseInt(data.get('threadId') as string)
+		const chapterId = parseInt(data.get('chapterId') as string)
+		const pageId = parseInt(data.get('pageId') as string)
 		try {
-			await DeleteThreadById(user.token, threadId)
+			await PutPageById(user.token, {
+				id: pageId,
+				order: 0,
+				chapterId: chapterId,
+				threads: []
+			})
 			callBack()
 		}
 		catch (err) {
@@ -37,12 +44,14 @@ function DeleteThreadDialog({ open, setOpen, callBack, defaultThreadId }: Props)
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)}>
 			<Box sx={{ margin: "20px" }}>
-				<DialogTitle>Удалить тред</DialogTitle>
+				<DialogTitle>Обновить страницу</DialogTitle>
 				<Box component="form" onSubmit={handleSubmit}>
 					<FormControl>
-						<FormLabel>ID нити</FormLabel>
-						<TextField name="threadId" defaultValue={defaultThreadId} />
-						<Button type="submit">Удалить</Button>
+						<FormLabel>ID страницы</FormLabel>
+						<TextField name="pageId" defaultValue={defaultPage.id} />
+						<FormLabel>ID главы</FormLabel>
+						<TextField name="chapterId" defaultValue={defaultPage.chapterId} />
+						<Button type="submit">Создать</Button>
 					</FormControl>
 				</Box>
 			</Box>
@@ -50,4 +59,4 @@ function DeleteThreadDialog({ open, setOpen, callBack, defaultThreadId }: Props)
 	)
 }
 
-export default DeleteThreadDialog
+export default UpdatePageDialog

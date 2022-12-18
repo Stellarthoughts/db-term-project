@@ -4,16 +4,15 @@ import Pagination from "@mui/material/Pagination"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
 import { Link, useLoaderData, useLocation, useNavigate } from "react-router-dom"
-import { useAppSelector } from "../../hooks/hooks"
-import { ChapterPageData, chapterPageDataNull, GetChapterPageData } from "../../request/compound/pageData"
-import { PutChapterById } from "../../request/model/chapter"
-import paths from "../../router/paths"
-import { Page, User } from "../../types/dbtypes"
-import DeleteChapterDialog from "../dialog/chapter/deleteChapter"
-import CreatePageDialog from "../dialog/page/createPage"
-import CreatePersonalPage from "../dialog/page/createPersonalPage"
-import CreateThreadDialog from "../dialog/thread/createThread"
-import ThreadContainer from "./components/thread/threadContainer"
+import { useAppSelector } from "../../../hooks/hooks"
+import { ChapterPageData, chapterPageDataNull, GetChapterPageData } from "../../../request/compound/pageData"
+import { PutChapterById } from "../../../request/model/chapter"
+import paths from "../../../router/paths"
+import { Page, User } from "../../../types/dbtypes"
+import DeleteChapterDialog from "../../dialog/chapter/deleteChapter"
+import UpdateChapterDialog from "../../dialog/chapter/updateChapter"
+import CreatePageDialog from "../../dialog/page/createPage"
+import PersonalPage from "./personalPage/personalPage"
 interface Props {
 	updateTree: () => void
 }
@@ -49,9 +48,8 @@ function ChapterPage({ updateTree }: Props) {
 	const [page, setPage] = useState(0)
 
 	const [deleteChapterDialogOpen, setDeleteChapterDialogOpen] = useState(false)
+	const [updateChaterDialogOpen, setUpdateChaterDialogOpen] = useState(false)
 	const [createPageDialogOpen, createAddPageDialogOpen] = useState(false)
-	const [createPersonalPageDialogOpen, setCreatePersonalPageDialogOpen] = useState(false)
-	const [createThreadInPersonalPageDialogOpen, setCreateThreadInPersonalPageDialogOpen] = useState(false)
 
 	useEffect(() => {
 		setPersonalPage(personalPageData)
@@ -117,19 +115,14 @@ function ChapterPage({ updateTree }: Props) {
 					/> : <></>
 			}
 			{
-				chapter ? <CreatePersonalPage
-					open={createPersonalPageDialogOpen}
-					setOpen={setCreatePersonalPageDialogOpen}
-					callBack={updateOnCreatePersonalPage}
-				/> : <></>
-			}
-			{
-				personalPage ? <CreateThreadDialog
-					open={createThreadInPersonalPageDialogOpen}
-					setOpen={setCreateThreadInPersonalPageDialogOpen}
-					callBack={updateChapterPage}
-					defaultPageId={personalPage.id}
-				/> : <></>
+				chapter ?
+					<UpdateChapterDialog
+						open={updateChaterDialogOpen}
+						setOpen={setUpdateChaterDialogOpen}
+						callBack={updateChapterPage}
+						defaultChapter={chapter}
+					/>
+					: <></>
 			}
 			<Box
 				sx={{
@@ -138,6 +131,11 @@ function ChapterPage({ updateTree }: Props) {
 					alignItems: 'center',
 				}}
 			>
+				{
+					chapter && entry ?
+						<Button onClick={() => setUpdateChaterDialogOpen(true)}>Редактировать главу</Button>
+						: <></>
+				}
 				{
 					chapter ?
 						<Button onClick={() => setDeleteChapterDialogOpen(true)}>Удалить главу</Button>
@@ -183,35 +181,13 @@ function ChapterPage({ updateTree }: Props) {
 							</Typography>
 						</>
 				}
-				{
-					personalPage ?
-						<>
-							{
-								personalPageThreads ?
-									<>
-										<ThreadContainer threads={personalPageThreads} updatePage={updateChapterPage} />
-									</>
-									:
-									<>
-										<Typography>
-											Похоже, у собственной страницы главы пока нет содержимого!
-										</Typography>
-									</>
-							}
-							<Button onClick={() => setCreateThreadInPersonalPageDialogOpen(true)}>
-								Добавить тред
-							</Button>
-						</>
-						:
-						<>
-							<Typography>
-								Похоже, у этой главы пока нет собственной страницы!
-							</Typography>
-							<Button onClick={() => setCreatePersonalPageDialogOpen(true)}>
-								Добавить собственную страницу
-							</Button>
-						</>
-				}
+				<PersonalPage
+					entity={chapter}
+					personalPage={personalPage}
+					personalPageThreads={personalPageThreads}
+					updateOnCreatePersonalPage={updateOnCreatePersonalPage}
+					updateParentPage={updateChapterPage}
+				/>
 			</Box></>
 	)
 }

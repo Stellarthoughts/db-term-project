@@ -8,10 +8,10 @@ import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
-import { useAppSelector } from "../../hooks/hooks"
-import { GetSearchResults } from "../../request/search/query"
-import { Chapter, Entry } from "../../types/dbtypes"
-import paths from "../../router/paths"
+import { useAppSelector } from "../../../hooks/hooks"
+import { GetSearchResults } from "../../../request/search/query"
+import { Chapter, Entry } from "../../../types/dbtypes"
+import paths from "../../../router/paths"
 
 function SearchResult({ content, navigate }: { content: string, navigate: string }) {
 	return (

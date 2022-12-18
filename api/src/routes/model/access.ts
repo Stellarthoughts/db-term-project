@@ -54,10 +54,10 @@ router.put('/:id', async (req, res) => {
 	try {
 		const result = await UpdateAccessById(
 			parseInt(req.params.id),
-			req.body.canView == 'true',
-			req.body.canEdit == 'true',
-			req.body.canCreate == 'true',
-			req.body.canDelete == 'true'
+			req.body.canView,
+			req.body.canEdit,
+			req.body.canCreate,
+			req.body.canDelete
 		)
 		respondSuccess(result, res)
 	}

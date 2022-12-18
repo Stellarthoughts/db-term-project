@@ -5,12 +5,12 @@ import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { MuiFileInput } from "mui-file-input"
 import { useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
-import { UploadFile } from "../../request/resources/upload"
-import { alertFileUploadError } from "../../store/alertFailure"
-import { alertSelectFile } from "../../store/alertInfo"
-import { setFailure, setInfo, setSuccess } from "../../store/alertSlice"
-import { alertFileUploadSuccess } from "../../store/alertSuccess"
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooks"
+import { UploadFile } from "../../../request/resources/upload"
+import { alertFileUploadError } from "../../../store/alertFailure"
+import { alertSelectFile } from "../../../store/alertInfo"
+import { setFailure, setInfo, setSuccess } from "../../../store/alertSlice"
+import { alertFileUploadSuccess } from "../../../store/alertSuccess"
 
 function UploadPage() {
 	const [file, setFile] = useState<File | null>(null)

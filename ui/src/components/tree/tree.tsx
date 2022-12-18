@@ -69,13 +69,12 @@ function Tree({ treeNodes, updateTree }: Props) {
 							<TreeItem nodeId={paths.register.absolutePath} label="Зарегистрироваться" />
 							<TreeItem nodeId={paths.login.absolutePath} label="Войти" />
 						</>
-						: <></>
-				}
-				{
-					user ? <TreeItem nodeId={paths.search.absolutePath} label="Поиск" /> : <></>
-				}
-				{
-					user ? <TreeItem nodeId={paths.upload.absolutePath} label="Загрузить ресурсы" /> : <></>
+						:
+						<>
+							<TreeItem nodeId={paths.search.absolutePath} label="Поиск" />
+							<TreeItem nodeId={paths.stats.absolutePath} label="Статистика" />
+							<TreeItem nodeId={paths.upload.absolutePath} label="Загрузить ресурсы" />
+						</>
 				}
 				{
 					user?.access?.canCreate ?

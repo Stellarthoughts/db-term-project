@@ -12,8 +12,12 @@ function Header() {
 	const auth = useAuth()
 	const navigate = useNavigate()
 
-	const handleOnClick = () => {
+	const handleOnClickExit = () => {
 		auth.signout(() => (navigate(paths.root.absolutePath)))
+	}
+
+	const handleOnClickSuper = () => {
+		auth.superuser(() => (navigate(paths.root.absolutePath)))
 	}
 
 	return (
@@ -34,7 +38,10 @@ function Header() {
 				</Grid>
 				<Grid item>
 					{
-						user ? <Button onClick={handleOnClick}>Выйти</Button> : <></>
+						user ? <Button onClick={handleOnClickSuper}>Стать суперпользователем</Button> : <></>
+					}
+					{
+						user ? <Button onClick={handleOnClickExit}>Выйти</Button> : <></>
 					}
 				</Grid>
 			</Grid>

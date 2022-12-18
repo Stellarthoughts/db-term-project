@@ -1,10 +1,6 @@
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
-import ReactAudioPlayer from "react-audio-player"
-import { Player } from "video-react";
-import "../../../node_modules/video-react/dist/video-react.css";
-import { MoqThread, Thread } from "../../types/dbtypes";
-import ThreadContainer from "./components/thread/threadContainer";
+import Box from "@mui/material/Box";
+import { MoqThread, Thread } from "../../../types/dbtypes";
+import ThreadContainer from "../../thread/threadContainer";
 
 const MoqThreads: Thread[] = [
 	MoqThread(
@@ -21,11 +17,7 @@ const MoqThreads: Thread[] = [
 	MoqThread(
 		"VIDEO",
 		"relax_video.mp4"
-	),
-	MoqThread(
-		"VIDEO",
-		"relax_video.mp4"
-	),
+	)
 ]
 
 function DefaultPage() {
@@ -37,7 +29,7 @@ function DefaultPage() {
 				alignItems: 'center',
 			}}
 		>
-			<ThreadContainer threads={MoqThreads} updatePage={() => undefined} />
+			<ThreadContainer threads={MoqThreads} />
 		</Box>
 	)
 }

@@ -10,19 +10,22 @@ import './App.css'
 import Header from './components/header/header'
 import Tree from './components/tree/tree'
 
+// DONT TOUCH THIS. Required for video-react
+import "../node_modules/video-react/dist/video-react.css";
+
 import RequireAuth from './auth/components/requireAuth'
-import ChapterPage, { fetchChapterPage as fetchChapterPageData } from './components/pages/chapterPage'
-import DefaultPage from './components/pages/defaultPage'
-import EntryPage, { fetchEntryPage as fetchEntryPageData } from './components/pages/entryPage'
-import GenericPage, { fetchGenericPage as fetchGenericPageData } from './components/pages/genericPage'
-import LoginPage from './components/pages/loginPage'
-import RegistrationPage from './components/pages/registrationPage'
-import UploadPage from './components/pages/uploadPage'
+import ChapterPage, { fetchChapterPage as fetchChapterPageData } from './components/pages/dynamicPages/chapterPage'
+import DefaultPage from './components/pages/staticPages/defaultPage'
+import EntryPage, { fetchEntryPage as fetchEntryPageData } from './components/pages/dynamicPages/entryPage'
+import GenericPage, { fetchGenericPage as fetchGenericPageData } from './components/pages/dynamicPages/genericPage'
+import LoginPage from './components/pages/staticPages/loginPage'
+import RegistrationPage from './components/pages/staticPages/registrationPage'
+import UploadPage from './components/pages/staticPages/uploadPage'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { AppAlert } from './components/alert'
-import SearchPage from './components/pages/searchPage'
+import SearchPage from './components/pages/staticPages/searchPage'
 import { InvalidTokenError } from './error/error'
 import { useAppDispatch, useAppSelector } from './hooks/hooks'
 import { GetTree } from './request/compound/data'
@@ -30,6 +33,8 @@ import paths from './router/paths'
 import { alertInvalidToken, alertSomethingWentWrong } from './store/alertFailure'
 import { setFailure } from './store/alertSlice'
 import { Entry } from './types/dbtypes'
+import StatsPage from './components/pages/staticPages/statsPage'
+import { GetStats } from './request/statistic/stats'
 
 function App() {
 	const user = useAppSelector(state => state.user.user)
@@ -68,6 +73,10 @@ function App() {
 	// entry loader
 	const entryLoader: LoaderFunction = async ({ params }) => {
 		return await fetchEntryPageData(user, parseInt(params.id as string))
+	}
+
+	const statsLoader: LoaderFunction = async () => {
+		return user ? await GetStats(user.token) : null
 	}
 
 	function PageStructure({ children }: { children: JSX.Element }) {
@@ -166,6 +175,16 @@ function App() {
 							</PageStructure>
 						</RequireAuth>
 					}
+				/>,
+				<Route key={9} path={paths.stats.absolutePath} element=
+					{
+						<RequireAuth>
+							<PageStructure>
+								<StatsPage />
+							</PageStructure>
+						</RequireAuth>
+					}
+					loader={statsLoader}
 				/>
 			]
 		)

@@ -31,7 +31,11 @@ export const paths =
 	chapter: {
 		absolutePath: "/chapter",
 		name: "chapter"
-	}
+	},
+	stats: {
+		absolutePath: "/stats",
+		name: "stats"
+	},
 }
 
 export default paths

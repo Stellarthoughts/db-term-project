@@ -55,7 +55,7 @@ router.put('/:id', async (req, res) => {
 	try {
 		const result = await UpdateThreadById(
 			parseInt(req.params.id),
-			parseThreadType(req.body.threadType),
+			parseThreadType(req.body.type),
 			req.body.content,
 			parseInt(req.body.pageId)
 		)
