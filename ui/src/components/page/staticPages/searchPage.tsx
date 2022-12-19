@@ -17,7 +17,9 @@ import { color, maxWidth } from "@mui/system"
 
 function SearchResult({ content, navigate }: { content: string, navigate: string }) {
 	return (
-		<ListItem>
+		<ListItem sx={{
+			boxShadow: 1,
+		}}>
 			<Link to={navigate}>
 				<ListItemText primary={content} />
 			</Link>
@@ -79,7 +81,6 @@ function SearchPage() {
 								<>
 									<Typography variant="h6">Результаты поиска</Typography>
 									<List sx={{
-										border: 1,
 										width: "auto",
 										maxWidth: "500px",
 										marginTop: "10px"
@@ -90,8 +91,8 @@ function SearchPage() {
 													<Box
 														key={`entry/${entry.id}`}
 														sx={{
-															height: "90px",
-															color: "primary.contrastText"
+															minWidth: "200px",
+															marginBottom: "15px"
 														}}
 													>
 														<SearchResult
