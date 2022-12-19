@@ -74,11 +74,11 @@ function PersonalPage({
 						}
 					</>
 					:
-					<Stack direction="row" spacing={2}>
+					entity ? <Stack direction="row" spacing={2}>
 						<Button onClick={() => setCreatePersonalPageDialogOpen(true)}>
 							Добавить собственную страницу
 						</Button>
-					</Stack>
+					</Stack> : <></>
 			}
 		</>
 	)

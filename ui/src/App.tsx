@@ -93,12 +93,17 @@ function App() {
 						}}>
 							<Header></Header>
 						</Box>
-						<AppAlert />
+						<Box sx={{
+							marginTop: "10px",
+							marginLeft: "10px"
+						}}>
+							<AppAlert />
+						</Box>
 						<Box
 							sx={{
 								paddingLeft: "20px",
 								paddingRight: '20px',
-								paddingTop: "20px",
+								paddingTop: "5px",
 								paddingBottom: "50px",
 							}}
 						>

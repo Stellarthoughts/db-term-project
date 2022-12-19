@@ -126,9 +126,6 @@ function EntryPage({ updateTree }: Props) {
 										<Typography variant="h4">
 											{entry.name}
 										</Typography>
-										<Typography>
-											{`ID: ${entry.id}`}
-										</Typography>
 									</Stack>
 								</>
 								:
@@ -144,30 +141,46 @@ function EntryPage({ updateTree }: Props) {
 							entry ? <Button onClick={() => setDeleteEntryDialogOpen(true)}>Удалить книгу</Button> : <></>
 						}
 					</Grid>
+					<Grid item container xs={12} justifyContent="center">
+						{
+							entry ?
+								<Typography>
+									{`ID: ${entry.id}`}
+								</Typography> : <></>
+						}
+					</Grid>
 				</Grid>
 				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				{
 					entry && chapters ?
-						<Box sx={{ paddingLeft: "7px" }}>
-							<Stack direction="row" spacing={2}>
-								<Typography variant="h5">
-									Главы
-								</Typography>
+						<Box>
+							<Stack justifyContent="center" alignItems="center">
 								<Button onClick={() => setCreateChapterDialogOpen(true)}>Добавить главу</Button>
+								<Typography>
+									Главы:
+								</Typography>
+								<Grid container direction="row" justifyContent="center" spacing={1} sx={{
+									marginTop: "5px"
+								}}>
+									{
+										chapters.map((chapter) => {
+											return (
+												<Grid key={chapter.id} item sx={{
+													padding: "5px",
+													minWidth: "50px",
+													minHeight: "10px",
+													margin: "5px",
+													boxShadow: 1,
+												}}>
+													<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
+														{chapter.name}
+													</Link>
+												</Grid>
+											)
+										})
+									}
+								</Grid>
 							</Stack>
-							<Grid container direction="row" spacing={1}>
-								{
-									chapters.map((chapter) => {
-										return (
-											<Grid key={chapter.id} item>
-												<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
-													{chapter.name}
-												</Link>
-											</Grid>
-										)
-									})
-								}
-							</Grid>
 						</Box>
 						:
 						<></>

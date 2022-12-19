@@ -137,32 +137,13 @@ function ChapterPage({ updateTree }: Props) {
 						}
 					</Grid>
 					<Grid item container xs={4} justifyContent="center">
-						<Stack sx={{ alignItems: "center" }}>
-							{
-								chapter ?
-									<>
-										<Typography variant="h4">
-											{chapter.name}
-										</Typography>
-										<Typography>
-											{`ID: ${chapter.id}`}
-										</Typography>
-									</>
-									: <></>
-							}
-							{
-								entry ?
-									<>
-										<Typography>
-											{"В книге: "}
-											<Link to={`${paths.entry.absolutePath}/${entry.id}`}>
-												{entry.name}
-											</Link>
-										</Typography>
-									</> :
-									<></>
-							}
-						</Stack>
+						{
+							chapter ?
+								<Typography variant="h4">
+									{chapter.name}
+								</Typography>
+								: <></>
+						}
 					</Grid>
 					<Grid container item xs={4} justifyContent="flex-end">
 						{
@@ -171,13 +152,30 @@ function ChapterPage({ updateTree }: Props) {
 								: <></>
 						}
 					</Grid>
+					<Grid container item xs={12} justifyContent="center">
+						{
+							chapter && entry ?
+								<Stack alignItems="center">
+									<Typography>
+										{`ID: ${chapter.id}`}
+									</Typography>
+									<Typography>
+										{"В книге: "}
+										<Link to={`${paths.entry.absolutePath}/${entry.id}`}>
+											{entry.name}
+										</Link>
+									</Typography>
+								</Stack> :
+								<></>
+						}
+					</Grid>
 				</Grid>
 				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				{
 					pages ?
 						<Box>
-							<Button onClick={() => createAddPageDialogOpen(true)}>Добавить страницу</Button>
 							<Stack sx={{ alignItems: "center" }} justifyContent="center" spacing={1}>
+								<Button onClick={() => createAddPageDialogOpen(true)}>Добавить страницу</Button>
 								<Typography>
 									Страницы главы:
 								</Typography>

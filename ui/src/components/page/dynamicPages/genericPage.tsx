@@ -1,5 +1,7 @@
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
+import Divider from "@mui/material/Divider"
+import Grid from "@mui/material/Grid"
 import Pagination from "@mui/material/Pagination"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
@@ -102,9 +104,42 @@ function GenericPage() {
 			}
 			<Box
 			>
+				<Grid container justifyContent="space-between">
+					<Grid item container xs={4} justifyContent="flex-start" >
+						{
+							page ? <Button onClick={() => setUpdatePageDialogOpen(true)}>
+								Редактировать страницу
+							</Button>
+								: <></>
+						}
+					</Grid>
+					<Grid item container xs={4} justifyContent="center" alignContent="center">
+						{
+							chapter ?
+								<Typography>
+									<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
+										Глава {chapter.name}
+									</Link>
+								</Typography> : <></>}
+					</Grid>
+					<Grid item container xs={4} justifyContent="flex-end" >
+						{
+							page ? <Button onClick={() => setDeletePageDialogOpen(true)}>
+								Удалить страницу
+							</Button> : <></>
+						}
+					</Grid>
+					<Grid item container xs={12} alignItems="center" justifyContent="center">
+						{
+							page ?
+								<Typography>
+									ID страницы {page.id}
+								</Typography> : <></>}
+					</Grid>
+				</Grid>
 				{
 					otherPages ?
-						<Box sx={{ alignItems: "center" }} justifyContent="center">
+						<Box my={2} display="flex" justifyContent="center">
 							<Pagination
 								count={otherPages.length}
 								page={pageSelected}
@@ -112,50 +147,31 @@ function GenericPage() {
 						</Box>
 						: <></>
 				}
-				{
-					chapter ?
-						<Typography>
-							<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
-								Глава {chapter.order}
-							</Link>
-						</Typography> : <></>}
-				{
-					page ?
-						<Typography>
-							ID страницы {page.id}
-						</Typography> : <></>}
-				{
-					page ? <Button onClick={() => setUpdatePageDialogOpen(true)}>
-						Редактировать страницу
-					</Button>
-						: <></>
-				}
-				{
-					page ? <Button onClick={() => setDeletePageDialogOpen(true)}>
-						Удалить страницу
-					</Button> : <></>
-				}
-				{
-					threads ? <ThreadContainer threads={threads} updatePage={updateGenericPage} /> :
-						<>
-							<Typography>
-								Похоже, у этой страницы пока нет содержимого!
-							</Typography>
-						</>}
+				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				{
 					page ? <Button onClick={() => setCreateThreadDialogOpen(true)}>
 						Добавить тред в страницу
 					</Button> : <></>
 				}
 				{
+					threads ?
+						<Box sx={{ paddingLeft: "10px" }}>
+							<ThreadContainer threads={threads} updatePage={updateGenericPage} />
+						</Box>
+						:
+						<></>
+				}
+				<Divider variant="middle" sx={{ width: "100%", marginTop: "20px", marginBottom: "10px" }} />
+				{
 					otherPages ?
-						<Pagination
-							count={otherPages.length}
-							page={pageSelected}
-							onChange={handlePageChange} color="primary" />
+						<Box my={2} display="flex" justifyContent="center">
+							<Pagination
+								count={otherPages.length}
+								page={pageSelected}
+								onChange={handlePageChange} color="primary" />
+						</Box>
 						: <></>
 				}
-
 			</Box></>
 	)
 }

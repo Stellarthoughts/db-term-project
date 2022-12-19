@@ -59,8 +59,10 @@ function UploadPage() {
 			</Typography>
 			<Box component="form" noValidate sx={{ mt: 1 }}>
 				<Grid spacing={2} justifyContent="center" container>
-					<Grid item xs={12}>
-						<TextField
+					<Grid container item xs={12} justifyContent="center">
+						<TextField sx={{
+							width: "500px"
+						}}
 							margin="normal"
 							fullWidth
 							id=""
@@ -69,9 +71,9 @@ function UploadPage() {
 							onChange={handleChangeText}
 						/>
 					</Grid>
-					<Grid item xs={12}>
+					<Grid container item xs={12} justifyContent="center">
 						<MuiFileInput value={file} onChange={handleChange} sx={{
-							width: "100%"
+							width: "500px"
 						}} />
 					</Grid>
 					<Grid item>
