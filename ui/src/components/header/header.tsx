@@ -23,26 +23,33 @@ function Header() {
 	return (
 		<Box sx={{
 			display: 'flex',
-			marginTop: '10px',
-			minHeight: '50px',
+			minHeight: '60px',
+			paddingTop: '7px',
+			paddingBottom: '10px',
 			paddingLeft: '20px',
-			paddingRight: '20px'
+			paddingRight: '20px',
+			backgroundColor: "common.white",
+			boxShadow: 1,
 		}}>
-			<Grid justifyContent="space-between" container>
-				<Grid item>
-					<Typography>
+			<Grid container justifyContent="space-between" alignItems="center" direction="row">
+				<Grid item xs={12} sm={6}>
+					<Typography variant="h6">
 						{
 							user ? `Добро пожаловать, ${user.login}!` : "Добро пожаловать в WebBook!"
 						}
 					</Typography>
 				</Grid>
-				<Grid item>
-					{
-						user ? <Button onClick={handleOnClickSuper}>Стать суперпользователем</Button> : <></>
-					}
-					{
-						user ? <Button onClick={handleOnClickExit}>Выйти</Button> : <></>
-					}
+				<Grid item xs={12} sm={6} container alignItems="center" justifyContent="flex-end">
+					<Grid item>
+						{
+							user ? <Button onClick={handleOnClickSuper}>Стать суперпользователем</Button> : <></>
+						}
+					</Grid>
+					<Grid item>
+						{
+							user ? <Button onClick={handleOnClickExit}>Выйти</Button> : <></>
+						}
+					</Grid>
 				</Grid>
 			</Grid>
 		</Box>

@@ -1,4 +1,6 @@
+import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
+import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
 import { Chapter, Entry, Page, Thread } from "../../../../types/dbtypes"
@@ -54,34 +56,29 @@ function PersonalPage({
 			{
 				personalPage ?
 					<>
+						<Stack direction="row" justifyContent="space-between">
+							<Button onClick={() => setCreateThreadInPersonalPageDialogOpen(true)}>
+								Добавить тред в собственную страницу
+							</Button>
+							<Button onClick={() => setDeletePersonalPageDialogOpen(true)}>
+								Удалить собственную страницу
+							</Button>
+						</Stack>
 						{
 							personalPageThreads ?
-								<>
+								<Box sx={{ paddingLeft: "10px" }}>
 									<ThreadContainer threads={personalPageThreads} updatePage={updateParentPage} />
-								</>
+								</Box>
 								:
-								<>
-									<Typography>
-										Похоже, у собственной страницы пока нет содержимого!
-									</Typography>
-								</>
+								<></>
 						}
-						<Button onClick={() => setCreateThreadInPersonalPageDialogOpen(true)}>
-							Добавить тред в собственную страницу
-						</Button>
-						<Button onClick={() => setDeletePersonalPageDialogOpen(true)}>
-							Удалить собственную страницу
-						</Button>
 					</>
 					:
-					<>
-						<Typography>
-							Похоже, собственной страницы пока нет!
-						</Typography>
+					<Stack direction="row" spacing={2}>
 						<Button onClick={() => setCreatePersonalPageDialogOpen(true)}>
 							Добавить собственную страницу
 						</Button>
-					</>
+					</Stack>
 			}
 		</>
 	)

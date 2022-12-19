@@ -16,7 +16,7 @@ function ThreadWrap({ thread, updatePage, component }: Props) {
 	const [updateDialogOpen, setUpdateDialogOpen] = useState(false)
 
 	return (
-		<Box>
+		<Box sx={{ width: "100%", boxShadow: 3 }}>
 			{
 				thread && updatePage ?
 					<>
@@ -33,7 +33,9 @@ function ThreadWrap({ thread, updatePage, component }: Props) {
 						/>
 					</> : <></>
 			}
-			{component}
+			<Box sx={{ padding: "10px" }}>
+				{component}
+			</Box>
 			{
 				thread && updatePage ?
 					<>

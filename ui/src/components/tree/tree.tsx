@@ -10,6 +10,7 @@ import { Entry } from '../../types/dbtypes'
 import CreateEntryDialog from '../dialog/entry/createEntry'
 import DeleteEntryDialog from '../dialog/entry/deleteEntry'
 import Box from '@mui/material/Box'
+import { useTheme } from '@mui/material'
 
 interface Props {
 	treeNodes: Array<Entry> | null
@@ -20,6 +21,7 @@ function Tree({ treeNodes, updateTree }: Props) {
 	const navigate = useNavigate()
 	const user = useAppSelector(state => state.user.user)
 	const location = useLocation()
+	const theme = useTheme()
 	const [selected, setSelected] = useState<string>("")
 	const [showCreate, setCreate] = useState<boolean>(false)
 	const [showDelete, setDelete] = useState<boolean>(false)
@@ -49,7 +51,12 @@ function Tree({ treeNodes, updateTree }: Props) {
 		setExpanded(nodeIds)
 	}
 	return (
-		<Box sx={{ position: "sticky", top: "0" }}>
+		<Box sx={{
+			position: "sticky",
+			top: "0",
+			paddingBottom: "10px",
+			boxShadow: 1,
+		}}>
 			<CreateEntryDialog open={showCreate} setOpen={setCreate} callBack={updateTree} />
 			<DeleteEntryDialog open={showDelete} setOpen={setDelete} callBack={updateTree} />
 			<TreeView
@@ -60,7 +67,10 @@ function Tree({ treeNodes, updateTree }: Props) {
 				selected={selected}
 				onNodeToggle={handleExpandToggle}
 				onNodeSelect={handleOnNodeSelect}
-				sx={{ flexGrow: 1, overflowY: 'auto' }}
+				sx={{
+					flexGrow: 1,
+					overflowY: 'auto'
+				}}
 			>
 				<TreeItem nodeId={paths.root.absolutePath} label="Добро пожаловать!" />
 				{

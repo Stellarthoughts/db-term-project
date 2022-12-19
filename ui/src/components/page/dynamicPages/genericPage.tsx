@@ -101,22 +101,29 @@ function GenericPage() {
 				/> : <> </>
 			}
 			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-				}}
 			>
-				{chapter ?
-					<Typography>
-						<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
-							Глава {chapter.order}
-						</Link>
-					</Typography> : <></>}
-				{page ?
-					<Typography>
-						ID страницы {page.id}
-					</Typography> : <></>}
+				{
+					otherPages ?
+						<Box sx={{ alignItems: "center" }} justifyContent="center">
+							<Pagination
+								count={otherPages.length}
+								page={pageSelected}
+								onChange={handlePageChange} color="primary" />
+						</Box>
+						: <></>
+				}
+				{
+					chapter ?
+						<Typography>
+							<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
+								Глава {chapter.order}
+							</Link>
+						</Typography> : <></>}
+				{
+					page ?
+						<Typography>
+							ID страницы {page.id}
+						</Typography> : <></>}
 				{
 					page ? <Button onClick={() => setUpdatePageDialogOpen(true)}>
 						Редактировать страницу
@@ -128,23 +135,26 @@ function GenericPage() {
 						Удалить страницу
 					</Button> : <></>
 				}
-				{threads ? <ThreadContainer threads={threads} updatePage={updateGenericPage} /> :
-					<>
-						<Typography>
-							Похоже, у этой страницы пока нет содержимого!
-						</Typography>
-					</>}
+				{
+					threads ? <ThreadContainer threads={threads} updatePage={updateGenericPage} /> :
+						<>
+							<Typography>
+								Похоже, у этой страницы пока нет содержимого!
+							</Typography>
+						</>}
 				{
 					page ? <Button onClick={() => setCreateThreadDialogOpen(true)}>
 						Добавить тред в страницу
 					</Button> : <></>
 				}
-				{otherPages ?
-					<Pagination
-						count={otherPages.length}
-						page={pageSelected}
-						onChange={handlePageChange} color="primary" />
-					: <></>}
+				{
+					otherPages ?
+						<Pagination
+							count={otherPages.length}
+							page={pageSelected}
+							onChange={handlePageChange} color="primary" />
+						: <></>
+				}
 
 			</Box></>
 	)

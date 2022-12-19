@@ -14,18 +14,18 @@ import Tree from './components/tree/tree'
 import "../node_modules/video-react/dist/video-react.css";
 
 import RequireAuth from './auth/components/requireAuth'
-import ChapterPage, { fetchChapterPage as fetchChapterPageData } from './components/pages/dynamicPages/chapterPage'
-import DefaultPage from './components/pages/staticPages/defaultPage'
-import EntryPage, { fetchEntryPage as fetchEntryPageData } from './components/pages/dynamicPages/entryPage'
-import GenericPage, { fetchGenericPage as fetchGenericPageData } from './components/pages/dynamicPages/genericPage'
-import LoginPage from './components/pages/staticPages/loginPage'
-import RegistrationPage from './components/pages/staticPages/registrationPage'
-import UploadPage from './components/pages/staticPages/uploadPage'
+import ChapterPage, { fetchChapterPage as fetchChapterPageData } from './components/page/dynamicPages/chapterPage'
+import DefaultPage from './components/page/staticPages/defaultPage'
+import EntryPage, { fetchEntryPage as fetchEntryPageData } from './components/page/dynamicPages/entryPage'
+import GenericPage, { fetchGenericPage as fetchGenericPageData } from './components/page/dynamicPages/genericPage'
+import LoginPage from './components/page/staticPages/loginPage'
+import RegistrationPage from './components/page/staticPages/registrationPage'
+import UploadPage from './components/page/staticPages/uploadPage'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import { AppAlert } from './components/alert'
-import SearchPage from './components/pages/staticPages/searchPage'
+import SearchPage from './components/page/staticPages/searchPage'
 import { InvalidTokenError } from './error/error'
 import { useAppDispatch, useAppSelector } from './hooks/hooks'
 import { GetTree } from './request/compound/data'
@@ -33,7 +33,7 @@ import paths from './router/paths'
 import { alertInvalidToken, alertSomethingWentWrong } from './store/alertFailure'
 import { setFailure } from './store/alertSlice'
 import { Entry } from './types/dbtypes'
-import StatsPage from './components/pages/staticPages/statsPage'
+import StatsPage from './components/page/staticPages/statsPage'
 import { GetStats } from './request/statistic/stats'
 
 function App() {
@@ -88,9 +88,20 @@ function App() {
 				</Grid>
 				<Grid item xs={12} sm={8} lg={6} >
 					<Stack>
-						<Header></Header>
+						<Box sx={{
+							marginLeft: "10px"
+						}}>
+							<Header></Header>
+						</Box>
 						<AppAlert />
-						<Box sx={{ paddingLeft: "20px", paddingRight: '20px' }}>
+						<Box
+							sx={{
+								paddingLeft: "20px",
+								paddingRight: '20px',
+								paddingTop: "20px",
+								paddingBottom: "50px",
+							}}
+						>
 							{children}
 						</Box>
 					</Stack>

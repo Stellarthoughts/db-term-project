@@ -13,7 +13,7 @@ interface Props {
 
 function ThreadContainer({ threads, updatePage }: Props) {
 	return (
-		<Box>
+		<Box sx={{ marginTop: "10px", marginBottom: "10px" }}>
 			<Stack spacing={2}>
 				{
 					threads.map((thread) => {

@@ -1,6 +1,9 @@
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
+import Divider from "@mui/material/Divider"
+import Grid from "@mui/material/Grid"
 import Pagination from "@mui/material/Pagination"
+import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
 import { Link, useLoaderData, useLocation, useNavigate } from "react-router-dom"
@@ -124,56 +127,63 @@ function ChapterPage({ updateTree }: Props) {
 					/>
 					: <></>
 			}
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-				}}
-			>
-				{
-					chapter && entry ?
-						<Button onClick={() => setUpdateChaterDialogOpen(true)}>Редактировать главу</Button>
-						: <></>
-				}
-				{
-					chapter ?
-						<Button onClick={() => setDeleteChapterDialogOpen(true)}>Удалить главу</Button>
-						: <></>
-				}
-				{
-					chapter ?
-						<>
-							<Typography component="h1" variant="h5">
-								{chapter.name}
-							</Typography>
-							<Typography component="h5">
-								{`ID: ${chapter.id}`}
-							</Typography>
-						</>
-						: <></>
-				}
-				{
-					entry ?
-						<>
-							<Typography>
-								{"Книга: "}
-								<Link to={`${paths.entry.absolutePath}/${entry.id}`}>
-									{entry.name}
-								</Link>
-							</Typography>
-						</> :
-						<></>
-				}
+			<Box>
+				<Grid container>
+					<Grid item container xs={4} justifyContent="flex-start">
+						{
+							chapter && entry ?
+								<Button onClick={() => setUpdateChaterDialogOpen(true)}>Редактировать главу</Button>
+								: <></>
+						}
+					</Grid>
+					<Grid item container xs={4} justifyContent="center">
+						<Stack sx={{ alignItems: "center" }}>
+							{
+								chapter ?
+									<>
+										<Typography variant="h4">
+											{chapter.name}
+										</Typography>
+										<Typography>
+											{`ID: ${chapter.id}`}
+										</Typography>
+									</>
+									: <></>
+							}
+							{
+								entry ?
+									<>
+										<Typography>
+											{"В книге: "}
+											<Link to={`${paths.entry.absolutePath}/${entry.id}`}>
+												{entry.name}
+											</Link>
+										</Typography>
+									</> :
+									<></>
+							}
+						</Stack>
+					</Grid>
+					<Grid container item xs={4} justifyContent="flex-end">
+						{
+							chapter ?
+								<Button onClick={() => setDeleteChapterDialogOpen(true)}>Удалить главу</Button>
+								: <></>
+						}
+					</Grid>
+				</Grid>
+				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				{
 					pages ?
-						<>
-							<Typography>
-								Страницы главы:
-							</Typography>
-							<Pagination count={pages.length} page={page} onChange={handleChangePage} color="primary" />
+						<Box>
 							<Button onClick={() => createAddPageDialogOpen(true)}>Добавить страницу</Button>
-						</>
+							<Stack sx={{ alignItems: "center" }} justifyContent="center" spacing={1}>
+								<Typography>
+									Страницы главы:
+								</Typography>
+								<Pagination count={pages.length} page={page} onChange={handleChangePage} color="primary" />
+							</Stack>
+						</Box>
 						:
 						<>
 							<Typography>
@@ -181,6 +191,7 @@ function ChapterPage({ updateTree }: Props) {
 							</Typography>
 						</>
 				}
+				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				<PersonalPage
 					entity={chapter}
 					personalPage={personalPage}

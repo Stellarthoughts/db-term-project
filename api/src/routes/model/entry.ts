@@ -52,7 +52,7 @@ router.put('/:id', async (req, res) => {
 		const result = await UpdateEntryById(
 			parseInt(req.params.id),
 			req.body.name,
-			parseInt(req.body.personalPageId)
+			req.body.personalPageId
 		)
 		respondSuccess(result, res)
 	}

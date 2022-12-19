@@ -19,7 +19,7 @@ root.render(
 	<Provider store={store}>
 		<ThemeProvider theme={theme}>
 			{/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-			<CssBaseline />
+			<CssBaseline enableColorScheme />
 			<PersistGate loading={null} persistor={persistor}>
 				<AuthProvider>
 					<App />

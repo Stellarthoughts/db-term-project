@@ -46,7 +46,7 @@ function UpdateEntryDialog({ open, setOpen, callBack, defaultEntry }: Props) {
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)}>
 			<Box sx={{ margin: "20px" }}>
-				<DialogTitle>Обнновить книгу</DialogTitle>
+				<DialogTitle>Обновить книгу</DialogTitle>
 				<Box component="form" onSubmit={handleSubmit}>
 					<FormControl>
 						<Stack spacing={1}>

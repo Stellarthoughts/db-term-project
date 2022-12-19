@@ -22,13 +22,7 @@ const MoqThreads: Thread[] = [
 
 function DefaultPage() {
 	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-			}}
-		>
+		<Box>
 			<ThreadContainer threads={MoqThreads} />
 		</Box>
 	)

@@ -1,5 +1,8 @@
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
+import Divider from "@mui/material/Divider"
+import Grid from "@mui/material/Grid"
+import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
 import { Link, useLoaderData, useLocation } from "react-router-dom"
@@ -106,58 +109,70 @@ function EntryPage({ updateTree }: Props) {
 					defaultEntry={entry}
 				/> : <></>
 			}
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-				}}
-			>
-				{
-					entry ? <Button onClick={() => setUpdateEntryDialogOpen(true)}>Редактировать книгу</Button> : <></>
-				}
-				{
-					entry ? <Button onClick={() => setDeleteEntryDialogOpen(true)}>Удалить книгу</Button> : <></>
-				}
-				{
-					entry ?
-						<>
-							<Typography component="h1" variant="h5">
-								{entry.name}
-							</Typography>
-							<Typography component="h5">
-								{`ID: ${entry.id}`}
-							</Typography>
-						</>
-						:
-						<>
-							<Typography>
-								Похоже, этой книги не существует!
-							</Typography>
-						</>
-				}
+			<Box>
+				<Grid container>
+					<Grid item container xs={4} justifyContent="flex-start">
+						{
+							entry ? <Button onClick={() => setUpdateEntryDialogOpen(true)}>Редактировать книгу</Button> : <></>
+						}
+					</Grid>
+					<Grid item xs={4}>
+						{
+							entry ?
+								<>
+									<Stack
+										sx={{ alignItems: 'center' }}
+									>
+										<Typography variant="h4">
+											{entry.name}
+										</Typography>
+										<Typography>
+											{`ID: ${entry.id}`}
+										</Typography>
+									</Stack>
+								</>
+								:
+								<>
+									<Typography>
+										Похоже, этой книги не существует!
+									</Typography>
+								</>
+						}
+					</Grid>
+					<Grid container item xs={4} justifyContent="flex-end">
+						{
+							entry ? <Button onClick={() => setDeleteEntryDialogOpen(true)}>Удалить книгу</Button> : <></>
+						}
+					</Grid>
+				</Grid>
+				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				{
 					entry && chapters ?
-						<>
-							<Typography>
-								Главы:
-							</Typography>
-							{chapters.map((chapter) => {
-								return (
-									<Link key={chapter.id} to={`${paths.chapter.absolutePath}/${chapter.id}`}>
-										{chapter.name}
-									</Link>
-								)
-							})}
-							<Button onClick={() => setCreateChapterDialogOpen(true)}>Добавить главу</Button>
-						</>
+						<Box sx={{ paddingLeft: "7px" }}>
+							<Stack direction="row" spacing={2}>
+								<Typography variant="h5">
+									Главы
+								</Typography>
+								<Button onClick={() => setCreateChapterDialogOpen(true)}>Добавить главу</Button>
+							</Stack>
+							<Grid container direction="row" spacing={1}>
+								{
+									chapters.map((chapter) => {
+										return (
+											<Grid key={chapter.id} item>
+												<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
+													{chapter.name}
+												</Link>
+											</Grid>
+										)
+									})
+								}
+							</Grid>
+						</Box>
 						:
-						<>
-							<Typography>
-								Похоже, в этой книге пока нет глав!
-							</Typography>
-						</>
+						<></>
 				}
+				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				<PersonalPage
 					entity={entry}
 					personalPage={personalPage}
