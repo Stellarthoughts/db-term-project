@@ -8,7 +8,8 @@ const router = express.Router()
 router.post('/', async (req, res) => {
 	try {
 		const result = await CreatePage(
-			req.body.chapterId ? parseInt(req.body.chapterId) : null
+			req.body.chapterId ? parseInt(req.body.chapterId) : null,
+			req.body.order ? parseInt(req.body.order) : 0
 		)
 		respondSuccess(result, res)
 	}
@@ -51,7 +52,8 @@ router.put('/:id', async (req, res) => {
 	try {
 		const result = await UpdatePageById(
 			parseInt(req.params.id),
-			parseInt(req.body.chapterId)
+			parseInt(req.body.chapterId),
+			parseInt(req.body.order)
 		)
 		respondSuccess(result, res)
 	}

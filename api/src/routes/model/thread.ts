@@ -57,7 +57,8 @@ router.put('/:id', async (req, res) => {
 			parseInt(req.params.id),
 			parseThreadType(req.body.type),
 			req.body.content,
-			parseInt(req.body.pageId)
+			parseInt(req.body.pageId),
+			parseInt(req.body.order)
 		)
 		respondSuccess(result, res)
 	}

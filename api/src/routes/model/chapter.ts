@@ -9,7 +9,9 @@ router.post('/', async (req, res) => {
 	try {
 		const result = await CreateChapter(
 			req.body.name,
-			parseInt(req.body.entryId)
+			parseInt(req.body.entryId),
+			req.body.personalPageId ? parseInt(req.body.personalPageId) : null,
+			parseInt(req.body.order)
 		)
 		respondSuccess(result, res)
 	}
@@ -54,7 +56,8 @@ router.put('/:id', async (req, res) => {
 			parseInt(req.params.id),
 			req.body.name,
 			parseInt(req.body.entryId),
-			parseInt(req.body.personalPageId)
+			parseInt(req.body.personalPageId),
+			parseInt(req.body.order)
 		)
 		respondSuccess(result, res)
 	}

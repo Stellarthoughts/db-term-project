@@ -10,7 +10,76 @@ export const selectThreadSettings = {
 	pageId: true,
 }
 
-export const CreateThread = (
+interface selectThreadSettingsType {
+	id: number,
+	order: number,
+	type: ThreadType,
+	content: string,
+	pageId: number,
+}
+
+const isPreserveThreadNeeded = async (thread: selectThreadSettingsType) => {
+	const threads = await prisma.thread.findMany({
+		where: {
+			pageId: thread.pageId,
+		},
+		select: selectThreadSettings
+	})
+	let isPreserveNeeded = false
+	for (let i = 0; i < threads.length - 1; i++) {
+		if (threads[i].order != threads[i + 1].order - 1) {
+			isPreserveNeeded = true
+			break
+		}
+	}
+	return isPreserveNeeded
+}
+
+const PreserveThreadOrder = async (
+	thread: selectThreadSettingsType,
+	deleted: boolean,
+) => {
+	if (!thread || !thread.pageId || !thread.order)
+		return
+	if (!await isPreserveThreadNeeded(thread))
+		return
+	await prisma.thread.updateMany({
+		where: {
+			pageId: thread.pageId,
+			NOT: {
+				id: thread.id
+			},
+			order: {
+				gte: thread.order
+			}
+		},
+		data: {
+			order: {
+				increment: deleted ? -1 : 1
+			}
+		}
+	})
+	const threads = await prisma.thread.findMany({
+		where: {
+			pageId: thread.pageId,
+		},
+		select: selectThreadSettings
+	})
+	const threadsSorted = threads.sort((a, b) => a.order - b.order)
+	for (let i = 0; i < threadsSorted.length; i++) {
+		await prisma.thread.update({
+			where: {
+				id: threadsSorted[i].id
+			},
+			data: {
+				order: i + 1
+			}
+		})
+	}
+}
+
+
+export const CreateThread = async (
 	type: ThreadType,
 	content: string,
 	pageId: number,
@@ -25,7 +94,9 @@ export const CreateThread = (
 		},
 		select: selectThreadSettings,
 	})
-	return ResolvePrismaRequest(request)
+	const resolved = await ResolvePrismaRequest(request)
+	await PreserveThreadOrder(resolved, false)
+	return resolved
 }
 
 // Read All
@@ -52,11 +123,12 @@ export const FindThreadById = (
 
 
 // Update Thread
-export const UpdateThreadById = (
+export const UpdateThreadById = async (
 	id: number,
 	type: ThreadType,
 	content: string,
 	pageId: number,
+	order: number
 ) => {
 	const request = prisma.thread.update({
 		where: {
@@ -65,16 +137,19 @@ export const UpdateThreadById = (
 		data: {
 			type: type,
 			content: content,
-			pageId: pageId
+			pageId: pageId,
+			order: order
 		},
 		select: selectThreadSettings
 	})
-	return ResolvePrismaRequest(request)
+	const resolved = await ResolvePrismaRequest(request)
+	await PreserveThreadOrder(resolved, false)
+	return resolved
 }
 
 
 // Delete Thread By ID
-export const DeleteThreadById = (
+export const DeleteThreadById = async (
 	id: number
 ) => {
 	const request = prisma.thread.delete({
@@ -83,5 +158,7 @@ export const DeleteThreadById = (
 		},
 		select: selectThreadSettings
 	})
-	return ResolvePrismaRequest(request)
+	const resolved = await ResolvePrismaRequest(request)
+	await PreserveThreadOrder(resolved, false)
+	return resolved
 }

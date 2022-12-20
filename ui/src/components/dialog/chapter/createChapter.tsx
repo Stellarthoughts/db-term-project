@@ -12,10 +12,11 @@ interface Props {
 	open: boolean
 	setOpen: (open: boolean) => void
 	callBack: () => void
+	defaultOrder?: number
 	defaultEntryId?: number
 }
 
-function CreateChapterDialog({ open, setOpen, callBack, defaultEntryId }: Props) {
+function CreateChapterDialog({ open, setOpen, callBack, defaultOrder, defaultEntryId }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -26,10 +27,11 @@ function CreateChapterDialog({ open, setOpen, callBack, defaultEntryId }: Props)
 		const name = data.get('name') as string
 		const personalPageId = parseInt(data.get('personalPageId') as string)
 		const entryId = parseInt(data.get('entryId') as string)
+		const order = parseInt(data.get('order') as string)
 		try {
 			await PostChapter(user.token, {
 				name: name,
-				order: 0,
+				order: order,
 				pages: [],
 				personalPageId: personalPageId,
 				entryId: entryId,
@@ -51,6 +53,8 @@ function CreateChapterDialog({ open, setOpen, callBack, defaultEntryId }: Props)
 					<FormControl>
 						<FormLabel>Имя главы</FormLabel>
 						<TextField name="name" />
+						<FormLabel>Номер главы</FormLabel>
+						<TextField name="order" defaultValue={defaultOrder} />
 						<FormLabel>ID книги</FormLabel>
 						<TextField name="entryId" defaultValue={defaultEntryId} />
 						<FormLabel>ID персональной страницы</FormLabel>

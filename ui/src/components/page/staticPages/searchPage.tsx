@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import { Link } from "react-router-dom"
+import Divider from "@mui/material/Divider"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import ListItemText from "@mui/material/ListItemText"
@@ -8,12 +8,11 @@ import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/hooks"
 import { GetSearchResults } from "../../../request/search/query"
-import { Chapter, Entry } from "../../../types/dbtypes"
 import paths from "../../../router/paths"
-import Divider from "@mui/material/Divider"
-import { color, maxWidth } from "@mui/system"
+import { Chapter, Entry } from "../../../types/dbtypes"
 
 function SearchResult({ content, navigate }: { content: string, navigate: string }) {
 	return (

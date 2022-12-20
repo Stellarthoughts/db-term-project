@@ -28,10 +28,11 @@ function UpdateChapterDialog({ open, setOpen, callBack, defaultChapter }: Props)
 		const personalPageId = parseInt(data.get('personalPageId') as string)
 		const chapterId = parseInt(data.get('chapterId') as string)
 		const entryId = parseInt(data.get('entryId') as string)
+		const order = parseInt(data.get('order') as string)
 		try {
 			await PutChapterById(user.token, {
 				name: name,
-				order: 0,
+				order: order,
 				pages: [],
 				personalPageId: personalPageId,
 				entryId: entryId,
@@ -55,6 +56,8 @@ function UpdateChapterDialog({ open, setOpen, callBack, defaultChapter }: Props)
 						<TextField name="chapterId" defaultValue={defaultChapter.id} />
 						<FormLabel>Имя главы</FormLabel>
 						<TextField name="name" defaultValue={defaultChapter.name} />
+						<FormLabel>Номер главы</FormLabel>
+						<TextField name="order" defaultValue={defaultChapter.order} />
 						<FormLabel>ID книги</FormLabel>
 						<TextField name="entryId" defaultValue={defaultChapter.entryId} />
 						<FormLabel>ID персональной страницы</FormLabel>

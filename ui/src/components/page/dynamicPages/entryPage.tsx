@@ -99,6 +99,7 @@ function EntryPage({ updateTree }: Props) {
 					setOpen={setCreateChapterDialogOpen}
 					callBack={updateTree}
 					defaultEntryId={entry.id}
+					defaultOrder={chapters ? Math.max(...chapters.map(x => x.order)) + 1 : undefined}
 				/> : <></>
 			}
 			{
