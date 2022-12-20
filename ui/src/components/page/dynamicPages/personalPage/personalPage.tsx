@@ -3,6 +3,7 @@ import Button from "@mui/material/Button"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
+import { useAppSelector } from "../../../../hooks/hooks"
 import { Chapter, Entry, Page, Thread } from "../../../../types/dbtypes"
 import CreatePersonalPage from "../../../dialog/page/createPersonalPage"
 import DeletePageDialog from "../../../dialog/page/deletePage"
@@ -24,6 +25,7 @@ function PersonalPage({
 	personalPage,
 	personalPageThreads }: Props) {
 
+	const user = useAppSelector(state => state.user.user)
 	const [createPersonalPageDialogOpen, setCreatePersonalPageDialogOpen] = useState(false)
 	const [deletePersonalPageDialogOpen, setDeletePersonalPageDialogOpen] = useState(false)
 	const [createThreadInPersonalPageDialogOpen, setCreateThreadInPersonalPageDialogOpen] = useState(false)
@@ -62,12 +64,20 @@ function PersonalPage({
 				personalPage ?
 					<>
 						<Stack direction="row" justifyContent="space-between">
-							<Button onClick={() => setCreateThreadInPersonalPageDialogOpen(true)}>
-								Добавить тред в собственную страницу
-							</Button>
-							<Button onClick={() => setDeletePersonalPageDialogOpen(true)}>
-								Удалить собственную страницу
-							</Button>
+							{
+								user?.access?.canCreate ?
+									<Button onClick={() => setCreateThreadInPersonalPageDialogOpen(true)}>
+										Добавить тред в персональную страницу
+									</Button>
+									: <></>
+							}
+							{
+								user?.access?.canDelete ?
+									<Button onClick={() => setDeletePersonalPageDialogOpen(true)}>
+										Удалить персональную страницу
+									</Button>
+									: <></>
+							}
 						</Stack>
 						{
 							personalPageThreads ?
@@ -79,11 +89,10 @@ function PersonalPage({
 						}
 					</>
 					:
-					entity ? <Stack direction="row" spacing={2}>
+					entity && user?.access?.canCreate ?
 						<Button onClick={() => setCreatePersonalPageDialogOpen(true)}>
-							Добавить собственную страницу
-						</Button>
-					</Stack> : <></>
+							Добавить персональную страницу
+						</Button> : <></>
 			}
 		</>
 	)

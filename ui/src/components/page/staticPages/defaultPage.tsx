@@ -17,6 +17,10 @@ const MoqThreads: Thread[] = [
 	MoqThread(
 		"VIDEO",
 		"relax_video.mp4"
+	),
+	MoqThread(
+		"AUDIO",
+		"example_sound.wav"
 	)
 ]
 

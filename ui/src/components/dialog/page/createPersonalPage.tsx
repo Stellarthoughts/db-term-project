@@ -40,7 +40,7 @@ function CreatePersonalPage({ open, setOpen, callBack }: Props) {
 	return (
 		<Dialog open={open} onClose={() => setOpen(false)}>
 			<Box sx={{ margin: "20px" }}>
-				<DialogTitle>Создать собственную страницу</DialogTitle>
+				<DialogTitle>Создать персональную страницу</DialogTitle>
 				<Box component="form" onSubmit={handleSubmit}>
 					<FormControl>
 						<Button type="submit">Создать</Button>

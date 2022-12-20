@@ -14,14 +14,19 @@ import { GetSearchResults } from "../../../request/search/query"
 import paths from "../../../router/paths"
 import { Chapter, Entry } from "../../../types/dbtypes"
 
-function SearchResult({ content, navigate }: { content: string, navigate: string }) {
+function SearchResult({ name, content, navigate }: { name: string, content: string, navigate: string }) {
 	return (
 		<ListItem sx={{
 			boxShadow: 1,
 		}}>
-			<Link to={navigate}>
-				<ListItemText primary={content} />
-			</Link>
+			<Stack direction="row" spacing={1} alignItems="center">
+				<Typography>
+					{name}
+				</Typography>
+				<Link to={navigate}>
+					<ListItemText primary={content} />
+				</Link>
+			</Stack>
 		</ListItem>
 	)
 }
@@ -95,8 +100,8 @@ function SearchPage() {
 														}}
 													>
 														<SearchResult
-
-															content={`Книга ${entry.name}`}
+															name="Книги"
+															content={entry.name}
 															navigate={`${paths.entry.absolutePath}/${entry.id}`} />
 													</Box>
 												)
@@ -105,10 +110,18 @@ function SearchPage() {
 										{
 											resultChapters.map((chapter) => {
 												return (
-													<SearchResult
+													<Box
 														key={`chapter/${chapter.id}`}
-														content={`Глава ${chapter.name}`}
-														navigate={`${paths.chapter.absolutePath}/${chapter.id}`} />
+														sx={{
+															minWidth: "200px",
+															marginBottom: "15px"
+														}}
+													>
+														<SearchResult
+															name="Глава"
+															content={chapter.name}
+															navigate={`${paths.chapter.absolutePath}/${chapter.id}`} />
+													</Box>
 												)
 											})
 										}

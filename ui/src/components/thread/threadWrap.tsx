@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import { useState } from "react"
+import { useAppSelector } from "../../hooks/hooks";
 import { Thread } from "../../types/dbtypes";
 import DeleteThreadDialog from "../dialog/thread/deleteThread";
 import UpdateThreadDialog from "../dialog/thread/updateThread";
@@ -12,6 +13,7 @@ interface Props {
 }
 
 function ThreadWrap({ thread, updatePage, component }: Props) {
+	const user = useAppSelector(state => state.user.user)
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 	const [updateDialogOpen, setUpdateDialogOpen] = useState(false)
 
@@ -39,12 +41,16 @@ function ThreadWrap({ thread, updatePage, component }: Props) {
 			{
 				thread && updatePage ?
 					<>
-						<Button onClick={() => setUpdateDialogOpen(true)}>
-							Редактировать тред
-						</Button>
-						<Button onClick={() => setDeleteDialogOpen(true)}>
-							Удалить тред
-						</Button>
+						{
+							user?.access?.canEdit ? <Button onClick={() => setUpdateDialogOpen(true)}>
+								Редактировать тред
+							</Button> : <></>
+						}
+						{
+							user?.access?.canDelete ? <Button onClick={() => setDeleteDialogOpen(true)}>
+								Удалить тред
+							</Button> : <></>
+						}
 					</>
 					: <></>
 			}

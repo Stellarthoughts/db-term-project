@@ -3,6 +3,7 @@ import Button from "@mui/material/Button"
 import Divider from "@mui/material/Divider"
 import Grid from "@mui/material/Grid"
 import Pagination from "@mui/material/Pagination"
+import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
 import { Link, useLoaderData, useLocation, useNavigate } from "react-router-dom"
@@ -112,7 +113,7 @@ function GenericPage() {
 				<Grid container justifyContent="space-between">
 					<Grid item container xs={4} justifyContent="flex-start" >
 						{
-							page ? <Button onClick={() => setUpdatePageDialogOpen(true)}>
+							page && user?.access?.canEdit ? <Button onClick={() => setUpdatePageDialogOpen(true)}>
 								Редактировать страницу
 							</Button>
 								: <></>
@@ -121,15 +122,18 @@ function GenericPage() {
 					<Grid item container xs={4} justifyContent="center" alignContent="center">
 						{
 							chapter ?
-								<Typography>
+								<Stack direction="row" spacing={1}>
+									<Typography>
+										Глава
+									</Typography>
 									<Link to={`${paths.chapter.absolutePath}/${chapter.id}`}>
-										Глава {chapter.name}
+										{chapter.name}
 									</Link>
-								</Typography> : <></>}
+								</Stack> : <></>}
 					</Grid>
 					<Grid item container xs={4} justifyContent="flex-end" >
 						{
-							page ? <Button onClick={() => setDeletePageDialogOpen(true)}>
+							page && user?.access?.canDelete ? <Button onClick={() => setDeletePageDialogOpen(true)}>
 								Удалить страницу
 							</Button> : <></>
 						}
@@ -154,7 +158,7 @@ function GenericPage() {
 				}
 				<Divider variant="middle" sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }} />
 				{
-					page ? <Button onClick={() => setCreateThreadDialogOpen(true)}>
+					page && user?.access?.canCreate ? <Button onClick={() => setCreateThreadDialogOpen(true)}>
 						Добавить тред в страницу
 					</Button> : <></>
 				}

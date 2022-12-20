@@ -118,7 +118,8 @@ function EntryPage({ updateTree }: Props) {
 				<Grid container>
 					<Grid item container xs={4} justifyContent="flex-start">
 						{
-							entry ? <Button onClick={() => setUpdateEntryDialogOpen(true)}>Редактировать книгу</Button> : <></>
+							entry && user?.access?.canEdit ?
+								<Button onClick={() => setUpdateEntryDialogOpen(true)}>Редактировать книгу</Button> : <></>
 						}
 					</Grid>
 					<Grid item xs={4}>
@@ -143,7 +144,8 @@ function EntryPage({ updateTree }: Props) {
 					</Grid>
 					<Grid container item xs={4} justifyContent="flex-end">
 						{
-							entry ? <Button onClick={() => setDeleteEntryDialogOpen(true)}>Удалить книгу</Button> : <></>
+							entry && user?.access?.canDelete ?
+								<Button onClick={() => setDeleteEntryDialogOpen(true)}>Удалить книгу</Button> : <></>
 						}
 					</Grid>
 					<Grid item container xs={12} justifyContent="center">
@@ -159,8 +161,12 @@ function EntryPage({ updateTree }: Props) {
 				{
 					entry && chapters ?
 						<Box>
-							<Stack justifyContent="center" alignItems="center">
-								<Button onClick={() => setCreateChapterDialogOpen(true)}>Добавить главу</Button>
+							<Stack justifyContent="center" alignItems="center" >
+								{
+									user?.access?.canCreate ?
+										<Button onClick={() => setCreateChapterDialogOpen(true)}>Добавить главу</Button>
+										: <></>
+								}
 								<Typography>
 									Главы:
 								</Typography>

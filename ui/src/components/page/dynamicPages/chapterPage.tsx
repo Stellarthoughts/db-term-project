@@ -136,7 +136,7 @@ function ChapterPage({ updateTree }: Props) {
 				<Grid container>
 					<Grid item container xs={4} justifyContent="flex-start">
 						{
-							chapter && entry ?
+							chapter && entry && user?.access?.canEdit ?
 								<Button onClick={() => setUpdateChaterDialogOpen(true)}>Редактировать главу</Button>
 								: <></>
 						}
@@ -152,7 +152,7 @@ function ChapterPage({ updateTree }: Props) {
 					</Grid>
 					<Grid container item xs={4} justifyContent="flex-end">
 						{
-							chapter ?
+							chapter && user?.access?.canDelete ?
 								<Button onClick={() => setDeleteChapterDialogOpen(true)}>Удалить главу</Button>
 								: <></>
 						}
@@ -180,7 +180,10 @@ function ChapterPage({ updateTree }: Props) {
 					pages ?
 						<Box>
 							<Stack sx={{ alignItems: "center" }} justifyContent="center" spacing={1}>
-								<Button onClick={() => createAddPageDialogOpen(true)}>Добавить страницу</Button>
+								{
+									user?.access?.canCreate ? <Button onClick={() => createAddPageDialogOpen(true)}>Добавить страницу</Button>
+										: <></>
+								}
 								<Typography>
 									Страницы главы:
 								</Typography>
