@@ -33,9 +33,10 @@ function UpdateThreadDialog({ open, setOpen, callBack, defaultThread }: Props) {
 		const content = data.get('content') as string
 		const pageId = parseInt(data.get('pageId') as string)
 		const threadId = parseInt(data.get('threadId') as string)
+		const order = parseInt(data.get('order') as string)
 		try {
 			await PutThreadById(user.token, {
-				order: 0,
+				order: order,
 				pageId: pageId,
 				id: threadId,
 				type: radioValue,
@@ -75,6 +76,8 @@ function UpdateThreadDialog({ open, setOpen, callBack, defaultThread }: Props) {
 						</FormControl>
 						<FormLabel>ID страницы</FormLabel>
 						<TextField name="pageId" defaultValue={defaultThread.pageId} />
+						<FormLabel>Номер треда</FormLabel>
+						<TextField name="order" defaultValue={defaultThread.order} />
 						<Button type="submit">Обновить</Button>
 					</FormControl>
 				</Box>

@@ -19,6 +19,7 @@ interface Props {
 function UpdatePageDialog({ open, setOpen, callBack, defaultPage }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
+
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		const data = new FormData(event.currentTarget)
@@ -26,10 +27,11 @@ function UpdatePageDialog({ open, setOpen, callBack, defaultPage }: Props) {
 			return
 		const chapterId = parseInt(data.get('chapterId') as string)
 		const pageId = parseInt(data.get('pageId') as string)
+		const order = parseInt(data.get('order') as string)
 		try {
 			await PutPageById(user.token, {
 				id: pageId,
-				order: 0,
+				order: order,
 				chapterId: chapterId,
 				threads: []
 			})
@@ -51,6 +53,8 @@ function UpdatePageDialog({ open, setOpen, callBack, defaultPage }: Props) {
 						<TextField name="pageId" defaultValue={defaultPage.id} />
 						<FormLabel>ID главы</FormLabel>
 						<TextField name="chapterId" defaultValue={defaultPage.chapterId} />
+						<FormLabel>Номер страницы</FormLabel>
+						<TextField name="order" defaultValue={defaultPage.order} />
 						<Button type="submit">Создать</Button>
 					</FormControl>
 				</Box>

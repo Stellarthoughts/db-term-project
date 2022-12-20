@@ -13,10 +13,12 @@ interface Props {
 	setOpen: (open: boolean) => void
 	callBack: () => void
 	defaultChapterId?: number
+	defaultOrder?: number
 }
 
-function CreatePageDialog({ open, setOpen, callBack, defaultChapterId }: Props) {
+function CreatePageDialog({ open, setOpen, callBack, defaultChapterId, defaultOrder }: Props) {
 	const user = useAppSelector(state => state.user.user)
+
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -24,10 +26,11 @@ function CreatePageDialog({ open, setOpen, callBack, defaultChapterId }: Props) 
 		if (!user)
 			return
 		const chapterId = parseInt(data.get('chapterId') as string)
+		const order = parseInt(data.get('order') as string)
 		try {
 			await PostPage(user.token, {
 				id: 0,
-				order: 0,
+				order: order,
 				chapterId: chapterId,
 				threads: []
 			})
@@ -47,6 +50,8 @@ function CreatePageDialog({ open, setOpen, callBack, defaultChapterId }: Props) 
 					<FormControl>
 						<FormLabel>ID главы</FormLabel>
 						<TextField name="chapterId" defaultValue={defaultChapterId} />
+						<FormLabel>Номер страницы</FormLabel>
+						<TextField name="order" defaultValue={defaultOrder} />
 						<Button type="submit">Создать</Button>
 					</FormControl>
 				</Box>

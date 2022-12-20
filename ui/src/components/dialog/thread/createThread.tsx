@@ -17,9 +17,10 @@ interface Props {
 	setOpen: (open: boolean) => void
 	callBack: () => void
 	defaultPageId?: number
+	defaultOrder?: number
 }
 
-function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
+function CreateThreadDialog({ open, setOpen, callBack, defaultPageId, defaultOrder }: Props) {
 	const user = useAppSelector(state => state.user.user)
 
 	const [radioValue, setRadioValue] = useState('TEXT')
@@ -32,9 +33,10 @@ function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 		const content = data.get('content') as string
 		const type = (data.get('type') as string)
 		const pageId = parseInt(data.get('pageId') as string)
+		const order = parseInt(data.get('order') as string)
 		try {
 			await PostThread(user.token, {
-				order: 0,
+				order: order,
 				pageId: pageId,
 				id: 0,
 				type: type,
@@ -72,6 +74,8 @@ function CreateThreadDialog({ open, setOpen, callBack, defaultPageId }: Props) {
 						</FormControl>
 						<FormLabel>ID страницы</FormLabel>
 						<TextField name="pageId" defaultValue={defaultPageId} />
+						<FormLabel>Номер треда</FormLabel>
+						<TextField name="order" defaultValue={defaultOrder} />
 						<Button type="submit">Создать</Button>
 					</FormControl>
 				</Box>

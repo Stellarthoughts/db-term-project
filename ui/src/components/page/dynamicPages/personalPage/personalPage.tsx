@@ -43,6 +43,11 @@ function PersonalPage({
 					setOpen={setCreateThreadInPersonalPageDialogOpen}
 					callBack={updateParentPage}
 					defaultPageId={personalPage.id}
+					defaultOrder={
+						personalPageThreads && personalPageThreads.length > 0 ?
+							Math.max(...personalPageThreads.map(x => x.order)) + 1
+							: 0
+					}
 				/> : <></>
 			}
 			{

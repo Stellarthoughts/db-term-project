@@ -16,7 +16,7 @@ function ThreadContainer({ threads, updatePage }: Props) {
 		<Box sx={{ marginTop: "10px", marginBottom: "10px" }}>
 			<Stack spacing={2}>
 				{
-					threads.map((thread) => {
+					threads.sort((a, b) => a.order - b.order).map((thread) => {
 						// switch throug all thread types and assign corresponding components in return
 						switch (thread.type) {
 							case ThreadType.TEXT:

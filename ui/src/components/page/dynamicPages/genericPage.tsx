@@ -100,6 +100,11 @@ function GenericPage() {
 					setOpen={setCreateThreadDialogOpen}
 					callBack={updateGenericPage}
 					defaultPageId={page.id}
+					defaultOrder={
+						threads && threads.length > 0 ?
+							Math.max(...threads.map(x => x.order)) + 1
+							: 0
+					}
 				/> : <> </>
 			}
 			<Box

@@ -115,6 +115,11 @@ function ChapterPage({ updateTree }: Props) {
 						setOpen={createAddPageDialogOpen}
 						callBack={updateChapterPage}
 						defaultChapterId={chapter.id}
+						defaultOrder={
+							pages && pages.length > 0 ?
+								Math.max(...pages.map(x => x.order)) + 1
+								: 0
+						}
 					/> : <></>
 			}
 			{

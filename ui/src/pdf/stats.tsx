@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
 	},
 	fill1: {
 		flexGrow: 2,
+		color: "white",
 		backgroundColor: '#3f51b5',
 	},
 	fill2: {
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
 	},
 	fill4: {
 		flexGrow: 2,
+		color: "white",
 		backgroundColor: '#3f51b5',
 	},
 	fill5: {
