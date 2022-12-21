@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import { Link, useLoaderData, useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/hooks"
 import { GenericPageData, genericPageDataNull, GetGenericPageData } from "../../../request/compound/pageData"
+import { PutProgressById } from "../../../request/model/progress"
 import paths from "../../../router/paths"
 import { User } from "../../../types/dbtypes"
 import DeletePageDialog from "../../dialog/page/deletePage"
@@ -53,6 +54,19 @@ function GenericPage() {
 		setThreads(threadsData)
 		setChapter(chapterData)
 		setOtherPages(otherPagesData)
+		try {
+			// update users progress last page id using PutProgressById
+			if (user && user.progress && page) {
+				const progress = {
+					...user.progress
+				}
+				progress.lastPageId = page.id
+				PutProgressById(user.token, progress)
+			}
+		}
+		catch (err) {
+			console.log(err)
+		}
 	}, [location])
 
 	const updateGenericPage = async () => {

@@ -11,6 +11,7 @@ import paths from "../../../router/paths"
 import { alertInvalidCredentials } from "../../../store/alertFailure"
 import { setFailure, setSuccess } from "../../../store/alertSlice"
 import { alertSignIn } from "../../../store/alertSuccess"
+import { User } from "../../../types/dbtypes"
 
 function LoginPage() {
 	const auth = useAuth()
@@ -23,8 +24,11 @@ function LoginPage() {
 		auth.signin({
 			login: data.get('login') as string,
 			password: data.get('password') as string
-		}, () => {
-			navigate("/")
+		}, (user: User) => {
+			if (user.progress && user.progress.lastPageId)
+				navigate(`${paths.page.absolutePath}/${user.progress.lastPageId}`)
+			else
+				navigate(paths.root.absolutePath)
 			dispatch(setSuccess(alertSignIn))
 		}, () => {
 			dispatch(setFailure(alertInvalidCredentials))

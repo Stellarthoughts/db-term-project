@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks"
 import { LoginUser, RegisterUser } from "../../request/compound/auth"
 import { PutAccessById } from "../../request/model/access"
 import { assignNewAccess, assignNewUser } from "../../store/userSlice"
+import { User } from "../../types/dbtypes"
 import authContext from "../context"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -31,13 +32,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 		login: string,
 		password: string
 	},
-		callbackSuccess: VoidFunction,
+		callbackSuccess: (user: User) => void,
 		callbackFailure: VoidFunction) => {
 		try {
 			const result = await LoginUser(user.login, user.password)
 			const newUser = { user: result }
 			dispatch(assignNewUser(newUser))
-			callbackSuccess()
+			if (result)
+				callbackSuccess(result)
 		}
 		catch (err) {
 			console.log(err)
