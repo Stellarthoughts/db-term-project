@@ -81,6 +81,10 @@ function GenericPage() {
 		setOtherPages(data.otherPagesData)
 	}
 
+	const deletePageCallback = async () => {
+		navigate(paths.chapter.absolutePath + "/" + chapter?.id)
+	}
+
 	const handlePageChange = async (event: React.ChangeEvent<unknown>, value: number) => {
 		setPageSelected(value)
 		if (pageSelected == value)
@@ -105,7 +109,7 @@ function GenericPage() {
 				page ? <DeletePageDialog
 					open={deletePageDialogOpen}
 					setOpen={setDeletePageDialogOpen}
-					callBack={updateGenericPage}
+					callBack={deletePageCallback}
 					defaultPageId={page.id} />
 					: <> </>
 			}

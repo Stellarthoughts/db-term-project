@@ -65,8 +65,8 @@ function ChapterPage({ updateTree }: Props) {
 
 	const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
 		setPage(value);
-		if (value == page && pages && pages.at(value - 1)) {
-			navigate(`${paths.page.absolutePath}/${pages[value - 1].id}`)
+		if (value == page && pages && pages.sort((a, b) => a.order - b.order).at(value - 1)) {
+			navigate(`${paths.page.absolutePath}/${pages.sort((a, b) => a.order - b.order)[value - 1].id}`)
 		}
 	};
 
@@ -82,6 +82,11 @@ function ChapterPage({ updateTree }: Props) {
 		setPages(data.pagesData)
 		setOtherChapters(data.otherChaptersData)
 		setEntry(data.entryData)
+	}
+
+	const deleteChapterCallback = async () => {
+		navigate(paths.entry.absolutePath + "/" + chapter?.entryId)
+		await updateTree()
 	}
 
 	const updateOnCreatePersonalPage = async (page: Page) => {
@@ -104,7 +109,7 @@ function ChapterPage({ updateTree }: Props) {
 					<DeleteChapterDialog
 						open={deleteChapterDialogOpen}
 						setOpen={setDeleteChapterDialogOpen}
-						callBack={updateTree}
+						callBack={deleteChapterCallback}
 						defaultChapterId={chapter.id}
 					/> : <></>
 			}

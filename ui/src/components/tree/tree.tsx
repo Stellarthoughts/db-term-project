@@ -96,7 +96,7 @@ function Tree({ treeNodes, updateTree }: Props) {
 					user && treeNodes ? treeNodes.map(entry => {
 						return <TreeItem nodeId={`${paths.entry.absolutePath}/${entry.id}`} key={entry.id} label={entry.name}>
 							{
-								entry.chapters ? entry.chapters.map(chapter => {
+								entry.chapters ? entry.chapters.sort((a, b) => a.order - b.order).map(chapter => {
 									return <TreeItem
 										nodeId={`${paths.chapter.absolutePath}/${chapter.id}`}
 										key={chapter.id}

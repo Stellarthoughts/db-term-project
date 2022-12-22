@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid"
 import Stack from "@mui/material/Stack"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
-import { Link, useLoaderData, useLocation } from "react-router-dom"
+import { Link, useLoaderData, useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../../hooks/hooks"
 import { EntryPageData, entryPageDataNull, GetEntryPageData } from "../../../request/compound/pageData"
 import { PutEntryById } from "../../../request/model/entry"
@@ -37,6 +37,7 @@ function EntryPage({ updateTree }: Props) {
 	const data = useLoaderData()
 	const location = useLocation()
 	const user = useAppSelector(state => state.user.user)
+	const navigate = useNavigate()
 
 	// Get from loader
 	const { personalPageData, personalPageThreadsData, entryData, chaptersData } = data as EntryPageData
@@ -70,6 +71,11 @@ function EntryPage({ updateTree }: Props) {
 		setChapters(data.chaptersData)
 	}
 
+	const deleteEntryCallback = async () => {
+		navigate(paths.root.absolutePath)
+		await updateTree()
+	}
+
 	const updateOnCreatePersonalPage = async (page: Page) => {
 		try {
 			if (!entry || !user)
@@ -89,7 +95,7 @@ function EntryPage({ updateTree }: Props) {
 				entry ? <DeleteEntryDialog
 					open={deleteEntryDialogOpen}
 					setOpen={setDeleteEntryDialogOpen}
-					callBack={updateTree}
+					callBack={deleteEntryCallback}
 					defaultEntryId={entry.id}
 				/> : <></>
 			}
@@ -174,7 +180,7 @@ function EntryPage({ updateTree }: Props) {
 									marginTop: "5px"
 								}}>
 									{
-										chapters.map((chapter) => {
+										chapters.sort((a, b) => a.order - b.order).map((chapter) => {
 											return (
 												<Grid key={chapter.id} item sx={{
 													padding: "5px",

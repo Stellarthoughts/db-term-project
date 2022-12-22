@@ -14,16 +14,19 @@ function ImageThread({ thread, updatePage }: Props) {
 			updatePage={updatePage}
 			component={
 				<Box
-					component="img"
-					sx={{
-						height: 233,
-						width: 350,
-						maxHeight: { xs: 233, md: 167 },
-						maxWidth: { xs: 350, md: 250 },
-					}}
-					alt="Эта картинка не загрузилась"
-					src={`/api/static/${thread.content}`}
-				/>
+					display="flex"
+					justifyContent="center"
+				>
+					<Box
+						component="img"
+						sx={{
+							maxHeight: { xs: 350, sm: 400, md: 500 },
+							maxWidth: { xs: 400, sm: 400, md: 500 },
+						}}
+						alt="Эта картинка не загрузилась"
+						src={`/api/static/${thread.content}`}
+					/>
+				</Box>
 			}
 		/>
 	)

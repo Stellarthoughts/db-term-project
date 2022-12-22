@@ -77,7 +77,7 @@ function UploadPage() {
 						}} />
 					</Grid>
 					<Grid item>
-						<Button onClick={handleOnClick} variant="contained">Upload</Button>
+						<Button onClick={handleOnClick} variant="contained">Загрузить</Button>
 					</Grid>
 				</Grid>
 
